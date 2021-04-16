@@ -1,4 +1,4 @@
 name: WebInfoSpigot
-version: @version@
+version: 1.0.4
 main: ru.redguy.webinfoplugin.webinfospigot.WebInfoSpigot
 load: STARTUP

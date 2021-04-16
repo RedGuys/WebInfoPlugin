@@ -12,3 +12,13 @@ repositories {
 dependencies {
 
 }
+
+task copytorunSpigot(type: Copy) {
+    from file("$projectDir/WebInfoSpigot/build/libs/WebInfoSpigot-1.0.4.jar")
+    into file("$projectDir/spigot/plugins/")
+}
+
+task copytorunSponge(type: Copy) {
+    from file("$projectDir/WebInfoSponge/build/libs/WebInfoSponge-1.0.4.jar")
+    into file("$projectDir/sponge/mods/")
+}

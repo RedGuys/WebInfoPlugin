@@ -16,7 +16,7 @@ import java.util.Map;
 public class Worker implements IWebPage {
     public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) throws IOException {
         try {
-            session.parseBody(new HashMap<String, String>());
+            session.parseBody(new HashMap<>());
         } catch (NanoHTTPD.ResponseException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class Worker implements IWebPage {
                         NanoHTTPD.Response response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.REDIRECT_SEE_OTHER,NanoHTTPD.MIME_PLAINTEXT,"");
                         response.addHeader("Location", "/");
                         ch.unloadQueue(response);
-                        Logger.info(LoggerType.Web,user.user + " login!");
+                        Logger.info(LoggerType.Web,user.user + " login from "+session.getRemoteIpAddress()+"!");
                         return response;
                     }
                 }

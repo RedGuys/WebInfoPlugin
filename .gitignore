@@ -1,0 +1,11 @@
+.idea
+.gradle
+spigot
+!spigot/spigot-1.12.2.jar
+!spigot/eula.txt
+sponge
+!sponge/spongevanilla-1.12.2-7.3.0.jar
+!sponge/eula.txt
+WebInfoCommon/build
+WebInfoSpigot/build
+WebInfoSponge/build

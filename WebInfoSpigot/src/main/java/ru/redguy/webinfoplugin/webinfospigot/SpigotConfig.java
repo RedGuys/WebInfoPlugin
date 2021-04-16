@@ -56,7 +56,7 @@ public class SpigotConfig implements IConfig {
 
     @Override
     public void setIfNull(String path, Object value) {
-        if(configuration.isSet(path)) {
+        if(!configuration.isSet(path)) {
             configuration.set(path, value);
         }
     }
