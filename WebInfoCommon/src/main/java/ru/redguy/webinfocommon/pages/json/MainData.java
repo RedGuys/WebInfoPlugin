@@ -20,6 +20,7 @@ public class MainData implements IWebPage {
             players.deleteCharAt(players.length() - 1);
         }
         jsonObject.put("Players",players.toString());
+        jsonObject.put("isClient",false);
         return NanoHTTPD.newFixedLengthResponse(jsonObject.toString());
     }
 }
