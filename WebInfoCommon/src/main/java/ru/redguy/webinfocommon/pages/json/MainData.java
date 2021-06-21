@@ -11,9 +11,9 @@ public class MainData implements IWebPage {
 
     public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("MineV", InfoUtils.getMCVersion());
+        jsonObject.put("MineV", InfoUtils.getInstance().getMCVersion());
         StringBuilder players = new StringBuilder();
-        for (String s : InfoUtils.getPlayersList()) {
+        for (String s : InfoUtils.getInstance().getPlayersList()) {
             players.append(s).append(",");
         }
         if(players.length() > 0) {

@@ -2,6 +2,8 @@ package ru.redguy.webinfosponge.utils;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.plugin.PluginContainer;
+import ru.redguy.webinfocommon.structures.Plugin;
 import ru.redguy.webinfocommon.utils.IInfoUtils;
 
 import java.util.ArrayList;
@@ -21,5 +23,14 @@ public class SpongeInfoUtils implements IInfoUtils {
             result.add(onlinePlayer.getName());
         }
         return result;
+    }
+
+    @Override
+    public List<Plugin> getPluginsList() {
+        List<Plugin> plugins = new ArrayList<>();
+        for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
+            plugins.add(new Plugin(plugin.getName(),plugin.getVersion().orElse("")));
+        }
+        return plugins;
     }
 }

@@ -9,11 +9,5 @@ public class InfoUtils {
     public static void InjectInfoUtils(IInfoUtils infoUtils) {
         InfoUtils.infoUtils = infoUtils;
     }
-
-    public static String getMCVersion() {
-        return infoUtils.getMCVersion();
-    }
-    public static List<String> getPlayersList() {
-        return infoUtils.getPlayersList();
-    }
+    public static IInfoUtils getInstance() {return infoUtils;}
 }
