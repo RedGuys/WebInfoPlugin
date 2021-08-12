@@ -6,8 +6,8 @@ import ru.redguy.webinfocommon.IWebPage;
 import ru.redguy.webinfocommon.WebPage;
 import ru.redguy.webinfocommon.utils.InfoUtils;
 
-@WebPage(url="/json/mainData.json")
-public class MainData implements IWebPage {
+@WebPage(url="/json/basic.json")
+public class Basic implements IWebPage {
 
     public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) {
         JSONObject jsonObject = new JSONObject();

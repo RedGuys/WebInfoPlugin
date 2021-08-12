@@ -22,11 +22,6 @@ public class User implements Jsonable {
     }
 
     @Override
-    public String toJSON() {
-        return toJSONObject().toString();
-    }
-
-    @Override
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user",user);

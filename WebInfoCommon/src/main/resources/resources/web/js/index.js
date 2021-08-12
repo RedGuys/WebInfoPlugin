@@ -8,7 +8,7 @@ function updatePageInfo() {
     header.innerText = "Идёт загрузка...";
     stat.innerHTML = "";
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/json/mainData.json', true);
+    xhr.open('GET', '/json/basic.json', true);
     xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     xhr.send();
     xhr.onreadystatechange = function () {

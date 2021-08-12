@@ -4,6 +4,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import ru.redguy.webinfocommon.structures.Plugin;
+import ru.redguy.webinfocommon.structures.World;
 import ru.redguy.webinfocommon.utils.IInfoUtils;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class SpongeInfoUtils implements IInfoUtils {
 
     @Override
     public List<String> getPlayersList() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (Player onlinePlayer : Sponge.getServer().getOnlinePlayers()) {
             result.add(onlinePlayer.getName());
         }
@@ -32,5 +33,14 @@ public class SpongeInfoUtils implements IInfoUtils {
             plugins.add(new Plugin(plugin.getName(),plugin.getVersion().orElse("")));
         }
         return plugins;
+    }
+
+    @Override
+    public List<World> getWorldsList() {
+        List<World> worlds = new ArrayList<>();
+        for (org.spongepowered.api.world.World world : Sponge.getServer().getWorlds()) {
+            worlds.add(TransformUtils.transform(world));
+        }
+        return worlds;
     }
 }
