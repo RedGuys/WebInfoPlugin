@@ -2,6 +2,13 @@ plugins {
     id 'org.spongepowered.plugin' version '0.9.0'
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://repo.redguy.ru/repository/minecraft/"
+    }
+}
+
 group = 'ru.redguy.webinfoplugin'
 version = '1.0.4'
 

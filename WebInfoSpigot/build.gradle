@@ -11,6 +11,9 @@ targetCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
+        url = "https://repo.redguy.ru/repository/minecraft/"
+    }
+    maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
