@@ -27,7 +27,7 @@ public class SpigotInfoUtils implements IInfoUtils {
     }
 
     @Override
-    public List<Mod> getPluginsList() {
+    public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             mods.add(new Mod(plugin.getName(), plugin.getDescription().getVersion()));
@@ -42,5 +42,10 @@ public class SpigotInfoUtils implements IInfoUtils {
             worlds.add(TransformUtils.transform(world));
         }
         return worlds;
+    }
+
+    @Override
+    public boolean isClient() {
+        return false;
     }
 }

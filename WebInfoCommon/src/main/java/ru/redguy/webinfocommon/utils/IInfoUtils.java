@@ -9,6 +9,7 @@ public interface IInfoUtils {
 
     String getMCVersion();
     List<String> getPlayersList();
-    List<Mod> getPluginsList();
+    List<Mod> getModsList();
     List<World> getWorldsList();
+    boolean isClient();
 }

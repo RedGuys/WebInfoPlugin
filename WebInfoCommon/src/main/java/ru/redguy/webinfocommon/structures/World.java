@@ -1,32 +1,30 @@
 package ru.redguy.webinfocommon.structures;
 
-import org.json.JSONObject;
-
 import java.util.UUID;
 
 public class World {
-    private final String name;
-    private final String[] loadedChunks;
-    private final UUID[] entities;
-    private final String[] players;
-    private final UUID uid;
-    private final Location spawnLocation;
-    private final long time;
-    private final long fullTime;
-    private final boolean storm;
-    private final int weatherDuration;
-    private final boolean thundering;
-    private final int thunderDuration;
-    private final String environment;
-    private final long seed;
-    private final boolean pvp;
-    private final int maxHeight;
-    private final int seaLevel;
-    private final boolean keepSpawnInMemory;
-    private final String difficulty;
-    private final String worldType;
-    private final String[] gameRules;
-    private final WorldBorder worldBorder;
+    protected String name;
+    protected String[] loadedChunks;
+    protected UUID[] entities;
+    protected String[] players;
+    protected UUID uid;
+    protected Location spawnLocation;
+    protected long time;
+    protected long fullTime;
+    protected boolean storm;
+    protected int weatherDuration;
+    protected boolean thundering;
+    protected int thunderDuration;
+    protected String environment;
+    protected long seed;
+    protected boolean pvp;
+    protected int maxHeight;
+    protected int seaLevel;
+    protected boolean keepSpawnInMemory;
+    protected String difficulty;
+    protected String worldType;
+    protected String[] gameRules;
+    protected WorldBorder worldBorder;
 
     public World(String name, String[] loadedChunks, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
         this.name = name;
@@ -139,30 +137,5 @@ public class World {
 
     public WorldBorder getWorldBorder() {
         return worldBorder;
-    }
-
-    public JSONObject toJSONObject() {
-        JSONObject json = new JSONObject();
-        json.put("name",name);
-        json.put("loadedChunks",loadedChunks);
-        json.put("entities",entities);
-        json.put("players",players);
-        json.put("uid",uid.toString());
-        json.put("spawnLocation",spawnLocation.toJSONObject());
-        json.put("time",time);
-        json.put("fullTime",fullTime);
-        json.put("storm",storm);
-        json.put("weatherDuration",weatherDuration);
-        json.put("environment",environment);
-        json.put("seed",seed);
-        json.put("pvp",pvp);
-        json.put("maxHeight",maxHeight);
-        json.put("seaLevel",seaLevel);
-        json.put("keepSpawnInMemory",keepSpawnInMemory);
-        json.put("difficulty",difficulty);
-        json.put("worldType",worldType);
-        json.put("gameRules",gameRules);
-        json.put("worldBorder",worldBorder.toJSONObject());
-        return json;
     }
 }

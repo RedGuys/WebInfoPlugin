@@ -27,7 +27,7 @@ public class SpongeInfoUtils implements IInfoUtils {
     }
 
     @Override
-    public List<Mod> getPluginsList() {
+    public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
             mods.add(new Mod(plugin.getName(),plugin.getVersion().orElse("")));
@@ -42,5 +42,10 @@ public class SpongeInfoUtils implements IInfoUtils {
             worlds.add(TransformUtils.transform(world));
         }
         return worlds;
+    }
+
+    @Override
+    public boolean isClient() {
+        return false;
     }
 }

@@ -1,11 +1,9 @@
 package ru.redguy.webinfocommon.structures;
 
-import org.json.JSONObject;
-
 public class Location {
-    private final double x;
-    private final double y;
-    private final double z;
+    protected double x;
+    protected double y;
+    protected double z;
 
     public Location(int x, int y, int z) {
         this.x = x;
@@ -29,13 +27,5 @@ public class Location {
 
     public double getZ() {
         return z;
-    }
-
-    public JSONObject toJSONObject() {
-        JSONObject json = new JSONObject();
-        json.put("x",x);
-        json.put("y",y);
-        json.put("z",z);
-        return json;
     }
 }

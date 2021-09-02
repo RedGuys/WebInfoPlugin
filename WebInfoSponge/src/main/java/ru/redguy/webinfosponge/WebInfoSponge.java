@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.Plugin;
-import ru.redguy.webinfocommon.UsersConfig;
 import ru.redguy.webinfocommon.WebServer;
 import ru.redguy.webinfocommon.utils.*;
 import ru.redguy.webinfosponge.utils.SpongeInfoUtils;
@@ -33,10 +32,6 @@ public class WebInfoSponge {
         Logger.InjectLogger(new SpongeLogger(logger));
         Config.InjectConfig(new SpongeConfig());
         Config.save();
-        Language.initLanguage("config/WebInfo");
-        Language.save();
-        BasePlaceholders.registerBase();
-        UsersConfig.loadUsers("config/WebInfo");
         InfoUtils.InjectInfoUtils(new SpongeInfoUtils());
         webServer = new WebServer(Config.getInt("web.port"));
     }

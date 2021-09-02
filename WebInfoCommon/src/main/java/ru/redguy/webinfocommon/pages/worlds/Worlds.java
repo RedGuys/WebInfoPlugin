@@ -1,11 +1,11 @@
 package ru.redguy.webinfocommon.pages.worlds;
 
+import com.google.gson.JsonObject;
 import fi.iki.elonen.NanoHTTPD;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import ru.redguy.webinfocommon.IWebPage;
 import ru.redguy.webinfocommon.WebPage;
 import ru.redguy.webinfocommon.structures.World;
+import ru.redguy.webinfocommon.utils.GSON;
 import ru.redguy.webinfocommon.utils.InfoUtils;
 
 import java.io.IOException;
@@ -15,14 +15,10 @@ import java.util.List;
 public class Worlds implements IWebPage {
     @Override
     public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) throws IOException {
-        JSONObject jsonObject = new JSONObject();
+        JsonObject object = new JsonObject();
         List<World> worlds = InfoUtils.getInstance().getWorldsList();
-        jsonObject.put("count", worlds.size());
-        JSONArray array = new JSONArray();
-        for (World world : worlds) {
-            array.put(world.toJSONObject());
-        }
-        jsonObject.put("worlds", array);
-        return NanoHTTPD.newFixedLengthResponse(jsonObject.toString());
+        object.addProperty("count", worlds.size());
+        object.add("worlds", GSON.gson.toJsonTree(worlds));
+        return NanoHTTPD.newFixedLengthResponse(object.toString());
     }
 }

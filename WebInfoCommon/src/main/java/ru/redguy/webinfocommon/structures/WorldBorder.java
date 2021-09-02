@@ -1,14 +1,12 @@
 package ru.redguy.webinfocommon.structures;
 
-import org.json.JSONObject;
-
 public class WorldBorder {
-    private final double size;
-    private final Location center;
-    private final double damageBuffer;
-    private final double damageAmount;
-    private final int warningTime;
-    private final int warningDistance;
+    protected double size;
+    protected Location center;
+    protected double damageBuffer;
+    protected double damageAmount;
+    protected int warningTime;
+    protected int warningDistance;
 
     public WorldBorder(double size, Location center, double damageBuffer, double damageAmount, int warningTime, int warningDistance) {
         this.size = size;
@@ -41,16 +39,5 @@ public class WorldBorder {
 
     public int getWarningDistance() {
         return warningDistance;
-    }
-
-    public JSONObject toJSONObject() {
-        JSONObject json = new JSONObject();
-        json.put("size",size);
-        json.put("center",center.toJSONObject());
-        json.put("damageBuffer",damageBuffer);
-        json.put("damageAmount",damageAmount);
-        json.put("warningTime",warningTime);
-        json.put("warningDistance",warningDistance);
-        return json;
     }
 }

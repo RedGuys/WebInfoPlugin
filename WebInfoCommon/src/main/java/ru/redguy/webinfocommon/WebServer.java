@@ -56,8 +56,10 @@ public class WebServer extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        if (pages.containsKey(session.getUri())) {
-            IWebPage mClass = pages.get(session.getUri());
+        String url = session.getUri();
+        url = url.endsWith("/") ? url : url + "/";
+        if (pages.containsKey(url)) {
+            IWebPage mClass = pages.get(url);
             try {
                 return mClass.getPage(session);
             } catch (IOException e) {

@@ -20,6 +20,7 @@ public final class WebInfoSpigot extends JavaPlugin {
         InfoUtils.InjectInfoUtils(new SpigotInfoUtils());
         try {
             webServer = new WebServer(Config.getInt("web.port"));
+            Logger.info(LoggerType.Client, "Started web server at "+Config.getInt("web.port"));
         } catch (IOException e) {
             Logger.error(LoggerType.Client,"Error while webserver starting!");
         }
