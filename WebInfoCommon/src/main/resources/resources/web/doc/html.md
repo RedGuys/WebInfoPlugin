@@ -167,13 +167,13 @@ it before the other scripts in the bottom of the page:
 ```html
     <script src="js/vendor/modernizr-3.10.0.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js"></script>
-    <script src="js/plugins.js"></script>
+    <script src="js/mods.js"></script>
     <script src="js/main.js"></script>
 </body>
 ```
 
 If you like to just include the polyfills yourself, you could include them in
-`js/plugins.js`. When you have a bunch of polyfills to load in, you could also
+`js/mods.js`. When you have a bunch of polyfills to load in, you could also
 create a `polyfills.js` file in the `js/vendor` directory or include the files
 individually and combine them using a build tool. Always ensure that the
 polyfills are all loaded before any other JavaScript.
@@ -216,7 +216,7 @@ included.
 
 We use `analytics.js` rather than the newer `gtag.js` as [it's faster and
 supports tasks and
-plugins](https://github.com/philipwalton/analyticsjs-boilerplate/issues/19#issuecomment-333714370)
+mods](https://github.com/philipwalton/analyticsjs-boilerplate/issues/19#issuecomment-333714370)
 
 Starting with version 8.0.0 we, by default, [anonymize IP
 addresses](https://support.google.com/analytics/answer/2763052). By

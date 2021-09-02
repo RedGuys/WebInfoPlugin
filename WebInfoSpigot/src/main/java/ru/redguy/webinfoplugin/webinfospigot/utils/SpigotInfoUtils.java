@@ -3,6 +3,7 @@ package ru.redguy.webinfoplugin.webinfospigot.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import ru.redguy.webinfocommon.structures.Mod;
 import ru.redguy.webinfocommon.structures.World;
 import ru.redguy.webinfocommon.utils.IInfoUtils;
 
@@ -26,12 +27,12 @@ public class SpigotInfoUtils implements IInfoUtils {
     }
 
     @Override
-    public List<ru.redguy.webinfocommon.structures.Plugin> getPluginsList() {
-        List<ru.redguy.webinfocommon.structures.Plugin> plugins = new ArrayList<>();
+    public List<Mod> getPluginsList() {
+        List<Mod> mods = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            plugins.add(new ru.redguy.webinfocommon.structures.Plugin(plugin.getName(), plugin.getDescription().getVersion()));
+            mods.add(new Mod(plugin.getName(), plugin.getDescription().getVersion()));
         }
-        return plugins;
+        return mods;
     }
 
     @Override

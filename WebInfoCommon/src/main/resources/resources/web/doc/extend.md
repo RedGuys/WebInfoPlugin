@@ -123,7 +123,7 @@ Docs.
 An article by @JangoSteve explains how to [track jQuery AJAX requests in Google
 Analytics](https://www.alfajango.com/blog/track-jquery-ajax-requests-in-google-analytics/).
 
-Add this to `plugins.js`:
+Add this to `mods.js`:
 
 ```js
 /*
@@ -315,9 +315,9 @@ value your sanity. This is an HTML-centric way of achieving that.
 ### Firefox and IE Search Plugins
 
 Sites with in-site search functionality should be strongly considered for a
-browser search plugin. A "search plugin" is an XML file which defines how your
-plugin behaves in the browser. [How to make a browser search
-plugin](https://www.google.com/search?ie=UTF-8&q=how+to+make+browser+search+plugin).
+browser search mod. A "search mod" is an XML file which defines how your
+mod behaves in the browser. [How to make a browser search
+mod](https://www.google.com/search?ie=UTF-8&q=how+to+make+browser+search+mod).
 
 ```html
 <link rel="search" title="" type="application/opensearchdescription+xml" href="">

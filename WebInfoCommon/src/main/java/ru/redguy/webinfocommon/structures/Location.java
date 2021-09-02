@@ -1,9 +1,8 @@
 package ru.redguy.webinfocommon.structures;
 
 import org.json.JSONObject;
-import ru.redguy.webinfocommon.utils.Jsonable;
 
-public class Location implements Jsonable {
+public class Location {
     private final double x;
     private final double y;
     private final double z;
@@ -32,7 +31,6 @@ public class Location implements Jsonable {
         return z;
     }
 
-    @Override
     public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         json.put("x",x);

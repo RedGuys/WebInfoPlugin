@@ -7,11 +7,11 @@
 
 # IntelliJ
 out/
-# mpeltonen/sbt-idea plugin
+# mpeltonen/sbt-idea mod
 .idea_modules/
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+# JIRA mod
+atlassian-ide-mod.xml
 
 # Compiled class file
 *.class

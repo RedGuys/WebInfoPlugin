@@ -1,11 +1,10 @@
 package ru.redguy.webinfocommon.structures;
 
 import org.json.JSONObject;
-import ru.redguy.webinfocommon.utils.Jsonable;
 
 import java.util.UUID;
 
-public class World implements Jsonable {
+public class World {
     private final String name;
     private final String[] loadedChunks;
     private final UUID[] entities;
@@ -142,7 +141,6 @@ public class World implements Jsonable {
         return worldBorder;
     }
 
-    @Override
     public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         json.put("name",name);

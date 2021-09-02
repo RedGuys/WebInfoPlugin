@@ -1,28 +1,31 @@
-package ru.redguy.webinfocommon.pages.json;
+package ru.redguy.webinfocommon.pages.mods;
 
 import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.redguy.webinfocommon.IWebPage;
 import ru.redguy.webinfocommon.WebPage;
-import ru.redguy.webinfocommon.structures.World;
+import ru.redguy.webinfocommon.structures.Mod;
 import ru.redguy.webinfocommon.utils.InfoUtils;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebPage(url="/json/worlds.json")
-public class Worlds implements IWebPage {
+@WebPage(url="/mods/")
+public class Mods implements IWebPage {
     @Override
     public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        List<World> worlds = InfoUtils.getInstance().getWorldsList();
-        jsonObject.put("count", worlds.size());
+        List<Mod> mods = InfoUtils.getInstance().getPluginsList();
+        jsonObject.put("count", mods.size());
         JSONArray array = new JSONArray();
-        for (World world : worlds) {
-            array.put(world.toJSONObject());
+        for (Mod mod : mods) {
+            JSONObject obj = new JSONObject();
+            obj.put("name", mod.getName());
+            obj.put("version", mod.getVersion());
+            array.put(obj);
         }
-        jsonObject.put("worlds", array);
+        jsonObject.put("mods", array);
         return NanoHTTPD.newFixedLengthResponse(jsonObject.toString());
     }
 }

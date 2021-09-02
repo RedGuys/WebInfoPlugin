@@ -1,7 +1,6 @@
 package ru.redguy.webinfoplugin.webinfospigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.redguy.webinfocommon.UsersConfig;
 import ru.redguy.webinfocommon.WebServer;
 import ru.redguy.webinfocommon.utils.*;
 import ru.redguy.webinfoplugin.webinfospigot.utils.SpigotInfoUtils;
@@ -18,10 +17,6 @@ public final class WebInfoSpigot extends JavaPlugin {
         Logger.InjectLogger(new SpigotLogger(getLogger()));
         Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
         Config.save();
-        Language.initLanguage(getDataFolder().getAbsolutePath());
-        Language.save();
-        BasePlaceholders.registerBase();
-        UsersConfig.loadUsers(getDataFolder().getAbsolutePath());
         InfoUtils.InjectInfoUtils(new SpigotInfoUtils());
         Logger.info(LoggerType.Client, String.valueOf(Config.getInt("web.port")));
         try {

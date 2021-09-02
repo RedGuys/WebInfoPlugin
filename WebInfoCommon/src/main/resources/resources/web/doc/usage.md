@@ -36,7 +36,7 @@ A basic HTML5 Boilerplate site initially looks something like this:
 ├── img
 ├── js
 │   ├── main.js
-│   ├── plugins.js
+│   ├── mods.js
 │   └── vendor
 │       └── modernizr.min.js
 ├── .editorconfig
@@ -69,7 +69,7 @@ as the location and basis for your own project's documentation.
 
 ### js
 
-This directory should contain all your project's JS files. Libraries, plugins,
+This directory should contain all your project's JS files. Libraries, mods,
 and custom code can all be included here. It includes some initial JS to help
 get you started. [About the JavaScript](js.md).
 

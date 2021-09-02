@@ -1,9 +1,8 @@
 package ru.redguy.webinfocommon.structures;
 
 import org.json.JSONObject;
-import ru.redguy.webinfocommon.utils.Jsonable;
 
-public class WorldBorder implements Jsonable {
+public class WorldBorder {
     private final double size;
     private final Location center;
     private final double damageBuffer;
@@ -44,7 +43,6 @@ public class WorldBorder implements Jsonable {
         return warningDistance;
     }
 
-    @Override
     public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         json.put("size",size);
