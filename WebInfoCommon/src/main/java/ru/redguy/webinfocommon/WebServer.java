@@ -9,13 +9,18 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import ru.redguy.webinfocommon.utils.Logger;
+import ru.redguy.webinfocommon.utils.LoggerType;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebServer extends NanoHTTPD {
 
     Reflections reflections;
+    Map<String, IWebPage> pages;
 
     public WebServer(int port) throws IOException {
         super(port);
@@ -30,26 +35,36 @@ public class WebServer extends NanoHTTPD {
                                 new FieldAnnotationsScanner()
                         );
         this.reflections = new Reflections(configBuilder);
+        pageScan();
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+    }
+
+    public void pageScan() {
+        Logger.info(LoggerType.Client, "Started page scan!");
+        pages = new HashMap<>();
+        for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, true)) {
+            if (!IWebPage.class.isAssignableFrom(mClass)) continue;
+            String url = mClass.getAnnotation(WebPage.class).url();
+            try {
+                pages.put(url.endsWith("/") ? url : url + "/", (IWebPage) mClass.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        Logger.info(LoggerType.Client, "Indexed " + pages.keySet().size() + " pages!");
     }
 
     @Override
     public Response serve(IHTTPSession session) {
-        for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, true)) {
-            if (session.getUri().equals(mClass.getAnnotation(WebPage.class).url()) || session.getUri().equals(mClass.getAnnotation(WebPage.class).url() + "/")) {
-                try {
-                    return (Response) mClass.getMethod("getPage", IHTTPSession.class).invoke(mClass.newInstance(), session);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+        if (pages.containsKey(session.getUri())) {
+            IWebPage mClass = pages.get(session.getUri());
+            try {
+                return mClass.getPage(session);
+            } catch (IOException e) {
+                return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Internal error!");
             }
+        } else {
+            return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not Founded!");
         }
-        return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not Founded!");
     }
 }

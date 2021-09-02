@@ -18,7 +18,6 @@ public final class WebInfoSpigot extends JavaPlugin {
         Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
         Config.save();
         InfoUtils.InjectInfoUtils(new SpigotInfoUtils());
-        Logger.info(LoggerType.Client, String.valueOf(Config.getInt("web.port")));
         try {
             webServer = new WebServer(Config.getInt("web.port"));
         } catch (IOException e) {
