@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven'
 }
 
 group 'ru.redguy.webinfoplugin'
@@ -20,4 +21,17 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.8'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile 'org.reflections:reflections:0.9.12'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://repo.redguy.ru/repository/maven/") {
+                authentication(userName: System.getenv("MVN_USER"), password: System.getenv("MVN_PASSWORD"))
+            }
+            pom.version = version
+            pom.artifactId = "common"
+            pom.groupId = "ru.redguy.webinfoplugin"
+        }
+    }
 }
