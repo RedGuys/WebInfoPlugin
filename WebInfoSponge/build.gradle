@@ -9,7 +9,7 @@ repositories {
     }
 }
 
-group = 'ru.redguy.webinfoplugin'
+group = 'ru.redguy.webinfo'
 version = '1.0.4'
 
 compileJava.options.encoding = 'UTF-8'

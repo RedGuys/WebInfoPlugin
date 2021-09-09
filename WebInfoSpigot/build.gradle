@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'ru.redguy.webinfoplugin'
+group = 'ru.redguy.webinfo'
 version = '1.0.4'
 
 sourceCompatibility = '1.8'

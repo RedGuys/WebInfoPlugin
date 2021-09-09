@@ -12,10 +12,6 @@ repositories {
     mavenCentral()
 }
 
-jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-}
-
 dependencies {
     compile 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.8'
@@ -31,7 +27,7 @@ uploadArchives {
             }
             pom.version = version
             pom.artifactId = "common"
-            pom.groupId = "ru.redguy.webinfoplugin"
+            pom.groupId = "ru.redguy.webinfo"
         }
     }
 }
