@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class World {
     protected String name;
-    protected String[] loadedChunks;
     protected UUID[] entities;
     protected String[] players;
     protected UUID uid;
@@ -26,9 +25,8 @@ public class World {
     protected String[] gameRules;
     protected WorldBorder worldBorder;
 
-    public World(String name, String[] loadedChunks, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
         this.name = name;
-        this.loadedChunks = loadedChunks;
         this.entities = entities;
         this.players = players;
         this.uid = uid;
@@ -51,12 +49,29 @@ public class World {
         this.worldBorder = worldBorder;
     }
 
-    public String getName() {
-        return name;
+    public World(String name, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
+        this.name = name;
+        this.entities = entities;
+        this.players = players;
+        this.uid = uid;
+        this.spawnLocation = spawnLocation;
+        this.time = time;
+        this.fullTime = fullTime;
+        this.storm = storm;
+        this.weatherDuration = weatherDuration;
+        this.thundering = thundering;
+        this.thunderDuration = thunderDuration;
+        this.seed = seed;
+        this.maxHeight = maxHeight;
+        this.seaLevel = seaLevel;
+        this.difficulty = difficulty;
+        this.worldType = worldType;
+        this.gameRules = gameRules;
+        this.worldBorder = worldBorder;
     }
 
-    public String[] getLoadedChunks() {
-        return loadedChunks;
+    public String getName() {
+        return name;
     }
 
     public UUID[] getEntities() {

@@ -6,15 +6,13 @@ import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.World;
 import ru.redguy.webinfo.common.structures.WorldBorder;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class TransformUtils {
     public static World transform(org.bukkit.World world) {
-        String[] chunks = Arrays.stream(world.getLoadedChunks()).map((chunk) -> chunk.getX() + " " + chunk.getZ()).toArray(String[]::new);
         UUID[] entities = world.getEntities().stream().map(Entity::getUniqueId).toArray(UUID[]::new);
         String[] players = world.getPlayers().stream().map(Player::getName).toArray(String[]::new);
-        return new World(world.getName(), chunks, entities, players, world.getUID(), transform(world.getSpawnLocation()), world.getTime(), world.getFullTime(), world.hasStorm(), world.getWeatherDuration(), world.isThundering(), world.getThunderDuration(), world.getEnvironment().name(), world.getSeed(), world.getPVP(), world.getMaxHeight(), world.getSeaLevel(), world.getKeepSpawnInMemory(), world.getDifficulty().name(), world.getWorldType().getName(), world.getGameRules(), transform(world.getWorldBorder()));
+        return new World(world.getName(), entities, players, world.getUID(), transform(world.getSpawnLocation()), world.getTime(), world.getFullTime(), world.hasStorm(), world.getWeatherDuration(), world.isThundering(), world.getThunderDuration(), world.getEnvironment().name(), world.getSeed(), world.getPVP(), world.getMaxHeight(), world.getSeaLevel(), world.getKeepSpawnInMemory(), world.getDifficulty().name(), world.getWorldType().getName(), world.getGameRules(), transform(world.getWorldBorder()));
     }
 
     public static Location transform(org.bukkit.Location location) {
