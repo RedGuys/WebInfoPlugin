@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'ru.redguy.webinfoplugin'
-version '1.0.4'
+version '1.0.5'
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -16,7 +16,7 @@ dependencies {
     compile 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.8'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    compile 'org.reflections:reflections:0.9.12'
+    compile 'org.reflections:reflections:0.9.11'
 }
 
 uploadArchives {

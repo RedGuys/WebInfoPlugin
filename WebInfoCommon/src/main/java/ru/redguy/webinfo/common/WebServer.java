@@ -25,8 +25,8 @@ public class WebServer extends NanoHTTPD {
         super(port);
         ConfigurationBuilder configBuilder =
                 new ConfigurationBuilder()
-                        .filterInputsBy(new FilterBuilder().includePackage("ru.redguy.webinfocommon.pages"))
-                        .setUrls(ClasspathHelper.forPackage("ru.redguy.webinfocommon.pages"))
+                        .filterInputsBy(new FilterBuilder().includePackage("ru.redguy.webinfo.common.pages"))
+                        .setUrls(ClasspathHelper.forPackage("ru.redguy.webinfo.common.pages"))
                         .setScanners(
                                 new TypeAnnotationsScanner(),
                                 new MethodParameterScanner(),
