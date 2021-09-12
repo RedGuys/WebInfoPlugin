@@ -13,31 +13,55 @@ import ru.redguy.webinfo.common.utils.Logger;
 import ru.redguy.webinfo.common.utils.LoggerType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class WebServer extends NanoHTTPD {
+public class WebServer {
 
+    private static final WebServer INSTANCE = new WebServer();
+
+    Server server;
     Reflections reflections;
+    List<String> packages = new ArrayList<String>() {{add("ru.redguy.webinfo.common.pages");}};
     Map<String, IWebPage> pages;
 
-    public WebServer(int port) throws IOException {
-        super(port);
+    public WebServer() {
+
+    }
+
+    /**
+     * Updates reflection instance, needs after adding package
+     */
+    public void updateReflection() {
+        Logger.info(LoggerType.Client, "Started reflection update!");
+        FilterBuilder fb = new FilterBuilder();
+        for (String pack : packages) {
+            fb.includePackage(pack);
+        }
+
         ConfigurationBuilder configBuilder =
                 new ConfigurationBuilder()
-                        .filterInputsBy(new FilterBuilder().includePackage("ru.redguy.webinfo.common.pages"))
-                        .setUrls(ClasspathHelper.forPackage("ru.redguy.webinfo.common.pages"))
+                        .filterInputsBy(fb)
                         .setScanners(
                                 new TypeAnnotationsScanner(),
                                 new MethodParameterScanner(),
                                 new MethodAnnotationsScanner(),
                                 new FieldAnnotationsScanner()
                         );
+
+        for (String aPackage : packages) {
+            configBuilder.addUrls(ClasspathHelper.forPackage(aPackage));
+        }
+
         this.reflections = new Reflections(configBuilder);
-        pageScan();
-        start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        Logger.info(LoggerType.Client, "Reflection updated with " + packages.size() + " packages!");
     }
 
+    /**
+     * Scans packages for webpages
+     */
     public void pageScan() {
         Logger.info(LoggerType.Client, "Started page scan!");
         pages = new HashMap<>();
@@ -53,19 +77,46 @@ public class WebServer extends NanoHTTPD {
         Logger.info(LoggerType.Client, "Indexed " + pages.keySet().size() + " pages!");
     }
 
-    @Override
-    public Response serve(IHTTPSession session) {
-        String url = session.getUri();
-        url = url.endsWith("/") ? url : url + "/";
-        if (pages.containsKey(url)) {
-            IWebPage mClass = pages.get(url);
-            try {
-                return mClass.getPage(session);
-            } catch (IOException e) {
-                return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Internal error!");
+    /**
+     * Adds package with pages
+     * @param pack package.
+     */
+    public void addPackage(String pack) {
+        packages.add(pack);
+    }
+
+    public void startServer(int port) throws IOException {
+        server = new Server(port);
+        server.startServer();
+    }
+
+    public static WebServer getInstance() {
+        return INSTANCE;
+    }
+
+    private class Server extends NanoHTTPD {
+        public Server(int port) {
+            super(port);
+        }
+
+        public void startServer() throws IOException {
+            start();
+        }
+
+        @Override
+        public Response serve(IHTTPSession session) {
+            String url = session.getUri();
+            url = url.endsWith("/") ? url : url + "/";
+            if (pages.containsKey(url)) {
+                IWebPage mClass = pages.get(url);
+                try {
+                    return mClass.getPage(session);
+                } catch (IOException e) {
+                    return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Internal error!");
+                }
+            } else {
+                return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not Founded!");
             }
-        } else {
-            return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not Founded!");
         }
     }
 }

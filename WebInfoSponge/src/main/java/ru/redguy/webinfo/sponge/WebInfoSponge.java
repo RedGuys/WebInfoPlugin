@@ -27,14 +27,14 @@ public class WebInfoSponge {
     @Inject
     private org.slf4j.Logger logger;
 
-    public WebServer webServer;
-
     @Listener
     public void onServerStart(GameStartedServerEvent event) throws IOException {
         Logger.InjectLogger(new SpongeLogger(logger));
         Config.InjectConfig(new SpongeConfig());
         Config.save();
         InfoUtils.InjectInfoUtils(new SpongeInfoUtils());
-        webServer = new WebServer(Config.getInt("web.port"));
+        WebServer.getInstance().updateReflection();
+        WebServer.getInstance().pageScan();
+        WebServer.getInstance().startServer(Config.getInt("web.port"));
     }
 }
