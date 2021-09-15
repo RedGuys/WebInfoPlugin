@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'ru.redguy.webinfo'
-version = '1.0.4'
+version = parent.version
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

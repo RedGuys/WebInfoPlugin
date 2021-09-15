@@ -1,7 +1,6 @@
 package ru.redguy.webinfo.common.utils;
 
 public class InfoUtils {
-
     private static IInfoUtils infoUtils;
 
     public static void InjectInfoUtils(IInfoUtils infoUtils) {

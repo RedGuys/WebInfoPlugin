@@ -6,16 +6,18 @@ import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.utils.GSON;
 import ru.redguy.webinfo.common.utils.InfoUtils;
+import ru.redguy.webinfo.common.utils.Response;
 
 import java.io.IOException;
 
 @WebPage(url = "/")
 public class Index implements IWebPage {
-    public NanoHTTPD.Response getPage(NanoHTTPD.IHTTPSession session) throws IOException {
+    public Response getPage(NanoHTTPD.IHTTPSession session) throws IOException {
         JsonObject object = new JsonObject();
-        object.addProperty("MineV", InfoUtils.getInstance().getMCVersion());
-        object.add("Players", GSON.gson.toJsonTree(InfoUtils.getInstance().getPlayersList()));
-        object.addProperty("isClient",InfoUtils.getInstance().isClient());
-        return NanoHTTPD.newFixedLengthResponse(object.toString());
+        object.addProperty("mine_version", InfoUtils.getInstance().getMCVersion());
+        object.add("players", GSON.gson.toJsonTree(InfoUtils.getInstance().getPlayersList()));
+        object.addProperty("is_client", InfoUtils.getInstance().isClient());
+        object.addProperty("platform", InfoUtils.getInstance().getPlatform());
+        return Response.OK(object);
     }
 }

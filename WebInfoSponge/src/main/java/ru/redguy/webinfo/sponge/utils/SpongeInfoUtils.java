@@ -18,6 +18,11 @@ public class SpongeInfoUtils implements IInfoUtils {
     }
 
     @Override
+    public String getPlatform() {
+        return "sponge";
+    }
+
+    @Override
     public List<String> getPlayersList() {
         List<String> result = new ArrayList<>();
         for (Player onlinePlayer : Sponge.getServer().getOnlinePlayers()) {

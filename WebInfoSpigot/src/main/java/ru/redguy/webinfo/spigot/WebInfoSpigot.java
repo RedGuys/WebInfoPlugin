@@ -1,13 +1,14 @@
 package ru.redguy.webinfo.spigot;
 
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.redguy.webinfo.common.WebServer;
-import ru.redguy.webinfo.common.utils.Config;
-import ru.redguy.webinfo.common.utils.InfoUtils;
-import ru.redguy.webinfo.common.utils.Logger;
-import ru.redguy.webinfo.common.utils.LoggerType;
+import ru.redguy.webinfo.common.utils.*;
 import ru.redguy.webinfo.spigot.utils.SpigotInfoUtils;
 import ru.redguy.webinfo.spigot.utils.SpigotLogger;
+import ru.redguy.webinfo.spigot.utils.SpigotWorldsController;
 
 import java.io.IOException;
 
@@ -19,6 +20,7 @@ public final class WebInfoSpigot extends JavaPlugin {
         Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
         Config.save();
         InfoUtils.InjectInfoUtils(new SpigotInfoUtils());
+        WorldsController.Inject(new SpigotWorldsController());
         try {
             WebServer.getInstance().updateReflection();
             WebServer.getInstance().pageScan();

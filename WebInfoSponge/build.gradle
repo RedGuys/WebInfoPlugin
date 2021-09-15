@@ -10,7 +10,7 @@ repositories {
 }
 
 group = 'ru.redguy.webinfo'
-version = '1.0.4'
+version = parent.version
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -18,13 +18,13 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}.exclude('*.class')
 }
 
 dependencies {
     compileOnly 'org.spongepowered:spongeapi:7.3.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
-    compile project(":WebInfoCommon")
+    compile(project(":WebInfoCommon"))
 }
 
 sponge.plugin.id = 'webinfosponge'

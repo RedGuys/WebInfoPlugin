@@ -9,8 +9,10 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import ru.redguy.webinfo.common.utils.GSON;
 import ru.redguy.webinfo.common.utils.Logger;
 import ru.redguy.webinfo.common.utils.LoggerType;
+import ru.redguy.webinfo.common.utils.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,16 +109,21 @@ public class WebServer {
         public Response serve(IHTTPSession session) {
             String url = session.getUri();
             url = url.endsWith("/") ? url : url + "/";
+
             if (pages.containsKey(url)) {
                 IWebPage mClass = pages.get(url);
                 try {
-                    return mClass.getPage(session);
+                    return genResponse(Response.Status.OK, mClass.getPage(session));
                 } catch (IOException e) {
-                    return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Internal error!");
+                    return genResponse(Response.Status.INTERNAL_ERROR, ru.redguy.webinfo.common.utils.Response.InternalError());
                 }
             } else {
-                return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "Not Founded!");
+                return genResponse(Response.Status.NOT_FOUND, ru.redguy.webinfo.common.utils.Response.MethodNotFound());
             }
+        }
+
+        private Response genResponse(Response.Status status, ru.redguy.webinfo.common.utils.Response response) {
+            return newFixedLengthResponse(status,"application/json", GSON.gson.toJson(response));
         }
     }
 }

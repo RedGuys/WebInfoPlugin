@@ -18,6 +18,11 @@ public class SpigotInfoUtils implements IInfoUtils {
     }
 
     @Override
+    public String getPlatform() {
+        return "spigot";
+    }
+
+    @Override
     public List<String> getPlayersList() {
         List<String> result = new ArrayList<>();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
