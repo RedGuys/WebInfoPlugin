@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 public class Response {
 
-    public static Response OK(JsonObject response) {
+    public static Response OK(Object response) {
         return new Response(1, "OK",response);
     }
     public static Response TheVariableIsNotPassed(String variableName) {
@@ -23,14 +23,14 @@ public class Response {
     private final int code;
     private final String comment;
 
-    private JsonObject response;
+    private Object response;
 
     protected Response(int code, String comment) {
         this.code = code;
         this.comment = comment;
     }
 
-    protected Response(int code, String comment, JsonObject response) {
+    protected Response(int code, String comment, Object response) {
         this.code = code;
         this.comment = comment;
         this.response = response;
@@ -44,7 +44,7 @@ public class Response {
         return comment;
     }
 
-    public JsonObject getResponse() {
+    public Object getResponse() {
         return response;
     }
 }
