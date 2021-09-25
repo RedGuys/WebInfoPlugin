@@ -5,12 +5,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.utils.IInfoUtils;
+import ru.redguy.webinfo.common.utils.AbstractBasicController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpigotInfoUtils implements IInfoUtils {
+public class SpigotInfoUtils extends AbstractBasicController {
 
     @Override
     public String getMCVersion() {

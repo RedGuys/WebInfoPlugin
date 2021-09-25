@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import ru.redguy.webinfo.common.utils.AbstractWorldsController;
 import ru.redguy.webinfo.common.utils.ActionResult;
 
+import java.util.concurrent.CompletableFuture;
+
 public class SpigotWorldsController extends AbstractWorldsController {
     @Override
     public boolean isWorldExist(String name) {
@@ -11,8 +13,10 @@ public class SpigotWorldsController extends AbstractWorldsController {
     }
 
     @Override
-    public ActionResult unloadWorld(String name, boolean save) {
+    public CompletableFuture<ActionResult> unloadWorld(String name, boolean save) {
         Bukkit.unloadWorld(name, save);
-        return new ActionResult(true);
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+        res.complete(new ActionResult(true));
+        return res;
     }
 }

@@ -2,10 +2,7 @@ package ru.redguy.webinfo.common;
 
 import fi.iki.elonen.NanoHTTPD;
 import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.MethodParameterScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.scanners.*;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -50,7 +47,8 @@ public class WebServer {
                                 new TypeAnnotationsScanner(),
                                 new MethodParameterScanner(),
                                 new MethodAnnotationsScanner(),
-                                new FieldAnnotationsScanner()
+                                new FieldAnnotationsScanner(),
+                                new SubTypesScanner()
                         );
 
         for (String aPackage : packages) {
@@ -67,7 +65,7 @@ public class WebServer {
     public void pageScan() {
         Logger.info(LoggerType.Client, "Started page scan!");
         pages = new HashMap<>();
-        for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, true)) {
+        for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, false)) {
             if (!IWebPage.class.isAssignableFrom(mClass)) continue;
             String url = mClass.getAnnotation(WebPage.class).url();
             try {
@@ -114,7 +112,7 @@ public class WebServer {
                 IWebPage mClass = pages.get(url);
                 try {
                     return genResponse(Response.Status.OK, mClass.getPage(session));
-                } catch (IOException e) {
+                } catch (Exception e) {
                     return genResponse(Response.Status.INTERNAL_ERROR, ru.redguy.webinfo.common.utils.Response.InternalError());
                 }
             } else {

@@ -5,12 +5,10 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.Plugin;
 import ru.redguy.webinfo.common.WebServer;
-import ru.redguy.webinfo.common.utils.Config;
-import ru.redguy.webinfo.common.utils.InfoUtils;
-import ru.redguy.webinfo.common.utils.Logger;
-import ru.redguy.webinfo.common.utils.WorldsController;
+import ru.redguy.webinfo.common.utils.*;
 import ru.redguy.webinfo.sponge.utils.SpongeInfoUtils;
 import ru.redguy.webinfo.sponge.utils.SpongeLogger;
+import ru.redguy.webinfo.sponge.utils.SpongePlayersController;
 import ru.redguy.webinfo.sponge.utils.SpongeWorldsController;
 
 import java.io.IOException;
@@ -37,8 +35,9 @@ public class WebInfoSponge {
         Logger.InjectLogger(new SpongeLogger(logger));
         Config.InjectConfig(new SpongeConfig());
         Config.save();
-        InfoUtils.InjectInfoUtils(new SpongeInfoUtils());
-        WorldsController.Inject(new SpongeWorldsController());
+        Controllers.setBasicController(new SpongeInfoUtils());
+        Controllers.setWorldsController(new SpongeWorldsController());
+        Controllers.setPlayersController(new SpongePlayersController());
         WebServer.getInstance().updateReflection();
         WebServer.getInstance().pageScan();
         WebServer.getInstance().startServer(Config.getInt("web.port"));

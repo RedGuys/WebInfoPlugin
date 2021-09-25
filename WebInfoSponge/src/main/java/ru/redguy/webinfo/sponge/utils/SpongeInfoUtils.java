@@ -5,12 +5,12 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.utils.IInfoUtils;
+import ru.redguy.webinfo.common.utils.AbstractBasicController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpongeInfoUtils implements IInfoUtils {
+public class SpongeInfoUtils extends AbstractBasicController {
 
     @Override
     public String getMCVersion() {

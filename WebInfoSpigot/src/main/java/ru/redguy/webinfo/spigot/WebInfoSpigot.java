@@ -8,6 +8,7 @@ import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.utils.*;
 import ru.redguy.webinfo.spigot.utils.SpigotInfoUtils;
 import ru.redguy.webinfo.spigot.utils.SpigotLogger;
+import ru.redguy.webinfo.spigot.utils.SpigotPlayersController;
 import ru.redguy.webinfo.spigot.utils.SpigotWorldsController;
 
 import java.io.IOException;
@@ -19,8 +20,9 @@ public final class WebInfoSpigot extends JavaPlugin {
         Logger.InjectLogger(new SpigotLogger(getLogger()));
         Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
         Config.save();
-        InfoUtils.InjectInfoUtils(new SpigotInfoUtils());
-        WorldsController.Inject(new SpigotWorldsController());
+        Controllers.setBasicController(new SpigotInfoUtils());
+        Controllers.setWorldsController(new SpigotWorldsController());
+        Controllers.setPlayersController(new SpigotPlayersController());
         try {
             WebServer.getInstance().updateReflection();
             WebServer.getInstance().pageScan();

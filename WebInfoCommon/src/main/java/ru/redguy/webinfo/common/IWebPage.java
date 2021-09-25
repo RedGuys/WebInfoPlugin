@@ -6,5 +6,5 @@ import ru.redguy.webinfo.common.utils.Response;
 import java.io.IOException;
 
 public interface IWebPage {
-    Response getPage(NanoHTTPD.IHTTPSession session) throws IOException;
+    Response getPage(NanoHTTPD.IHTTPSession session) throws Exception;
 }

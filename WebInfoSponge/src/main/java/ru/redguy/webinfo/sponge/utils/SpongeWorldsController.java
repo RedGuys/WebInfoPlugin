@@ -8,6 +8,7 @@ import ru.redguy.webinfo.common.utils.LoggerType;
 import ru.redguy.webinfo.sponge.WebInfoSponge;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 public class SpongeWorldsController extends AbstractWorldsController {
     @Override
@@ -16,7 +17,8 @@ public class SpongeWorldsController extends AbstractWorldsController {
     }
 
     @Override
-    public ActionResult unloadWorld(String name, boolean save) {
+    public CompletableFuture<ActionResult> unloadWorld(String name, boolean save) {
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
         Sponge.getServer().getWorld(name).ifPresent(value -> {
             Sponge.getScheduler()
                     .createTaskBuilder()
@@ -27,9 +29,10 @@ public class SpongeWorldsController extends AbstractWorldsController {
                             Logger.warn(LoggerType.Client,"Something went wrong: "+e.getMessage());
                         }
                         Sponge.getServer().unloadWorld(value);
+                        res.complete(new ActionResult(true));
                     })
                     .submit(WebInfoSponge.instance);
         });
-        return new ActionResult(true);
+        return res;
     }
 }

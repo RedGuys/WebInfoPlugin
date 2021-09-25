@@ -24,7 +24,7 @@ jar {
 dependencies {
     compileOnly 'org.spongepowered:spongeapi:7.3.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
-    compile(project(":WebInfoCommon"))
+    compile project(":WebInfoCommon")
 }
 
 sponge.plugin.id = 'webinfosponge'
