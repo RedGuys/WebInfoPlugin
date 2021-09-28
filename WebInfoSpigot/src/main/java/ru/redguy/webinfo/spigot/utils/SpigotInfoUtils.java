@@ -53,4 +53,9 @@ public class SpigotInfoUtils extends AbstractBasicController {
     public boolean isClient() {
         return false;
     }
+
+    @Override
+    public void shutdown() {
+        Bukkit.shutdown();
+    }
 }

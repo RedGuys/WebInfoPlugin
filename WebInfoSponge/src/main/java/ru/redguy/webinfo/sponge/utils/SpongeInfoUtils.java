@@ -53,4 +53,9 @@ public class SpongeInfoUtils extends AbstractBasicController {
     public boolean isClient() {
         return false;
     }
+
+    @Override
+    public void shutdown() {
+        Sponge.getServer().shutdown();
+    }
 }

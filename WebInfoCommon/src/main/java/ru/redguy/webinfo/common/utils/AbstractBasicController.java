@@ -12,4 +12,6 @@ public abstract class AbstractBasicController {
     public abstract List<Mod> getModsList();
     public abstract List<World> getWorldsList();
     public abstract boolean isClient();
+
+    public abstract void shutdown();
 }
