@@ -1,4 +1,4 @@
-package ru.redguy.webinfo.common.pages.players;
+package ru.redguy.webinfo.common.pages.player;
 
 import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
@@ -9,7 +9,7 @@ import ru.redguy.webinfo.common.utils.Response;
 
 import java.util.UUID;
 
-@WebPage(url = "/players/ban/")
+@WebPage(url = "/player/ban/")
 public class Ban implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session) throws Exception {

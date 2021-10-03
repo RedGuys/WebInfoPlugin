@@ -1,4 +1,4 @@
-package ru.redguy.webinfo.common.pages.worlds;
+package ru.redguy.webinfo.common.pages.world;
 
 import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
@@ -8,7 +8,7 @@ import ru.redguy.webinfo.common.utils.Controllers;
 import ru.redguy.webinfo.common.utils.ParamsUtils;
 import ru.redguy.webinfo.common.utils.Response;
 
-@WebPage(url="/worlds/unload/")
+@WebPage(url="/world/unload/")
 public class Unload implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session) throws Exception {

@@ -6,6 +6,7 @@ import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.util.ban.BanTypes;
+import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.utils.AbstractPlayersController;
 import ru.redguy.webinfo.common.utils.ActionResult;
 import ru.redguy.webinfo.sponge.WebInfoSponge;
@@ -83,5 +84,10 @@ public class SpongePlayersController extends AbstractPlayersController {
                 })
                 .submit(WebInfoSponge.instance);
         return res;
+    }
+
+    @Override
+    public Player getPlayerInfo(UUID uuid) {
+        return TransformUtils.transform(Sponge.getServer().getPlayer(uuid).orElse(null));
     }
 }

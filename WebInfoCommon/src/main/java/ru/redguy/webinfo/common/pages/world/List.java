@@ -1,24 +1,22 @@
-package ru.redguy.webinfo.common.pages.mods;
+package ru.redguy.webinfo.common.pages.world;
 
 import com.google.gson.JsonObject;
 import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
-import ru.redguy.webinfo.common.structures.Mod;
+import ru.redguy.webinfo.common.structures.World;
 import ru.redguy.webinfo.common.utils.Controllers;
 import ru.redguy.webinfo.common.utils.GSON;
 import ru.redguy.webinfo.common.utils.Response;
 
-import java.util.List;
-
-@WebPage(url="/mods/")
-public class Mods implements IWebPage {
+@WebPage(url="/world/list/")
+public class List implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session) throws Exception {
         JsonObject object = new JsonObject();
-        List<Mod> mods = Controllers.getBasicController().getModsList();
-        object.addProperty("count", mods.size());
-        object.add("mods", GSON.gson.toJsonTree(mods));
+        java.util.List<World> worlds = Controllers.getBasicController().getWorldsList();
+        object.addProperty("count", worlds.size());
+        object.add("worlds", GSON.gson.toJsonTree(worlds));
         return Response.OK(object);
     }
 }

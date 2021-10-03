@@ -113,6 +113,7 @@ public class WebServer {
                 try {
                     return genResponse(Response.Status.OK, mClass.getPage(session));
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return genResponse(Response.Status.INTERNAL_ERROR, ru.redguy.webinfo.common.utils.Response.InternalError());
                 }
             } else {
