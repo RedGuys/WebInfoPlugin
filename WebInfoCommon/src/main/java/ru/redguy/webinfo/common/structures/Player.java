@@ -155,4 +155,3 @@ public class Player {
         return op;
     }
 }
-//TODO: endpoints list

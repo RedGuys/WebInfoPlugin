@@ -90,6 +90,10 @@ public class WebServer {
         server.startServer();
     }
 
+    public Map<String, IWebPage> getPages() {
+        return pages;
+    }
+
     public static WebServer getInstance() {
         return INSTANCE;
     }

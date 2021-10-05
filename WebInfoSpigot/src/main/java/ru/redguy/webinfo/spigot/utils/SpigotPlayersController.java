@@ -2,6 +2,7 @@ package ru.redguy.webinfo.spigot.utils;
 
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
+import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.utils.AbstractPlayersController;
 import ru.redguy.webinfo.common.utils.ActionResult;
@@ -39,6 +40,20 @@ public class SpigotPlayersController extends AbstractPlayersController {
         Bukkit.getBanList(BanList.Type.IP).addBan(ip, reason, null, null);
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         res.complete(new ActionResult(true));
+        return res;
+    }
+
+    @Override
+    public CompletableFuture<ActionResult> teleport(UUID uuid, Location location) {
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+
+        org.bukkit.entity.Player p = Bukkit.getPlayer(uuid);
+        if(p == null) res.complete(new ActionResult(false).setComment("Player not found"));
+        else {
+            p.teleport(TransformUtils.transform(location));
+            res.complete(new ActionResult(true));
+        }
+
         return res;
     }
 

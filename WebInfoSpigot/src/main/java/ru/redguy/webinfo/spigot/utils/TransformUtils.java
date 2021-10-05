@@ -1,5 +1,6 @@
 package ru.redguy.webinfo.spigot.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.Player;
@@ -17,7 +18,7 @@ public class TransformUtils {
 
     public static Location transform(org.bukkit.Location location) {
         if(location == null) return null;
-        return new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        return new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
     }
 
     public static WorldBorder transform(org.bukkit.WorldBorder worldBorder) {
@@ -26,5 +27,9 @@ public class TransformUtils {
 
     public static Player transform(org.bukkit.entity.Player player) {
         return new Player(player.getName(),player.getDisplayName(),transform(player.getLocation()),player.getAddress().toString().substring(1),player.isSneaking(),player.isSprinting(),player.getPlayerTime(),player.getExp(),player.getLevel(),player.getTotalExperience(),player.getSaturation(),player.getFoodLevel(),transform(player.getBedSpawnLocation()),player.isFlying(),player.getFlySpeed(),player.getWalkSpeed(),player.getUniqueId(),player.getFirstPlayed(),player.getLastPlayed(),player.hasPlayedBefore(),player.isOp());
+    }
+
+    public static org.bukkit.Location transform(Location location) {
+        return new org.bukkit.Location(Bukkit.getWorld(location.getWorld()),location.getX(),location.getY(),location.getZ());
     }
 }
