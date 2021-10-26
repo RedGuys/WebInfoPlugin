@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(value= ElementType.TYPE)
 @Retention(value= RetentionPolicy.RUNTIME)
-public @interface WebPage {
-    String url();
-    QueryArgument[] args() default {};
+public @interface QueryArgument {
+    String name();
+    QueryArgumentType type();
+    boolean required() default true;
 }

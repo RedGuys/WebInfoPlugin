@@ -9,10 +9,13 @@ import ru.redguy.webinfo.common.utils.Controllers;
 import ru.redguy.webinfo.common.utils.GSON;
 import ru.redguy.webinfo.common.utils.Response;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 @WebPage(url="/world/list/")
 public class List implements IWebPage {
     @Override
-    public Response getPage(NanoHTTPD.IHTTPSession session) throws Exception {
+    public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
         JsonObject object = new JsonObject();
         java.util.List<World> worlds = Controllers.getBasicController().getWorldsList();
         object.addProperty("count", worlds.size());

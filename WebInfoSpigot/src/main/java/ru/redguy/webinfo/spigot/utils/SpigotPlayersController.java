@@ -7,6 +7,8 @@ import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.utils.AbstractPlayersController;
 import ru.redguy.webinfo.common.utils.ActionResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,6 +35,15 @@ public class SpigotPlayersController extends AbstractPlayersController {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         res.complete(new ActionResult(true));
         return res;
+    }
+
+    @Override
+    public List<Player> getPlayersList() {
+        List<Player> result = new ArrayList<>();
+        for (org.bukkit.entity.Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            result.add(TransformUtils.transform(onlinePlayer));
+        }
+        return result;
     }
 
     @Override

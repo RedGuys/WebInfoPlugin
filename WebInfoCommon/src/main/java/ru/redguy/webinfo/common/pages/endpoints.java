@@ -6,10 +6,13 @@ import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.utils.Response;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 @WebPage(url = "/endpoints/")
 public class endpoints implements IWebPage {
     @Override
-    public Response getPage(NanoHTTPD.IHTTPSession session) throws Exception {
+    public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
         return Response.OK(WebServer.getInstance().getPages().keySet());
     }
 }

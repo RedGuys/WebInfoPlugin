@@ -13,6 +13,9 @@ public class Response {
     public static Response InternalError() {
         return new Response(9,"Internal error");
     }
+    public static Response VariableIncorrect(String variableName) {
+        return new Response(18,"The '"+variableName+"' variable incorrect");
+    }
     public static Response NotFound() {
         return new Response(19,"Not Found");
     }

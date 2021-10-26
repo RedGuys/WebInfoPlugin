@@ -71,6 +71,37 @@ public class Player {
         this.playedBefore = playedBefore;
     }
 
+    public Player(String name, String displayName, Location location, String address, boolean sneaking, boolean sprinting, float exp, int level, int totalExperience, float saturation, int foodLevel, Location bedSpawnLocation, UUID uuid) {
+        this.name = name;
+        this.displayName = displayName;
+        this.location = location;
+        this.address = address;
+        this.sneaking = sneaking;
+        this.sprinting = sprinting;
+        this.exp = exp;
+        this.level = level;
+        this.totalExperience = totalExperience;
+        this.saturation = saturation;
+        this.foodLevel = foodLevel;
+        this.bedSpawnLocation = bedSpawnLocation;
+        this.uuid = uuid;
+    }
+
+    public Player(String name, String displayName, Location location, boolean sneaking, boolean sprinting, float exp, int level, int totalExperience, float saturation, int foodLevel, Location bedSpawnLocation, UUID uuid) {
+        this.name = name;
+        this.displayName = displayName;
+        this.location = location;
+        this.sneaking = sneaking;
+        this.sprinting = sprinting;
+        this.exp = exp;
+        this.level = level;
+        this.totalExperience = totalExperience;
+        this.saturation = saturation;
+        this.foodLevel = foodLevel;
+        this.bedSpawnLocation = bedSpawnLocation;
+        this.uuid = uuid;
+    }
+
     public String getName() {
         return name;
     }

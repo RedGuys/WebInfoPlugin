@@ -23,15 +23,6 @@ public class SpongeInfoUtils extends AbstractBasicController {
     }
 
     @Override
-    public List<String> getPlayersList() {
-        List<String> result = new ArrayList<>();
-        for (Player onlinePlayer : Sponge.getServer().getOnlinePlayers()) {
-            result.add(onlinePlayer.getName());
-        }
-        return result;
-    }
-
-    @Override
     public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {

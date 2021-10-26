@@ -14,6 +14,8 @@ import ru.redguy.webinfo.sponge.WebInfoSponge;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -108,6 +110,15 @@ public class SpongePlayersController extends AbstractPlayersController {
                 })
                 .submit(WebInfoSponge.instance);
         return res;
+    }
+
+    @Override
+    public List<Player> getPlayersList() {
+        List<Player> result = new ArrayList<>();
+        for (org.spongepowered.api.entity.living.player.Player onlinePlayer : Sponge.getServer().getOnlinePlayers()) {
+            result.add(TransformUtils.transform(onlinePlayer));
+        }
+        return result;
     }
 
     @Override

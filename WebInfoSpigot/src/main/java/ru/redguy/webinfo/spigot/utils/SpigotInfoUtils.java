@@ -23,15 +23,6 @@ public class SpigotInfoUtils extends AbstractBasicController {
     }
 
     @Override
-    public List<String> getPlayersList() {
-        List<String> result = new ArrayList<>();
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            result.add(onlinePlayer.getName());
-        }
-        return result;
-    }
-
-    @Override
     public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {

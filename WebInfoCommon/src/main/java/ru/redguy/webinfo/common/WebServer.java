@@ -6,16 +6,11 @@ import org.reflections.scanners.*;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
-import ru.redguy.webinfo.common.utils.GSON;
-import ru.redguy.webinfo.common.utils.Logger;
-import ru.redguy.webinfo.common.utils.LoggerType;
-import ru.redguy.webinfo.common.utils.Response;
+import ru.redguy.webinfo.common.structures.Location;
+import ru.redguy.webinfo.common.utils.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WebServer {
 
@@ -24,7 +19,7 @@ public class WebServer {
     Server server;
     Reflections reflections;
     List<String> packages = new ArrayList<String>() {{add("ru.redguy.webinfo.common.pages");}};
-    Map<String, IWebPage> pages;
+    Map<String, Page> pages;
 
     public WebServer() {
 
@@ -67,9 +62,10 @@ public class WebServer {
         pages = new HashMap<>();
         for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, false)) {
             if (!IWebPage.class.isAssignableFrom(mClass)) continue;
-            String url = mClass.getAnnotation(WebPage.class).url();
+            WebPage annotation = mClass.getAnnotation(WebPage.class);
+            String url = annotation.url();
             try {
-                pages.put(url.endsWith("/") ? url : url + "/", (IWebPage) mClass.newInstance());
+                pages.put(url.endsWith("/") ? url : url + "/", new Page((IWebPage) mClass.newInstance(),annotation.args()));
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -90,7 +86,7 @@ public class WebServer {
         server.startServer();
     }
 
-    public Map<String, IWebPage> getPages() {
+    public Map<String, Page> getPages() {
         return pages;
     }
 
@@ -113,9 +109,63 @@ public class WebServer {
             url = url.endsWith("/") ? url : url + "/";
 
             if (pages.containsKey(url)) {
-                IWebPage mClass = pages.get(url);
+                Page page = pages.get(url);
+                IWebPage mClass = page.getPage();
+                HashMap<String, ArrayList<Object>> args = new HashMap<>();
+                for (QueryArgument arg : page.args) {
+                    if(!session.getParameters().containsKey(arg.name()) && arg.required()) {
+                        return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.TheVariableIsNotPassed(arg.name()));
+                    }
+                    switch (arg.type()) {
+                        case UUID: {
+                            ArrayList<Object> uuid = new ArrayList<>();
+                            for (String s : session.getParameters().get(arg.name())) {
+                                try {
+                                    uuid.add(UUID.fromString(s));
+                                } catch (IllegalArgumentException e) {
+                                    return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                                }
+                            }
+                            args.put(arg.name(),uuid);
+                            break;
+                        }
+                        case STRING: {
+                            args.put(arg.name(),new ArrayList<>(session.getParameters().get(arg.name())));
+                            break;
+                        }
+                        case LOCATION: {
+                            ArrayList<Object> location = new ArrayList<>();
+                            for (String s : session.getParameters().get(arg.name())) {
+                                try {
+                                    location.add(new Location(s));
+                                } catch (IndexOutOfBoundsException|NumberFormatException|NullPointerException e) {
+                                    return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                                }
+                            }
+                            args.put(arg.name(),location);
+                            break;
+                        }
+                        case WORLD: {
+                            ArrayList<Object> worlds = new ArrayList<>();
+                            for (String s : session.getParameters().get(arg.name())) {
+                                if(Controllers.getWorldsController().isWorldExist(s)) {
+                                    worlds.add(s);
+                                }
+                            }
+                            args.put(arg.name(),worlds);
+                            break;
+                        }
+                        case BOOLEAN: {
+                            ArrayList<Object> booleans = new ArrayList<>();
+                            for (String s : session.getParameters().get(arg.name())) {
+                                booleans.add(Boolean.parseBoolean(s));
+                            }
+                            args.put(arg.name(),booleans);
+                        }
+                    }
+                }
                 try {
-                    return genResponse(Response.Status.OK, mClass.getPage(session));
+                    return genResponse(Response.Status.OK, mClass.getPage(session, args));
                 } catch (Exception e) {
                     e.printStackTrace();
                     return genResponse(Response.Status.INTERNAL_ERROR, ru.redguy.webinfo.common.utils.Response.InternalError());
@@ -127,6 +177,24 @@ public class WebServer {
 
         private Response genResponse(Response.Status status, ru.redguy.webinfo.common.utils.Response response) {
             return newFixedLengthResponse(status,"application/json", GSON.gson.toJson(response));
+        }
+    }
+
+    static class Page {
+        private final IWebPage page;
+        private final QueryArgument[] args;
+
+        public Page(IWebPage page, QueryArgument[] args) {
+            this.page = page;
+            this.args = args;
+        }
+
+        public IWebPage getPage() {
+            return page;
+        }
+
+        public QueryArgument[] getArgs() {
+            return args;
         }
     }
 }
