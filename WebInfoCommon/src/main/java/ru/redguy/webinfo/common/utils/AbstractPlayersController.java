@@ -13,6 +13,9 @@ public abstract class AbstractPlayersController {
     public abstract CompletableFuture<ActionResult> banIp(String ip);
     public abstract CompletableFuture<ActionResult> banIp(String ip, String reason);
 
+    public abstract CompletableFuture<ActionResult> kick(UUID uuid);
+    public abstract CompletableFuture<ActionResult> kick(UUID uuid, String reason);
+
     public abstract CompletableFuture<ActionResult> teleport(UUID uuid, Location location);
 
     public abstract Player getPlayerInfo(UUID uuid);

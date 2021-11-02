@@ -130,7 +130,8 @@ public class WebServer {
                             break;
                         }
                         case STRING: {
-                            args.put(arg.name(),new ArrayList<>(session.getParameters().get(arg.name())));
+                            List<String> ar = session.getParameters().get(arg.name());
+                            args.put(arg.name(),new ArrayList<>(ar == null ? new ArrayList<>() : ar));
                             break;
                         }
                         case LOCATION: {

@@ -6,6 +6,7 @@ import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.utils.AbstractPlayersController;
 import ru.redguy.webinfo.common.utils.ActionResult;
+import ru.redguy.webinfo.spigot.WebInfoSpigot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,26 @@ public class SpigotPlayersController extends AbstractPlayersController {
         Bukkit.getBanList(BanList.Type.IP).addBan(ip, reason, null, null);
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         res.complete(new ActionResult(true));
+        return res;
+    }
+
+    @Override
+    public CompletableFuture<ActionResult> kick(UUID uuid) {
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+        Bukkit.getScheduler().runTask(WebInfoSpigot.getInstance(),() -> {
+            Bukkit.getPlayer(uuid).kickPlayer("Kick from WebInfo");
+            res.complete(new ActionResult(true));
+        });
+        return res;
+    }
+
+    @Override
+    public CompletableFuture<ActionResult> kick(UUID uuid, String reason) {
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+        Bukkit.getScheduler().runTask(WebInfoSpigot.getInstance(),() -> {
+            Bukkit.getPlayer(uuid).kickPlayer(reason);
+            res.complete(new ActionResult(true));
+        });
         return res;
     }
 

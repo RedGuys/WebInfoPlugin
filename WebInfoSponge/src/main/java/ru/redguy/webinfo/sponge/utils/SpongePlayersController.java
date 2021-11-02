@@ -91,6 +91,24 @@ public class SpongePlayersController extends AbstractPlayersController {
     }
 
     @Override
+    public CompletableFuture<ActionResult> kick(UUID uuid) {
+        Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
+        optPlayer.ifPresent(org.spongepowered.api.entity.living.player.Player::kick);
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+        res.complete(new ActionResult(true));
+        return res;
+    }
+
+    @Override
+    public CompletableFuture<ActionResult> kick(UUID uuid, String reason) {
+        Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
+        optPlayer.ifPresent(p -> p.kick(Text.of(reason)));
+        CompletableFuture<ActionResult> res = new CompletableFuture<>();
+        res.complete(new ActionResult(true));
+        return res;
+    }
+
+    @Override
     public CompletableFuture<ActionResult> teleport(UUID uuid, Location location) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {

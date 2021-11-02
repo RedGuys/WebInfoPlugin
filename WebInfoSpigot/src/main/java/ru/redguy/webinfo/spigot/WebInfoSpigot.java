@@ -15,8 +15,15 @@ import java.io.IOException;
 
 public final class WebInfoSpigot extends JavaPlugin {
 
+    private static WebInfoSpigot instance;
+
+    public static WebInfoSpigot getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         Logger.InjectLogger(new SpigotLogger(getLogger()));
         Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
         Config.save();
