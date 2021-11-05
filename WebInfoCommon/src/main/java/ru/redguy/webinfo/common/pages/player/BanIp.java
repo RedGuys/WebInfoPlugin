@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @WebPage(url = "/player/banip/", args = {
         @QueryArgument(name = "ip", type = QueryArgumentType.STRING)
-})
+}, method = NanoHTTPD.Method.POST)
 public class BanIp implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {

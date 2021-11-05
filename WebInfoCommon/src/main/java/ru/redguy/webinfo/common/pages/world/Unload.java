@@ -16,7 +16,7 @@ import java.util.HashMap;
 @WebPage(url = "/world/unload/", args = {
         @QueryArgument(name = "world", type = QueryArgumentType.WORLD),
         @QueryArgument(name = "save", type = QueryArgumentType.BOOLEAN, required = false)
-})
+}, method = NanoHTTPD.Method.POST)
 public class Unload implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {

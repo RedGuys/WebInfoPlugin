@@ -10,7 +10,7 @@ import ru.redguy.webinfo.common.utils.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@WebPage(url = "/shutdown")
+@WebPage(url = "/shutdown", method = NanoHTTPD.Method.POST)
 public class Shutdown implements IWebPage {
 
     @Override

@@ -19,7 +19,7 @@ public class WebServer {
     Server server;
     Reflections reflections;
     List<String> packages = new ArrayList<String>() {{add("ru.redguy.webinfo.common.pages");}};
-    Map<String, Page> pages;
+    Map<Pair<NanoHTTPD.Method,String>, Page> pages;
 
     public WebServer() {
 
@@ -65,7 +65,7 @@ public class WebServer {
             WebPage annotation = mClass.getAnnotation(WebPage.class);
             String url = annotation.url();
             try {
-                pages.put(url.endsWith("/") ? url : url + "/", new Page((IWebPage) mClass.newInstance(),annotation.args()));
+                pages.put(new Pair<>(annotation.method(),url.endsWith("/") ? url : url + "/"), new Page((IWebPage) mClass.newInstance(),annotation));
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -86,7 +86,7 @@ public class WebServer {
         server.startServer();
     }
 
-    public Map<String, Page> getPages() {
+    public Map<Pair<NanoHTTPD.Method,String>, Page> getPages() {
         return pages;
     }
 
@@ -108,11 +108,11 @@ public class WebServer {
             String url = session.getUri();
             url = url.endsWith("/") ? url : url + "/";
 
-            if (pages.containsKey(url)) {
-                Page page = pages.get(url);
+            if (pages.containsKey(new Pair<>(session.getMethod(),url))) {
+                Page page = pages.get(new Pair<>(session.getMethod(),url));
                 IWebPage mClass = page.getPage();
                 HashMap<String, ArrayList<Object>> args = new HashMap<>();
-                for (QueryArgument arg : page.args) {
+                for (QueryArgument arg : page.getAnnotation().args()) {
                     if(!session.getParameters().containsKey(arg.name()) && arg.required()) {
                         return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.TheVariableIsNotPassed(arg.name()));
                     }
@@ -183,19 +183,19 @@ public class WebServer {
 
     static class Page {
         private final IWebPage page;
-        private final QueryArgument[] args;
+        private final WebPage annotation;
 
-        public Page(IWebPage page, QueryArgument[] args) {
+        public Page(IWebPage page, WebPage annotation) {
             this.page = page;
-            this.args = args;
+            this.annotation = annotation;
         }
 
         public IWebPage getPage() {
             return page;
         }
 
-        public QueryArgument[] getArgs() {
-            return args;
+        public WebPage getAnnotation() {
+            return annotation;
         }
     }
 }

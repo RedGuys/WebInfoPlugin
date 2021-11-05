@@ -16,7 +16,7 @@ import java.util.UUID;
 @WebPage(url = "/player/ban/", args = {
         @QueryArgument(name = "uuid", type = QueryArgumentType.UUID),
         @QueryArgument(name = "reason", type = QueryArgumentType.STRING, required = false)
-})
+}, method = NanoHTTPD.Method.POST)
 public class Ban implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {

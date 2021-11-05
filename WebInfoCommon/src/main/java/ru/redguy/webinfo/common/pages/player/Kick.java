@@ -16,7 +16,7 @@ import java.util.UUID;
 @WebPage(url = "/player/kick/", args = {
         @QueryArgument(name = "uuid", type = QueryArgumentType.UUID),
         @QueryArgument(name = "reason", type = QueryArgumentType.STRING, required = false)
-})
+}, method = NanoHTTPD.Method.POST)
 public class Kick implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
