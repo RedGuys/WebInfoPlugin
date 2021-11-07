@@ -13,6 +13,6 @@ import java.util.HashMap;
 public class endpoints implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
-        return Response.OK(WebServer.getInstance().getPages().keySet());
+        return Response.OK(WebServer.getInstance().getPages().keySet().stream().map(pair -> pair.getKey().name()+" "+pair.getValue()).toArray());
     }
 }

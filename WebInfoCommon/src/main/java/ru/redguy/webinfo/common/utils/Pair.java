@@ -1,5 +1,7 @@
 package ru.redguy.webinfo.common.utils;
 
+import java.util.Objects;
+
 public class Pair<K,V> {
 
     private final K key;
@@ -16,5 +18,17 @@ public class Pair<K,V> {
 
     public V getValue() {
         return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key,value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Pair)) return false;
+        Pair p = (Pair) obj;
+        return this.key == p.key && this.value == p.value;
     }
 }

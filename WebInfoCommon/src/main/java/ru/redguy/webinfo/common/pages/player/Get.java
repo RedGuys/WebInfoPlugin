@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-@WebPage(url="/player/get/", args = {
+@WebPage(url="/player", args = {
         @QueryArgument(name = "uuid", type = QueryArgumentType.STRING)
 })
 public class Get implements IWebPage {

@@ -19,7 +19,7 @@ public class WebServer {
     Server server;
     Reflections reflections;
     List<String> packages = new ArrayList<String>() {{add("ru.redguy.webinfo.common.pages");}};
-    Map<Pair<NanoHTTPD.Method,String>, Page> pages;
+    PagesMap pages;
 
     public WebServer() {
 
@@ -59,13 +59,13 @@ public class WebServer {
      */
     public void pageScan() {
         Logger.info(LoggerType.Client, "Started page scan!");
-        pages = new HashMap<>();
+        pages = new PagesMap();
         for (Class<?> mClass : reflections.getTypesAnnotatedWith(WebPage.class, false)) {
             if (!IWebPage.class.isAssignableFrom(mClass)) continue;
             WebPage annotation = mClass.getAnnotation(WebPage.class);
             String url = annotation.url();
             try {
-                pages.put(new Pair<>(annotation.method(),url.endsWith("/") ? url : url + "/"), new Page((IWebPage) mClass.newInstance(),annotation));
+                pages.put(annotation.method(),url.endsWith("/") ? url : url + "/", new Page((IWebPage) mClass.newInstance(),annotation));
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -86,7 +86,7 @@ public class WebServer {
         server.startServer();
     }
 
-    public Map<Pair<NanoHTTPD.Method,String>, Page> getPages() {
+    public PagesMap getPages() {
         return pages;
     }
 
@@ -107,9 +107,8 @@ public class WebServer {
         public Response serve(IHTTPSession session) {
             String url = session.getUri();
             url = url.endsWith("/") ? url : url + "/";
-
-            if (pages.containsKey(new Pair<>(session.getMethod(),url))) {
-                Page page = pages.get(new Pair<>(session.getMethod(),url));
+            if (pages.containsKey(session.getMethod(),url)) {
+                Page page = pages.get(session.getMethod(),url);
                 IWebPage mClass = page.getPage();
                 HashMap<String, ArrayList<Object>> args = new HashMap<>();
                 for (QueryArgument arg : page.getAnnotation().args()) {
@@ -181,7 +180,7 @@ public class WebServer {
         }
     }
 
-    static class Page {
+    public static class Page {
         private final IWebPage page;
         private final WebPage annotation;
 
