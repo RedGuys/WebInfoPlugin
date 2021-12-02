@@ -6,7 +6,7 @@ public class World {
     protected String name;
     protected UUID[] entities;
     protected String[] players;
-    protected UUID uid;
+    protected UUID uuid;
     protected Location spawnLocation;
     protected long time;
     protected long fullTime;
@@ -25,11 +25,11 @@ public class World {
     protected String[] gameRules;
     protected WorldBorder worldBorder;
 
-    public World(String name, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
-        this.uid = uid;
+        this.uuid = uuid;
         this.spawnLocation = spawnLocation;
         this.time = time;
         this.fullTime = fullTime;
@@ -49,11 +49,11 @@ public class World {
         this.worldBorder = worldBorder;
     }
 
-    public World(String name, UUID[] entities, String[] players, UUID uid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, String[] gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
-        this.uid = uid;
+        this.uuid = uuid;
         this.spawnLocation = spawnLocation;
         this.time = time;
         this.fullTime = fullTime;
@@ -82,8 +82,8 @@ public class World {
         return players;
     }
 
-    public UUID getUid() {
-        return uid;
+    public UUID getUuid() {
+        return uuid;
     }
 
     public Location getSpawnLocation() {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @WebPage(url = "/endpoints/")
-public class endpoints implements IWebPage {
+public class Endpoints implements IWebPage {
     @Override
     public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
         return Response.OK(WebServer.getInstance().getPages().keySet().stream().map(pair -> pair.getKey().name()+" "+pair.getValue()).toArray());

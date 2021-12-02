@@ -23,6 +23,6 @@ public class Teleport implements IWebPage {
         UUID uuid = (UUID) args.get("uuid").get(0);
         Location location = (Location) args.get("location").get(0);
 
-        return Response.OK(Controllers.getPlayersController().teleport(uuid,location));
+        return Response.OK(Controllers.getPlayersController().teleport(uuid,location).get());
     }
 }

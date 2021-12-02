@@ -1,0 +1,640 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WebInfo",
+    "description": "Minecraft mod/plugin for control world",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "description": "Gets basic information",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "mine_version"
+                  ],
+                  "properties": {
+                    "mine_version": {
+                      "type": "string"
+                    },
+                    "players": {
+                      "type": "array",
+                      "items": {
+                        "description": "Player nickname",
+                        "type": "string"
+                      }
+                    },
+                    "is_client": {
+                      "type": "boolean"
+                    },
+                    "platform": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shutdown": {
+      "post": {
+        "tags": [
+          "Common"
+        ],
+        "description": "Shutdowns server or client",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Gets player data",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Player"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/endpoints": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "description": "Gets list of all endpoints",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string",
+                    "example": "GET /endpoints"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mod/list": {
+      "get": {
+        "tags": [
+          "Mods"
+        ],
+        "description": "Gets list of all mods/Plugins",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "mods": {
+                      "items": {
+                        "$ref": "#/components/schemas/Mod"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/ban": {
+      "post": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Bans player",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "reason",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/banip": {
+      "post": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Bans ip",
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/kick": {
+      "post": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Kicks player",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "reason",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/list": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Gets all players",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NameUUIDPair"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/teleport": {
+      "post": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Gets all players",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "example": "0,100,0,world",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/world/list": {
+      "get": {
+        "tags": [
+          "Worlds"
+        ],
+        "description": "Gets all worlds",
+        "parameters": [
+          {
+            "name": "world",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "save",
+            "in": "query",
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "worlds": {
+                      "items": {
+                        "$ref": "#/components/schemas/World"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/world/unload": {
+      "post": {
+        "tags": [
+          "Worlds"
+        ],
+        "description": "Unload world",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "World": {
+        "required": [
+          "name",
+          "entities",
+          "players",
+          "uuid",
+          "spawnLocation",
+          "time",
+          "fullTime",
+          "storm",
+          "weatherDuration",
+          "thundering",
+          "thunderDuration",
+          "seed",
+          "maxHeight",
+          "seaLevel",
+          "difficulty",
+          "worldType",
+          "gameRules",
+          "worldBorder"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "entities": {
+            "items": {
+              "type": "string",
+              "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
+            }
+          },
+          "players": {
+            "items": {
+              "type": "string",
+              "example": "AwesomeNick"
+            }
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "spawnLocation": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "time": {
+            "type": "integer"
+          },
+          "fullTime": {
+            "type": "integer"
+          },
+          "storm": {
+            "type": "boolean"
+          },
+          "weatherDuration": {
+            "type": "integer"
+          },
+          "thundering": {
+            "type": "boolean"
+          },
+          "thunderDuration": {
+            "type": "integer"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "seed": {
+            "type": "string"
+          },
+          "pvp": {
+            "type": "boolean"
+          },
+          "maxHeight": {
+            "type": "integer"
+          },
+          "seaLevel": {
+            "type": "integer"
+          },
+          "keepSpawnInMemory": {
+            "type": "boolean"
+          },
+          "difficulty": {
+            "type": "string"
+          },
+          "worldType": {
+            "type": "string"
+          },
+          "gameRules": {
+            "items": {
+              "type": "string"
+            }
+          },
+          "worldBorder": {
+            "$ref": "#/components/schemas/WorldBorder"
+          }
+        }
+      },
+      "WorldBorder": {
+        "required": [
+          "size",
+          "center",
+          "damageBuffer",
+          "damageAmount",
+          "warningTime",
+          "warningDistance"
+        ],
+        "properties": {
+          "size": {
+            "type": "integer"
+          },
+          "center": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "damageBuffer": {
+            "type": "integer"
+          },
+          "damageAmount": {
+            "type": "integer"
+          },
+          "warningTime": {
+            "type": "integer"
+          },
+          "warningDistance": {
+            "type": "integer"
+          }
+        }
+      },
+      "Location": {
+        "required": [
+          "x",
+          "y",
+          "z"
+        ],
+        "properties": {
+          "x": {
+            "type": "integer"
+          },
+          "y": {
+            "type": "integer"
+          },
+          "z": {
+            "type": "integer"
+          },
+          "world": {
+            "type": "string"
+          }
+        }
+      },
+      "ActionResult": {
+        "required": [
+          "success",
+          "unsupported",
+          "comment"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "unsupported": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "Player": {
+        "required": [
+          "name",
+          "displayName",
+          "location",
+          "sneaking",
+          "sprinting",
+          "exp",
+          "level",
+          "totalExperience",
+          "saturation",
+          "foodLevel",
+          "bedSpawnLocation",
+          "uuid"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "address": {
+            "type": "string"
+          },
+          "sneaking": {
+            "type": "boolean"
+          },
+          "sprinting": {
+            "type": "boolean"
+          },
+          "playerTime": {
+            "type": "integer"
+          },
+          "exp": {
+            "type": "integer"
+          },
+          "level": {
+            "type": "integer"
+          },
+          "totalExperience": {
+            "type": "integer"
+          },
+          "saturation": {
+            "type": "integer"
+          },
+          "foodLevel": {
+            "type": "integer"
+          },
+          "bedSpawnLocation": {
+            "type": "string"
+          },
+          "flying": {
+            "type": "boolean"
+          },
+          "flySpeed": {
+            "type": "integer"
+          },
+          "walkSpeed": {
+            "type": "integer"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "firstPlayed": {
+            "type": "integer"
+          },
+          "lastPlayed": {
+            "type": "integer"
+          },
+          "playedBefore": {
+            "type": "boolean"
+          },
+          "op": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Mod": {
+        "required": [
+          "name",
+          "version"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "NameUUIDPair": {
+        "required": [
+          "name",
+          "uuid"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
