@@ -6,10 +6,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.utils.*;
-import ru.redguy.webinfo.spigot.utils.SpigotInfoUtils;
-import ru.redguy.webinfo.spigot.utils.SpigotLogger;
-import ru.redguy.webinfo.spigot.utils.SpigotPlayersController;
-import ru.redguy.webinfo.spigot.utils.SpigotWorldsController;
+import ru.redguy.webinfo.spigot.utils.*;
 
 import java.io.IOException;
 
@@ -30,6 +27,7 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setBasicController(new SpigotInfoUtils());
         Controllers.setWorldsController(new SpigotWorldsController());
         Controllers.setPlayersController(new SpigotPlayersController());
+        Controllers.setChatController(new SpigotChatController());
         try {
             WebServer.getInstance().updateReflection();
             WebServer.getInstance().pageScan();

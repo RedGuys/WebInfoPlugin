@@ -4,6 +4,7 @@ public class Controllers {
     private static AbstractPlayersController playersController;
     private static AbstractWorldsController worldsController;
     private static AbstractBasicController basicController;
+    private static AbstractChatController chatController;
 
     public static AbstractPlayersController getPlayersController() {
         return playersController;
@@ -27,5 +28,13 @@ public class Controllers {
 
     public static void setBasicController(AbstractBasicController basicController) {
         Controllers.basicController = basicController;
+    }
+
+    public static AbstractChatController getChatController() {
+        return chatController;
+    }
+
+    public static void setChatController(AbstractChatController chatController) {
+        Controllers.chatController = chatController;
     }
 }

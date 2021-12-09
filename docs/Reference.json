@@ -358,6 +358,38 @@
           }
         }
       }
+    },
+    "/chat/send": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "description": "Sends chat message",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -118,13 +118,14 @@ public class WebServer {
                     switch (arg.type()) {
                         case UUID: {
                             ArrayList<Object> uuid = new ArrayList<>();
-                            for (String s : session.getParameters().get(arg.name())) {
-                                try {
-                                    uuid.add(UUID.fromString(s));
-                                } catch (IllegalArgumentException e) {
-                                    return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                            if(session.getParameters().get(arg.name()) != null)
+                                for (String s : session.getParameters().get(arg.name())) {
+                                    try {
+                                        uuid.add(UUID.fromString(s));
+                                    } catch (IllegalArgumentException e) {
+                                        return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                                    }
                                 }
-                            }
                             args.put(arg.name(),uuid);
                             break;
                         }
@@ -176,7 +177,9 @@ public class WebServer {
         }
 
         private Response genResponse(Response.Status status, ru.redguy.webinfo.common.utils.Response response) {
-            return newFixedLengthResponse(status,"application/json", GSON.gson.toJson(response));
+            Response res = newFixedLengthResponse(status,"application/json", GSON.gson.toJson(response));
+            res.addHeader("Access-Control-Allow-Origin","*");
+            return res;
         }
     }
 
