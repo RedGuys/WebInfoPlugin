@@ -1,4 +1,6 @@
-package ru.redguy.webinfo.common.utils;
+package ru.redguy.webinfo.common.controllers;
+
+import ru.redguy.webinfo.common.structures.ActionResult;
 
 import java.util.concurrent.CompletableFuture;
 

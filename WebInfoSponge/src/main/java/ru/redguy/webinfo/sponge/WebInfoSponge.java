@@ -5,6 +5,7 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.Plugin;
 import ru.redguy.webinfo.common.WebServer;
+import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.*;
 import ru.redguy.webinfo.sponge.utils.*;
 

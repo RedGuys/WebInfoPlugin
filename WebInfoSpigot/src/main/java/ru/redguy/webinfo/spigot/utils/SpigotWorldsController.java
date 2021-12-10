@@ -1,8 +1,8 @@
 package ru.redguy.webinfo.spigot.utils;
 
 import org.bukkit.Bukkit;
-import ru.redguy.webinfo.common.utils.AbstractWorldsController;
-import ru.redguy.webinfo.common.utils.ActionResult;
+import ru.redguy.webinfo.common.controllers.AbstractWorldsController;
+import ru.redguy.webinfo.common.structures.ActionResult;
 
 import java.util.concurrent.CompletableFuture;
 

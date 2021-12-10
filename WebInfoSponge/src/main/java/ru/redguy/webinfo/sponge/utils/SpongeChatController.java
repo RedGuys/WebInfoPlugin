@@ -2,7 +2,7 @@ package ru.redguy.webinfo.sponge.utils;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
-import ru.redguy.webinfo.common.utils.AbstractChatController;
+import ru.redguy.webinfo.common.controllers.AbstractChatController;
 
 import java.util.UUID;
 

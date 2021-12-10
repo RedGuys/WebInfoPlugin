@@ -1,11 +1,10 @@
 package ru.redguy.webinfo.sponge.utils;
 
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.utils.AbstractBasicController;
+import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 
 import java.util.ArrayList;
 import java.util.List;

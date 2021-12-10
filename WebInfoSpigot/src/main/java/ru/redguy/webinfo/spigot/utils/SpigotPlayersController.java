@@ -4,8 +4,8 @@ import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.Player;
-import ru.redguy.webinfo.common.utils.AbstractPlayersController;
-import ru.redguy.webinfo.common.utils.ActionResult;
+import ru.redguy.webinfo.common.controllers.AbstractPlayersController;
+import ru.redguy.webinfo.common.structures.ActionResult;
 import ru.redguy.webinfo.spigot.WebInfoSpigot;
 
 import java.util.ArrayList;

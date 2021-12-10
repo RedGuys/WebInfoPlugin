@@ -1,8 +1,8 @@
 package ru.redguy.webinfo.sponge.utils;
 
 import org.spongepowered.api.Sponge;
-import ru.redguy.webinfo.common.utils.AbstractWorldsController;
-import ru.redguy.webinfo.common.utils.ActionResult;
+import ru.redguy.webinfo.common.controllers.AbstractWorldsController;
+import ru.redguy.webinfo.common.structures.ActionResult;
 import ru.redguy.webinfo.common.utils.Logger;
 import ru.redguy.webinfo.common.utils.LoggerType;
 import ru.redguy.webinfo.sponge.WebInfoSponge;

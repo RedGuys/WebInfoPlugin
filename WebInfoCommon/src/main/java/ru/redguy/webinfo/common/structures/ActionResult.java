@@ -1,4 +1,4 @@
-package ru.redguy.webinfo.common.utils;
+package ru.redguy.webinfo.common.structures;
 
 public class ActionResult {
     private final boolean success;

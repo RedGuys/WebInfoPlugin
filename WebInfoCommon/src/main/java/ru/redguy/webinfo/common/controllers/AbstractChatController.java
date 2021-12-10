@@ -1,4 +1,4 @@
-package ru.redguy.webinfo.common.utils;
+package ru.redguy.webinfo.common.controllers;
 
 import java.util.UUID;
 

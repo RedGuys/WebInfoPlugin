@@ -1,7 +1,7 @@
 package ru.redguy.webinfo.spigot.utils;
 
 import org.bukkit.Bukkit;
-import ru.redguy.webinfo.common.utils.AbstractChatController;
+import ru.redguy.webinfo.common.controllers.AbstractChatController;
 
 import java.util.UUID;
 

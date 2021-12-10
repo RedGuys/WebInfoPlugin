@@ -6,6 +6,7 @@ import org.reflections.scanners.*;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.utils.*;
 

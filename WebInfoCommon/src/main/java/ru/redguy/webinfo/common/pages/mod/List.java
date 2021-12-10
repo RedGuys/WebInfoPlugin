@@ -5,7 +5,7 @@ import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.structures.Mod;
-import ru.redguy.webinfo.common.utils.Controllers;
+import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.GSON;
 import ru.redguy.webinfo.common.utils.Response;
 

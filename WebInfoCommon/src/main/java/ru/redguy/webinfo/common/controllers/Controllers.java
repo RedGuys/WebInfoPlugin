@@ -1,4 +1,4 @@
-package ru.redguy.webinfo.common.utils;
+package ru.redguy.webinfo.common.controllers;
 
 public class Controllers {
     private static AbstractPlayersController playersController;

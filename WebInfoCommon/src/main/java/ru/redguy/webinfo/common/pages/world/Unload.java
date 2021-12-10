@@ -5,9 +5,8 @@ import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.QueryArgument;
 import ru.redguy.webinfo.common.QueryArgumentType;
 import ru.redguy.webinfo.common.WebPage;
-import ru.redguy.webinfo.common.utils.ActionResult;
-import ru.redguy.webinfo.common.utils.Controllers;
-import ru.redguy.webinfo.common.utils.ParamsUtils;
+import ru.redguy.webinfo.common.structures.ActionResult;
+import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.Response;
 
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
-package ru.redguy.webinfo.common.utils;
+package ru.redguy.webinfo.common.controllers;
 
 import ru.redguy.webinfo.common.structures.*;
+import ru.redguy.webinfo.common.structures.ActionResult;
 
 import java.util.List;
 import java.util.UUID;
