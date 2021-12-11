@@ -1,7 +1,5 @@
 package ru.redguy.webinfo.common.utils;
 
-import com.google.gson.JsonObject;
-
 public class Response {
 
     public static Response OK(Object response) {
@@ -9,6 +7,9 @@ public class Response {
     }
     public static Response TheVariableIsNotPassed(String variableName) {
         return new Response(7,"The '"+variableName+"' variable is not passed");
+    }
+    public static Response UnsupportedOperation() {
+        return new Response(10,"Unsupported operation");
     }
     public static Response InternalError() {
         return new Response(9,"Internal error");

@@ -37,6 +37,7 @@ public class WebInfoSponge {
         Controllers.setWorldsController(new SpongeWorldsController());
         Controllers.setPlayersController(new SpongePlayersController());
         Controllers.setChatController(new SpongeChatController());
+        Controllers.setEntityController(new SpongeEntityController());
         WebServer.getInstance().updateReflection();
         WebServer.getInstance().pageScan();
         WebServer.getInstance().startServer(Config.getInt("web.port"));

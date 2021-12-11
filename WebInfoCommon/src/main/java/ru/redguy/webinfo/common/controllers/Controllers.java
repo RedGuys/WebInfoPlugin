@@ -3,6 +3,7 @@ package ru.redguy.webinfo.common.controllers;
 public class Controllers {
     private static AbstractPlayersController playersController;
     private static AbstractWorldsController worldsController;
+    private static AbstractEntityController entityController;
     private static AbstractBasicController basicController;
     private static AbstractChatController chatController;
 
@@ -36,5 +37,13 @@ public class Controllers {
 
     public static void setChatController(AbstractChatController chatController) {
         Controllers.chatController = chatController;
+    }
+
+    public static AbstractEntityController getEntityController() {
+        return entityController;
+    }
+
+    public static void setEntityController(AbstractEntityController entityController) {
+        Controllers.entityController = entityController;
     }
 }

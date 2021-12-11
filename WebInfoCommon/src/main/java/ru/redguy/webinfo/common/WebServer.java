@@ -168,6 +168,8 @@ public class WebServer {
                 }
                 try {
                     return genResponse(Response.Status.OK, mClass.getPage(session, args));
+                } catch (UnsupportedOperationException e) {
+                    return genResponse(Response.Status.BAD_REQUEST, ru.redguy.webinfo.common.utils.Response.UnsupportedOperation());
                 } catch (Exception e) {
                     e.printStackTrace();
                     return genResponse(Response.Status.INTERNAL_ERROR, ru.redguy.webinfo.common.utils.Response.InternalError());

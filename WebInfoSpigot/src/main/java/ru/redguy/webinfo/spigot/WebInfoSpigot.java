@@ -26,6 +26,7 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setWorldsController(new SpigotWorldsController());
         Controllers.setPlayersController(new SpigotPlayersController());
         Controllers.setChatController(new SpigotChatController());
+        Controllers.setEntityController(new SpigotEntityController());
         try {
             WebServer.getInstance().updateReflection();
             WebServer.getInstance().pageScan();
