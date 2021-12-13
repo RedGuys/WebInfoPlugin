@@ -576,14 +576,10 @@
       "ActionResult": {
         "required": [
           "success",
-          "unsupported",
           "comment"
         ],
         "properties": {
           "success": {
-            "type": "boolean"
-          },
-          "unsupported": {
             "type": "boolean"
           },
           "comment": {

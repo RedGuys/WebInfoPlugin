@@ -28,8 +28,7 @@ public class SpongePlayersController extends AbstractPlayersController {
     public CompletableFuture<ActionResult> ban(UUID uuid) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {
-            res.complete(new ActionResult(false).setUnsupported(true));
-            return res;
+            throw new UnsupportedOperationException();
         }
         service.addBan(Ban.builder().type(BanTypes.PROFILE).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
@@ -40,8 +39,7 @@ public class SpongePlayersController extends AbstractPlayersController {
     public CompletableFuture<ActionResult> ban(UUID uuid, String reason) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {
-            res.complete(new ActionResult(false).setUnsupported(true));
-            return res;
+            throw new UnsupportedOperationException();
         }
         service.addBan(Ban.builder().type(BanTypes.PROFILE).reason(Text.of(reason)).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
@@ -52,8 +50,7 @@ public class SpongePlayersController extends AbstractPlayersController {
     public CompletableFuture<ActionResult> banIp(String ip) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {
-            res.complete(new ActionResult(false).setUnsupported(true));
-            return res;
+            throw new UnsupportedOperationException();
         }
         Sponge.getScheduler()
                 .createTaskBuilder()
@@ -73,8 +70,7 @@ public class SpongePlayersController extends AbstractPlayersController {
     public CompletableFuture<ActionResult> banIp(String ip, String reason) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {
-            res.complete(new ActionResult(false).setUnsupported(true));
-            return res;
+            throw new UnsupportedOperationException();
         }
         Sponge.getScheduler()
                 .createTaskBuilder()
@@ -112,8 +108,7 @@ public class SpongePlayersController extends AbstractPlayersController {
     public CompletableFuture<ActionResult> teleport(UUID uuid, Location location) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         if (service == null) {
-            res.complete(new ActionResult(false).setUnsupported(true));
-            return res;
+            throw new UnsupportedOperationException();
         }
         Sponge.getScheduler()
                 .createTaskBuilder()

@@ -3,17 +3,10 @@ package ru.redguy.webinfo.common.structures;
 public class ActionResult {
     private final boolean success;
 
-    private boolean unsupported;
-
     private String comment;
 
     public ActionResult(boolean success) {
         this.success = success;
-    }
-
-    public ActionResult setUnsupported(boolean unsupported) {
-        this.unsupported = unsupported;
-        return this;
     }
 
     public ActionResult setComment(String comment) {
@@ -27,9 +20,5 @@ public class ActionResult {
 
     public boolean isSuccess() {
         return success;
-    }
-
-    public boolean isUnsupported() {
-        return unsupported;
     }
 }
