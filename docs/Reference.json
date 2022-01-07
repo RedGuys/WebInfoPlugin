@@ -396,7 +396,7 @@
         "tags": [
           "Entity"
         ],
-        "description": "Spawns entity",
+        "description": "Spawns entity\nWARNING: works only at Spigot",
         "parameters": [
           {
             "name": "type",

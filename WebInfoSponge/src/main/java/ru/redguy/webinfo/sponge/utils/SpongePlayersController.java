@@ -22,15 +22,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class SpongePlayersController extends AbstractPlayersController {
 
-    BanService service = Sponge.getServiceManager().provide(BanService.class).orElse(null);
+    BanService banService = Sponge.getServiceManager().provide(BanService.class).orElse(null);
 
     @Override
     public CompletableFuture<ActionResult> ban(UUID uuid) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        if (service == null) {
+        if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        service.addBan(Ban.builder().type(BanTypes.PROFILE).profile(GameProfile.of(uuid)).build());
+        banService.addBan(Ban.builder().type(BanTypes.PROFILE).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
         return res;
     }
@@ -38,10 +38,10 @@ public class SpongePlayersController extends AbstractPlayersController {
     @Override
     public CompletableFuture<ActionResult> ban(UUID uuid, String reason) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        if (service == null) {
+        if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        service.addBan(Ban.builder().type(BanTypes.PROFILE).reason(Text.of(reason)).profile(GameProfile.of(uuid)).build());
+        banService.addBan(Ban.builder().type(BanTypes.PROFILE).reason(Text.of(reason)).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
         return res;
     }
@@ -49,14 +49,14 @@ public class SpongePlayersController extends AbstractPlayersController {
     @Override
     public CompletableFuture<ActionResult> banIp(String ip) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        if (service == null) {
+        if (banService == null) {
             throw new UnsupportedOperationException();
         }
         Sponge.getScheduler()
                 .createTaskBuilder()
                 .execute(() -> {
                     try {
-                        service.addBan(Ban.builder().type(BanTypes.IP).address(InetAddress.getByName(ip)).build());
+                        banService.addBan(Ban.builder().type(BanTypes.IP).address(InetAddress.getByName(ip)).build());
                         res.complete(new ActionResult(true));
                     } catch (UnknownHostException e) {
                         res.complete(new ActionResult(false));
@@ -69,14 +69,14 @@ public class SpongePlayersController extends AbstractPlayersController {
     @Override
     public CompletableFuture<ActionResult> banIp(String ip, String reason) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        if (service == null) {
+        if (banService == null) {
             throw new UnsupportedOperationException();
         }
         Sponge.getScheduler()
                 .createTaskBuilder()
                 .execute(() -> {
                     try {
-                        service.addBan(Ban.builder().type(BanTypes.IP).reason(Text.of(reason)).address(InetAddress.getByName(ip)).build());
+                        banService.addBan(Ban.builder().type(BanTypes.IP).reason(Text.of(reason)).address(InetAddress.getByName(ip)).build());
                         res.complete(new ActionResult(true));
                     } catch (UnknownHostException e) {
                         res.complete(new ActionResult(false));
@@ -107,9 +107,6 @@ public class SpongePlayersController extends AbstractPlayersController {
     @Override
     public CompletableFuture<ActionResult> teleport(UUID uuid, Location location) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        if (service == null) {
-            throw new UnsupportedOperationException();
-        }
         Sponge.getScheduler()
                 .createTaskBuilder()
                 .execute(() -> {
