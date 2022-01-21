@@ -11,7 +11,7 @@ targetCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
-        url = "https://repo.redguy.ru/repository/minecraft/"
+        url = "https://repo.redguy.ru/repository/maven-public/"
     }
     maven {
         name = 'spigotmc-repo'
@@ -26,6 +26,8 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     compile project(":WebInfoCommon")
+
+    compileOnly 'com.discordsrv:discordsrv:1.24.0'
 }
 
 jar {
