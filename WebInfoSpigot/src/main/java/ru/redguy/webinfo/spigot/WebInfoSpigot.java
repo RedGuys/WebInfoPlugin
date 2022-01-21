@@ -1,5 +1,6 @@
 package ru.redguy.webinfo.spigot;
 
+import javassist.LoaderClassPath;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.controllers.Controllers;
@@ -27,6 +28,9 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setPlayersController(new SpigotPlayersController());
         Controllers.setChatController(new SpigotChatController());
         Controllers.setEntityController(new SpigotEntityController());
+
+        optionalPackage("github.scarsz.discordsrv.DiscordSRV","ru.redguy.webinfo.spigot.pages.discordsrv");
+
         try {
             WebServer.getInstance().updateReflection();
             WebServer.getInstance().pageScan();
@@ -40,5 +44,14 @@ public final class WebInfoSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public void optionalPackage(String pluginPackage, String pagesPackage) {
+        try {
+            Class.forName(pluginPackage);
+            WebServer.getInstance().addPackage(pagesPackage);
+        } catch (ClassNotFoundException e) {
+            System.out.println(pagesPackage);
+        }
     }
 }

@@ -1,4 +1,6 @@
 name: WebInfoSpigot
-version: 1.0.4
+version: 1.0.12
 main: ru.redguy.webinfo.spigot.WebInfoSpigot
 load: STARTUP
+softdepend:
+  - DiscordSRV
