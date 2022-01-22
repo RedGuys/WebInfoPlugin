@@ -10,6 +10,7 @@ import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.utils.GSON;
+import ru.redguy.webinfo.common.utils.Request;
 import ru.redguy.webinfo.common.utils.Response;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
         @QueryArgument(name = "location", type = QueryArgumentType.LOCATION, required = true)
 })
 public class Spawn implements IWebPage {
-    public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws IOException, ExecutionException, InterruptedException {
+    public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws IOException, ExecutionException, InterruptedException {
         return Response.OK(Controllers.getEntityController().spawnEntity((String) args.get("type").get(0), (Location) args.get("location").get(0)).get());
     }
 }

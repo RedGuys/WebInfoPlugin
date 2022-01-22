@@ -7,6 +7,7 @@ import ru.redguy.webinfo.common.QueryArgumentType;
 import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.structures.ActionResult;
 import ru.redguy.webinfo.common.controllers.Controllers;
+import ru.redguy.webinfo.common.utils.Request;
 import ru.redguy.webinfo.common.utils.Response;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 }, method = NanoHTTPD.Method.POST)
 public class BanIp implements IWebPage {
     @Override
-    public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws Exception {
+    public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws Exception {
         String ip = (String) args.get("ip").get(0);
 
         ActionResult result = Controllers.getPlayersController().banIp(ip).get();

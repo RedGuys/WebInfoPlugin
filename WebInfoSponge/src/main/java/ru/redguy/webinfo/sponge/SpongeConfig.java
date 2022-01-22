@@ -29,6 +29,10 @@ public class SpongeConfig implements IConfig {
 
         setIfNull("web.port",8080);
         setIfNull("general.lang","ru");
+        setIfNull("modules.socket",false);
+        setIfNull("modules.webserver",true);
+        setIfNull("socket.path","ws://localhost:8999");
+        setIfNull("socket.key","test");
     }
 
     @Override

@@ -167,7 +167,7 @@ public class WebServer {
                     }
                 }
                 try {
-                    return genResponse(Response.Status.OK, mClass.getPage(session, args));
+                    return genResponse(Response.Status.OK, mClass.getPage(new Request(), args));
                 } catch (UnsupportedOperationException e) {
                     return genResponse(Response.Status.BAD_REQUEST, ru.redguy.webinfo.common.utils.Response.UnsupportedOperation());
                 } catch (Exception e) {

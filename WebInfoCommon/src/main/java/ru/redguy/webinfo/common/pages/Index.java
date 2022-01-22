@@ -7,6 +7,7 @@ import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.GSON;
+import ru.redguy.webinfo.common.utils.Request;
 import ru.redguy.webinfo.common.utils.Response;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @WebPage(url = "/")
 public class Index implements IWebPage {
-    public Response getPage(NanoHTTPD.IHTTPSession session, HashMap<String, ArrayList<Object>> args) throws IOException {
+    public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws IOException {
         JsonObject object = new JsonObject();
         object.addProperty("mine_version", Controllers.getBasicController().getMCVersion());
         object.add("players", GSON.gson.toJsonTree(Controllers.getPlayersController().getPlayersList().stream().map(Player::getName).collect(Collectors.toList())));
