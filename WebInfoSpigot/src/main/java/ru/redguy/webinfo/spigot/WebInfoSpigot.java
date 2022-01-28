@@ -1,5 +1,6 @@
 package ru.redguy.webinfo.spigot;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.WebSocketController;
@@ -17,6 +18,8 @@ public final class WebInfoSpigot extends JavaPlugin {
         return instance;
     }
 
+    private boolean sparkAvailable = false;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -29,7 +32,13 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setChatController(new SpigotChatController());
         Controllers.setEntityController(new SpigotEntityController());
 
-        optionalPackage("github.scarsz.discordsrv.DiscordSRV","ru.redguy.webinfo.spigot.pages.discordsrv");
+        if(Bukkit.getPluginManager().getPlugin("DiscordSRV")!=null) {
+            WebServer.getInstance().addPackage("ru.redguy.webinfo.spigot.pages.discordsrv");
+            WebSocketController.getInstance().addPackage("ru.redguy.webinfo.spigot.pages.discordsrv");
+        }
+        if(Bukkit.getPluginManager().getPlugin("spark")!=null) {
+            sparkAvailable = true;
+        }
 
         if(Config.getBoolean("modules.socket")) {
             try {
@@ -57,6 +66,10 @@ public final class WebInfoSpigot extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public boolean isSparkAvailable() {
+        return sparkAvailable;
     }
 
     public void optionalPackage(String pluginPackage, String pagesPackage) {

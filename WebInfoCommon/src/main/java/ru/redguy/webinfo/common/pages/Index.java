@@ -23,6 +23,7 @@ public class Index implements IWebPage {
         object.add("players", GSON.gson.toJsonTree(Controllers.getPlayersController().getPlayersList().stream().map(Player::getName).collect(Collectors.toList())));
         object.addProperty("is_client", Controllers.getBasicController().isClient());
         object.addProperty("platform", Controllers.getBasicController().getPlatform());
+        object.addProperty("tps", Controllers.getBasicController().getTPS());
         return Response.OK(object);
     }
 }

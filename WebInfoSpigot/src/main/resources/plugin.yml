@@ -4,3 +4,4 @@ main: ru.redguy.webinfo.spigot.WebInfoSpigot
 load: STARTUP
 softdepend:
   - DiscordSRV
+  - spark
