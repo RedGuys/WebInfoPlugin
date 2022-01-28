@@ -1,5 +1,5 @@
 name: WebInfoSpigot
-version: 1.0.12
+version: 1.0.13
 main: ru.redguy.webinfo.spigot.WebInfoSpigot
 load: STARTUP
 softdepend:

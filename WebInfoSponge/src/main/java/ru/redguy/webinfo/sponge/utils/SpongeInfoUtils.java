@@ -45,6 +45,11 @@ public class SpongeInfoUtils extends AbstractBasicController {
     }
 
     @Override
+    public double getTPS() {
+        return Sponge.getServer().getTicksPerSecond();
+    }
+
+    @Override
     public void shutdown() {
         Sponge.getServer().shutdown();
     }
