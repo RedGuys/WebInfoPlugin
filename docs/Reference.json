@@ -492,6 +492,36 @@
           }
         }
       }
+    },
+    "/plugin/discordsrv/links/": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Gets all linked accounts\nWARNING: works only if DiscordSRV is enabled",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                      "default": 1
+                    },
+                    "users": {
+                      "type": "object",
+                      "example": {"334625268159217665": "3c4e9704-f5bc-4646-a644-a596f4b27876"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
