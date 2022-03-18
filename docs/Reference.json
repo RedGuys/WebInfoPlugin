@@ -493,7 +493,7 @@
         }
       }
     },
-    "/plugin/discordsrv/links/": {
+    "/plugin/discordsrv/links": {
       "get": {
         "tags": [
           "DiscordSRV"
@@ -514,6 +514,155 @@
                     "users": {
                       "type": "object",
                       "example": {"334625268159217665": "3c4e9704-f5bc-4646-a644-a596f4b27876"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/discordsrv/links/getdiscordid": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Gets discord link by player UUID\nWARNING: works only if DiscordSRV is enabled",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "discordId": {
+                      "type": "string",
+                      "default": "334625268159217665"
+                    },
+                    "player": {
+                      "type": "string",
+                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/discordsrv/links/getplayeruuid": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Gets discord link by discord id\nWARNING: works only if DiscordSRV is enabled",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "example": "334625268159217665"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "discordId": {
+                      "type": "string",
+                      "default": "334625268159217665"
+                    },
+                    "player": {
+                      "type": "string",
+                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/discordsrv/links/link": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Creates discord id link\nWARNING: works only if DiscordSRV is enabled",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "example": "334625268159217665"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "discordId": {
+                      "type": "string",
+                      "default": "334625268159217665"
+                    },
+                    "player": {
+                      "type": "string",
+                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/discordsrv/links/unlink": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Deletes discord id link\nWARNING: works only if DiscordSRV is enabled",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "discordId": {
+                      "type": "string",
+                      "default": "334625268159217665"
+                    },
+                    "player": {
+                      "type": "string",
+                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
                     }
                   }
                 }

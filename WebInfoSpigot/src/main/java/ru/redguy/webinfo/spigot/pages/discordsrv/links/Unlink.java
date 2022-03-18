@@ -10,27 +10,30 @@ import ru.redguy.webinfo.common.utils.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-@WebPage(url = "/plugin/discordsrv/links")
-public class Get implements IWebPage {
+@WebPage(url = "/plugin/discordsrv/links/unlink",args = {
+        @QueryArgument(name="uuid",type = QueryArgumentType.UUID)
+})
+public class Unlink implements IWebPage {
     @Override
     public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) {
         DiscordSRV d = DiscordSRV.getPlugin();
+        String id = d.getAccountLinkManager().getDiscordId((UUID) args.get("uuid").get(0));
+        d.getAccountLinkManager().unlink((UUID) args.get("uuid").get(0));
         return Response.OK(new Resp(
-                d.getAccountLinkManager().getLinkedAccounts(),
-                d.getAccountLinkManager().getLinkedAccountCount()
+                id,
+                (UUID) args.get("uuid").get(0)
         ));
     }
 
     static class Resp {
-        Map<String, UUID> users;
-        int count;
+        String id;
+        UUID player;
 
-        public Resp(Map<String, UUID> users, int count) {
-            this.users = users;
-            this.count = count;
+        public Resp(String id, UUID player) {
+            this.id = id;
+            this.player = player;
         }
     }
 }

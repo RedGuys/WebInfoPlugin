@@ -1,6 +1,5 @@
 package ru.redguy.webinfo.spigot.pages.discordsrv;
 
-import fi.iki.elonen.NanoHTTPD;
 import github.scarsz.discordsrv.DiscordSRV;
 import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
