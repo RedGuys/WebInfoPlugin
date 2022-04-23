@@ -14,6 +14,8 @@ import java.util.HashMap;
 public class Endpoints implements IWebPage {
     @Override
     public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws Exception {
-        return Response.OK(WebServer.getInstance().getPages().keySet().stream().map(pair -> pair.getKey().name()+" "+pair.getValue()).toArray());
+        return Response.OK(WebServer.getInstance().getPages().keySet().stream().map(
+                pair -> pair.getKey().name()+" "+pair.getValue()
+        ).toArray());
     }
 }

@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-@WebPage(url = "/entity/spawn", method = NanoHTTPD.Method.POST, args = {
+@WebPage(url = "/entity/spawn/", method = NanoHTTPD.Method.POST, args = {
         @QueryArgument(name = "type", type = QueryArgumentType.STRING, required = true),
         @QueryArgument(name = "location", type = QueryArgumentType.LOCATION, required = true)
 })

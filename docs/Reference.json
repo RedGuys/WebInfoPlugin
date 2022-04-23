@@ -3,7 +3,7 @@
   "info": {
     "title": "WebInfo",
     "description": "Minecraft mod/plugin for control world",
-    "version": "1.0.12"
+    "version": "1.0.14"
   },
   "servers": [
     {
@@ -28,20 +28,24 @@
                   ],
                   "properties": {
                     "mine_version": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "git-Spigot-79a30d7-acbc348 (MC: 1.12.2)"
                     },
                     "players": {
                       "type": "array",
                       "items": {
                         "description": "Player nickname",
-                        "type": "string"
+                        "type": "string",
+                        "example": "b12"
                       }
                     },
                     "is_client": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": false
                     },
                     "platform": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "spigot"
                     },
                     "tps": {
                       "type": "number",
@@ -83,6 +87,9 @@
         "description": "Gets player data",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "required": true
@@ -117,7 +124,7 @@
                 "schema": {
                   "items": {
                     "type": "string",
-                    "example": "GET /endpoints"
+                    "example": "GET /endpoints/"
                   }
                 }
               }
@@ -164,11 +171,17 @@
         "description": "Bans player",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "required": true
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "reason",
             "in": "query"
           }
@@ -195,6 +208,9 @@
         "description": "Bans ip",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "ip",
             "in": "query",
             "required": true
@@ -222,11 +238,17 @@
         "description": "Kicks player",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "required": true
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "reason",
             "in": "query"
           }
@@ -276,11 +298,17 @@
         "description": "Gets all players",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "required": true
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "location",
             "in": "query",
             "example": "0,100,0,world",
@@ -307,18 +335,7 @@
           "Worlds"
         ],
         "description": "Gets all worlds",
-        "parameters": [
-          {
-            "name": "world",
-            "in": "query",
-            "required": true
-          },
-          {
-            "name": "save",
-            "in": "query",
-            "example": "true"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -348,7 +365,24 @@
           "Worlds"
         ],
         "description": "Unload world",
-        "parameters": [],
+        "parameters": [
+          {
+            "schema": {
+              "type":"string"
+            },
+            "name": "world",
+            "in": "query",
+            "required": true
+          },
+          {
+            "schema": {
+              "type":"boolean"
+            },
+            "name": "save",
+            "in": "query",
+            "example": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -371,11 +405,17 @@
         "description": "Sends chat message",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "message",
             "in": "query",
             "required": true
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "to",
             "in": "query",
             "required": false
@@ -403,11 +443,17 @@
         "description": "Spawns entity\nWARNING: works only at Spigot",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "type",
             "in": "query",
             "required": true
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "location",
             "in": "query",
             "example": "0,100,0,world",
@@ -466,6 +512,9 @@
         "description": "Generates account linking code\nWARNING: works only if DiscordSRV is enabled",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
@@ -531,6 +580,9 @@
         "description": "Gets discord link by player UUID\nWARNING: works only if DiscordSRV is enabled",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
@@ -567,6 +619,9 @@
         "description": "Gets discord link by discord id\nWARNING: works only if DiscordSRV is enabled",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "id",
             "in": "query",
             "example": "334625268159217665"
@@ -603,11 +658,17 @@
         "description": "Creates discord id link\nWARNING: works only if DiscordSRV is enabled",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
           },
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "id",
             "in": "query",
             "example": "334625268159217665"
@@ -644,6 +705,9 @@
         "description": "Deletes discord id link\nWARNING: works only if DiscordSRV is enabled",
         "parameters": [
           {
+            "schema": {
+              "type":"string"
+            },
             "name": "uuid",
             "in": "query",
             "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
@@ -698,7 +762,8 @@
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example":"world"
           },
           "entities": {
             "items": {
@@ -713,56 +778,72 @@
             }
           },
           "uuid": {
-            "type": "string"
+            "type": "string",
+            "example": "1a7c1b03-0fd5-4cbe-aa8a-f27a4fa93bd1"
           },
           "spawnLocation": {
             "$ref": "#/components/schemas/Location"
           },
           "time": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "fullTime": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "storm": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "weatherDuration": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "thundering": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "thunderDuration": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "environment": {
-            "type": "string"
+            "type": "string",
+            "example":"NORMAL"
           },
           "seed": {
-            "type": "string"
+            "type": "integer",
+            "example":6586507081034762000
           },
           "pvp": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":true
           },
           "maxHeight": {
-            "type": "integer"
+            "type": "integer",
+            "example":255
           },
           "seaLevel": {
-            "type": "integer"
+            "type": "integer",
+            "example":65
           },
           "keepSpawnInMemory": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":true
           },
           "difficulty": {
-            "type": "string"
+            "type": "string",
+            "example":"HARD"
           },
           "worldType": {
-            "type": "string"
+            "type": "string",
+            "example":"DEFAULT"
           },
           "gameRules": {
-            "items": {
-              "type": "string"
+            "type": "object",
+            "example":{
+              "keepInventory":"false"
             }
           },
           "worldBorder": {
@@ -808,30 +889,35 @@
         ],
         "properties": {
           "x": {
-            "type": "integer"
+            "type": "integer",
+            "example": 0
           },
           "y": {
-            "type": "integer"
+            "type": "integer",
+            "example": 0
           },
           "z": {
-            "type": "integer"
+            "type": "integer",
+            "example": 0
           },
           "world": {
-            "type": "string"
+            "type": "string",
+            "example": "world"
           }
         }
       },
       "ActionResult": {
         "required": [
-          "success",
-          "comment"
+          "success"
         ],
         "properties": {
           "success": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "comment": {
-            "type": "string"
+            "type": "string",
+            "example": "OK"
           }
         }
       },
@@ -847,72 +933,90 @@
           "totalExperience",
           "saturation",
           "foodLevel",
-          "bedSpawnLocation",
           "uuid"
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example":"b12"
           },
           "displayName": {
-            "type": "string"
+            "type": "string",
+            "example":"b12"
           },
           "location": {
             "$ref": "#/components/schemas/Location"
           },
           "address": {
-            "type": "string"
+            "type": "string",
+            "example":"127.0.0.1:6666"
           },
           "sneaking": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "sprinting": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "playerTime": {
-            "type": "integer"
+            "type": "integer",
+            "example":30000
           },
           "exp": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "level": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "totalExperience": {
-            "type": "integer"
+            "type": "integer",
+            "example":0
           },
           "saturation": {
-            "type": "integer"
+            "type": "integer",
+            "example":5
           },
           "foodLevel": {
-            "type": "integer"
+            "type": "integer",
+            "example":20
           },
           "bedSpawnLocation": {
-            "type": "string"
+            "$ref": "#/components/schemas/Location"
           },
           "flying": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "flySpeed": {
-            "type": "integer"
+            "type": "number",
+            "example":0.1
           },
           "walkSpeed": {
-            "type": "integer"
+            "type": "number",
+            "example":0.2
           },
           "uuid": {
-            "type": "string"
+            "type": "string",
+            "example":"cd13453d-058c-319c-b9bc-f0060b6d7fef"
           },
           "firstPlayed": {
-            "type": "integer"
+            "type": "integer",
+            "example":1632073023568
           },
           "lastPlayed": {
-            "type": "integer"
+            "type": "integer",
+            "example":1632073023568
           },
           "playedBefore": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           },
           "op": {
-            "type": "boolean"
+            "type": "boolean",
+            "example":false
           }
         }
       },
@@ -923,10 +1027,12 @@
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "WebInfoSpigot"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "1.0.13"
           }
         }
       },
@@ -937,10 +1043,12 @@
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example":"b12"
           },
           "uuid": {
-            "type": "string"
+            "type": "string",
+            "example":"cd13453d-058c-319c-b9bc-f0060b6d7fef"
           }
         }
       }

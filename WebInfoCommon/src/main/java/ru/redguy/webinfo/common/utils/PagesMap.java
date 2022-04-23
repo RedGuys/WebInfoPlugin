@@ -38,6 +38,6 @@ public class PagesMap {
 
     private Pair<NanoHTTPD.Method,String> split(String path) {
         String[] parts = path.split(":");
-        return new Pair<>(NanoHTTPD.Method.valueOf(parts[0]),String.join(":", Arrays.copyOfRange(parts,1,parts.length-1)));
+        return new Pair<>(NanoHTTPD.Method.valueOf(parts[0]),String.join(":", Arrays.copyOfRange(parts,1,parts.length)));
     }
 }

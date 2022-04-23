@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @WebPage(url="/player", args = {
-        @QueryArgument(name = "uuid", type = QueryArgumentType.STRING)
+        @QueryArgument(name = "uuid", type = QueryArgumentType.UUID)
 })
 public class Get implements IWebPage {
     @Override
