@@ -18,10 +18,11 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 jar {
-    from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}.exclude('*.class')
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }.exclude('*.class')
 }
 
 dependencies {
+    compileOnly 'org.jetbrains:annotations:23.0.0'
     compileOnly 'org.spongepowered:spongeapi:7.3.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
     compile project(":WebInfoCommon")

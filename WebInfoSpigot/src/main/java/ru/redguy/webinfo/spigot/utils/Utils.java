@@ -23,17 +23,24 @@ public class Utils {
 
             tpsField = si.getClass().getField("recentTps");
 
-        } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
             e.printStackTrace();
         }
 
         double[] tps = null;
 
         try {
-            tps = ((double[]) tpsField.get(si));
+            if(tpsField!=null)
+                tps = ((double[]) tpsField.get(si));
 
-        } catch (IllegalArgumentException | IllegalAccessException e) { e.printStackTrace(); }
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
-        return Math.floor((tps[1]>20?20:tps[1]) * 100) / 100;
+        if(tps != null)
+            return Math.floor((tps[1] > 20 ? 20 : tps[1]) * 100) / 100;
+        else
+            return 0;
     }
 }

@@ -2,9 +2,9 @@ package ru.redguy.webinfo.sponge.utils;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
+import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class SpongeInfoUtils extends AbstractBasicController {
     public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
-            mods.add(new Mod(plugin.getName(),plugin.getVersion().orElse("")));
+            mods.add(new Mod(plugin.getName(), plugin.getVersion().orElse("")));
         }
         return mods;
     }

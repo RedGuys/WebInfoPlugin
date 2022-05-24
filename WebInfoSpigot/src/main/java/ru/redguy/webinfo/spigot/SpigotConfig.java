@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class SpigotConfig implements IConfig {
 
-    private FileConfiguration configuration;
-    private File dataFolder;
+    private final FileConfiguration configuration;
+    private final File dataFolder;
 
     public SpigotConfig(FileConfiguration configuration, File dataFolder) {
         this.configuration = configuration;
@@ -21,20 +21,20 @@ public class SpigotConfig implements IConfig {
 
     @Override
     public void load() {
-        setIfNull("web.port",8080);
-        setIfNull("general.lang","ru");
-        setIfNull("modules.socket",false);
-        setIfNull("modules.webserver",true);
-        setIfNull("socket.path","ws://localhost:8999");
-        setIfNull("socket.key","test");
+        setIfNull("web.port", 8080);
+        setIfNull("general.lang", "ru");
+        setIfNull("modules.socket", false);
+        setIfNull("modules.webserver", true);
+        setIfNull("socket.path", "ws://localhost:8999");
+        setIfNull("socket.key", "test");
     }
 
     @Override
     public void save() {
         try {
-            configuration.save(new File(dataFolder,"config.yml"));
+            configuration.save(new File(dataFolder, "config.yml"));
         } catch (IOException e) {
-            Logger.warn(LoggerType.Client,"Error while saving config");
+            Logger.warn(LoggerType.Client, "Error while saving config");
         }
     }
 
@@ -60,7 +60,7 @@ public class SpigotConfig implements IConfig {
 
     @Override
     public void setIfNull(String path, Object value) {
-        if(!configuration.isSet(path)) {
+        if (!configuration.isSet(path)) {
             configuration.set(path, value);
         }
     }

@@ -6,10 +6,10 @@ import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.util.ban.BanTypes;
-import ru.redguy.webinfo.common.structures.Location;
-import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.common.controllers.AbstractPlayersController;
 import ru.redguy.webinfo.common.structures.ActionResult;
+import ru.redguy.webinfo.common.structures.Location;
+import ru.redguy.webinfo.common.structures.Player;
 import ru.redguy.webinfo.sponge.WebInfoSponge;
 
 import java.net.InetAddress;
@@ -111,7 +111,7 @@ public class SpongePlayersController extends AbstractPlayersController {
                 .createTaskBuilder()
                 .execute(() -> {
                     Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
-                    if(optPlayer.isPresent()) {
+                    if (optPlayer.isPresent()) {
                         optPlayer.get().setLocation(TransformUtils.transform(location));
                         res.complete(new ActionResult(true));
                     } else {

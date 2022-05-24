@@ -1,6 +1,5 @@
 package ru.redguy.webinfo.common.pages;
 
-import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.WebServer;
@@ -15,7 +14,7 @@ public class Endpoints implements IWebPage {
     @Override
     public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws Exception {
         return Response.OK(WebServer.getInstance().getPages().keySet().stream().map(
-                pair -> pair.getKey().name()+" "+pair.getValue()
+                pair -> pair.getKey().name() + " " + pair.getValue()
         ).toArray());
     }
 }

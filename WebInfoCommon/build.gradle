@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:23.0.0'
     compile 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.0'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'

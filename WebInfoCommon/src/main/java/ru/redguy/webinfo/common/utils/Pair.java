@@ -2,7 +2,7 @@ package ru.redguy.webinfo.common.utils;
 
 import java.util.Objects;
 
-public class Pair<K,V> {
+public class Pair<K, V> {
 
     private final K key;
     private final V value;
@@ -22,12 +22,12 @@ public class Pair<K,V> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(key,value);
+        return Objects.hash(key, value);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Pair)) return false;
+        if (!(obj instanceof Pair)) return false;
         Pair p = (Pair) obj;
         return this.key == p.key && this.value == p.value;
     }

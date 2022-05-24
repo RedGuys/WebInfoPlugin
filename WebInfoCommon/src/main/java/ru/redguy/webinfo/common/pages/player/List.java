@@ -1,6 +1,5 @@
 package ru.redguy.webinfo.common.pages.player;
 
-import fi.iki.elonen.NanoHTTPD;
 import ru.redguy.webinfo.common.IWebPage;
 import ru.redguy.webinfo.common.WebPage;
 import ru.redguy.webinfo.common.controllers.Controllers;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-@WebPage(url="/player/list/")
+@WebPage(url = "/player/list/")
 public class List implements IWebPage {
     @Override
     public Response getPage(Request req, HashMap<String, ArrayList<Object>> args) throws Exception {

@@ -1,6 +1,7 @@
 package ru.redguy.webinfo.common;
 
 import fi.iki.elonen.NanoHTTPD;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.*;
 import org.reflections.util.ClasspathHelper;
@@ -11,7 +12,10 @@ import ru.redguy.webinfo.common.structures.Location;
 import ru.redguy.webinfo.common.utils.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class WebServer {
 
@@ -19,7 +23,9 @@ public class WebServer {
 
     Server server;
     Reflections reflections;
-    List<String> packages = new ArrayList<String>() {{add("ru.redguy.webinfo.common.pages");}};
+    List<String> packages = new ArrayList<String>() {{
+        add("ru.redguy.webinfo.common.pages");
+    }};
     PagesMap pages;
 
     public WebServer() {
@@ -66,7 +72,7 @@ public class WebServer {
             WebPage annotation = mClass.getAnnotation(WebPage.class);
             String url = annotation.url();
             try {
-                pages.put(annotation.method(),url.endsWith("/") ? url : url + "/", new Page((IWebPage) mClass.newInstance(),annotation));
+                pages.put(annotation.method(), url.endsWith("/") ? url : url + "/", new Page((IWebPage) mClass.newInstance(), annotation));
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -76,6 +82,7 @@ public class WebServer {
 
     /**
      * Adds package with pages
+     *
      * @param pack package.
      */
     public void addPackage(String pack) {
@@ -105,34 +112,34 @@ public class WebServer {
         }
 
         @Override
-        public Response serve(IHTTPSession session) {
+        public @NotNull Response serve(@NotNull IHTTPSession session) {
             String url = session.getUri();
             url = url.endsWith("/") ? url : url + "/";
-            if (pages.containsKey(session.getMethod(),url)) {
-                Page page = pages.get(session.getMethod(),url);
+            if (pages.containsKey(session.getMethod(), url)) {
+                Page page = pages.get(session.getMethod(), url);
                 IWebPage mClass = page.getPage();
                 HashMap<String, ArrayList<Object>> args = new HashMap<>();
                 for (QueryArgument arg : page.getAnnotation().args()) {
-                    if(!session.getParameters().containsKey(arg.name()) && arg.required()) {
-                        return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.TheVariableIsNotPassed(arg.name()));
+                    if (!session.getParameters().containsKey(arg.name()) && arg.required()) {
+                        return genResponse(Response.Status.BAD_REQUEST, ru.redguy.webinfo.common.utils.Response.TheVariableIsNotPassed(arg.name()));
                     }
                     switch (arg.type()) {
                         case UUID: {
                             ArrayList<Object> uuid = new ArrayList<>();
-                            if(session.getParameters().get(arg.name()) != null)
+                            if (session.getParameters().get(arg.name()) != null)
                                 for (String s : session.getParameters().get(arg.name())) {
                                     try {
                                         uuid.add(UUID.fromString(s));
                                     } catch (IllegalArgumentException e) {
-                                        return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                                        return genResponse(Response.Status.BAD_REQUEST, ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
                                     }
                                 }
-                            args.put(arg.name(),uuid);
+                            args.put(arg.name(), uuid);
                             break;
                         }
                         case STRING: {
                             List<String> ar = session.getParameters().get(arg.name());
-                            args.put(arg.name(),new ArrayList<>(ar == null ? new ArrayList<>() : ar));
+                            args.put(arg.name(), new ArrayList<>(ar == null ? new ArrayList<>() : ar));
                             break;
                         }
                         case LOCATION: {
@@ -140,21 +147,21 @@ public class WebServer {
                             for (String s : session.getParameters().get(arg.name())) {
                                 try {
                                     location.add(new Location(s));
-                                } catch (IndexOutOfBoundsException|NumberFormatException|NullPointerException e) {
-                                    return genResponse(Response.Status.BAD_REQUEST,ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
+                                } catch (IndexOutOfBoundsException | NumberFormatException | NullPointerException e) {
+                                    return genResponse(Response.Status.BAD_REQUEST, ru.redguy.webinfo.common.utils.Response.VariableIncorrect(arg.name()));
                                 }
                             }
-                            args.put(arg.name(),location);
+                            args.put(arg.name(), location);
                             break;
                         }
                         case WORLD: {
                             ArrayList<Object> worlds = new ArrayList<>();
                             for (String s : session.getParameters().get(arg.name())) {
-                                if(Controllers.getWorldsController().isWorldExist(s)) {
+                                if (Controllers.getWorldsController().isWorldExist(s)) {
                                     worlds.add(s);
                                 }
                             }
-                            args.put(arg.name(),worlds);
+                            args.put(arg.name(), worlds);
                             break;
                         }
                         case BOOLEAN: {
@@ -162,7 +169,7 @@ public class WebServer {
                             for (String s : session.getParameters().get(arg.name())) {
                                 booleans.add(Boolean.parseBoolean(s));
                             }
-                            args.put(arg.name(),booleans);
+                            args.put(arg.name(), booleans);
                         }
                     }
                 }
@@ -179,9 +186,9 @@ public class WebServer {
             }
         }
 
-        private Response genResponse(Response.Status status, ru.redguy.webinfo.common.utils.Response response) {
-            Response res = newFixedLengthResponse(status,"application/json", GSON.gson.toJson(response));
-            res.addHeader("Access-Control-Allow-Origin","*");
+        private @NotNull Response genResponse(Response.Status status, ru.redguy.webinfo.common.utils.Response response) {
+            Response res = newFixedLengthResponse(status, "application/json", GSON.gson.toJson(response));
+            res.addHeader("Access-Control-Allow-Origin", "*");
             return res;
         }
     }

@@ -1,13 +1,15 @@
 package ru.redguy.webinfo.sponge;
 
 import com.google.inject.Inject;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import ru.redguy.webinfo.common.WebServer;
 import ru.redguy.webinfo.common.WebSocketController;
 import ru.redguy.webinfo.common.controllers.Controllers;
-import ru.redguy.webinfo.common.utils.*;
+import ru.redguy.webinfo.common.utils.Config;
+import ru.redguy.webinfo.common.utils.Logger;
+import ru.redguy.webinfo.common.utils.LoggerType;
 import ru.redguy.webinfo.sponge.utils.*;
 
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class WebInfoSponge {
     public static WebInfoSponge instance;
 
     @Listener
-    public void onServerStart(GameStartedServerEvent event) throws IOException {
+    public void onServerStart(GameStartedServerEvent event) {
         instance = this;
         Logger.InjectLogger(new SpongeLogger(logger));
         Config.InjectConfig(new SpongeConfig());
@@ -40,7 +42,7 @@ public class WebInfoSponge {
         Controllers.setChatController(new SpongeChatController());
         Controllers.setEntityController(new SpongeEntityController());
 
-        if(Config.getBoolean("modules.socket")) {
+        if (Config.getBoolean("modules.socket")) {
             try {
                 WebSocketController.getInstance().updateReflection();
                 WebSocketController.getInstance().pageScan();
@@ -51,7 +53,7 @@ public class WebInfoSponge {
             }
         }
 
-        if(Config.getBoolean("modules.webserver")) {
+        if (Config.getBoolean("modules.webserver")) {
             try {
                 WebServer.getInstance().updateReflection();
                 WebServer.getInstance().pageScan();

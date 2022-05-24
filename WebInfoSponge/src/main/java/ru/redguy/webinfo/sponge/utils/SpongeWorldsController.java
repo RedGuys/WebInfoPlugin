@@ -19,20 +19,18 @@ public class SpongeWorldsController extends AbstractWorldsController {
     @Override
     public CompletableFuture<ActionResult> unloadWorld(String name, boolean save) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        Sponge.getServer().getWorld(name).ifPresent(value -> {
-            Sponge.getScheduler()
-                    .createTaskBuilder()
-                    .execute(() -> {
-                        try {
-                            value.save();
-                        } catch (IOException e) {
-                            Logger.warn(LoggerType.Client,"Something went wrong: "+e.getMessage());
-                        }
-                        Sponge.getServer().unloadWorld(value);
-                        res.complete(new ActionResult(true));
-                    })
-                    .submit(WebInfoSponge.instance);
-        });
+        Sponge.getServer().getWorld(name).ifPresent(value -> Sponge.getScheduler()
+                .createTaskBuilder()
+                .execute(() -> {
+                    try {
+                        value.save();
+                    } catch (IOException e) {
+                        Logger.warn(LoggerType.Client, "Something went wrong: " + e.getMessage());
+                    }
+                    Sponge.getServer().unloadWorld(value);
+                    res.complete(new ActionResult(true));
+                })
+                .submit(WebInfoSponge.instance));
         return res;
     }
 }

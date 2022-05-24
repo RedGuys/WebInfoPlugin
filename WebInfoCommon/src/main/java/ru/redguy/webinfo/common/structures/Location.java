@@ -1,5 +1,7 @@
 package ru.redguy.webinfo.common.structures;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Location {
     protected double x;
     protected double y;
@@ -32,12 +34,12 @@ public class Location {
         this.z = z;
     }
 
-    public Location(String s) {
+    public Location(@NotNull String s) {
         String[] a = s.split(",");
         this.x = Double.parseDouble(a[0]);
         this.y = Double.parseDouble(a[1]);
         this.z = Double.parseDouble(a[2]);
-        if(a.length == 4) {
+        if (a.length == 4) {
             this.world = a[3];
         }
     }

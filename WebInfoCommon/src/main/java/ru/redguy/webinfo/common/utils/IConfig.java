@@ -1,13 +1,17 @@
 package ru.redguy.webinfo.common.utils;
 
 public interface IConfig {
-    public void load();
-    public void save();
+    void load();
 
-    public boolean getBoolean(String path);
-    public int getInt(String path);
-    public String getString(String path);
+    void save();
 
-    public void set(String path, Object value);
-    public void setIfNull(String path, Object value);
+    boolean getBoolean(String path);
+
+    int getInt(String path);
+
+    String getString(String path);
+
+    void set(String path, Object value);
+
+    void setIfNull(String path, Object value);
 }

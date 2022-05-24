@@ -1,9 +1,13 @@
 package ru.redguy.webinfo.common.utils;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class ParamsUtils {
-    public static boolean parseBoolean(List<String> list, boolean def) {
+    @Contract(pure = true)
+    public static boolean parseBoolean(@NotNull List<String> list, boolean def) {
         boolean result = def;
         for (String s : list) {
             switch (s.toLowerCase()) {

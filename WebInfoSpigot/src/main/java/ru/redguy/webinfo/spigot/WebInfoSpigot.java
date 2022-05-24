@@ -24,7 +24,7 @@ public final class WebInfoSpigot extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Logger.InjectLogger(new SpigotLogger(getLogger()));
-        Config.InjectConfig(new SpigotConfig(getConfig(),getDataFolder()));
+        Config.InjectConfig(new SpigotConfig(getConfig(), getDataFolder()));
         Config.save();
         Controllers.setBasicController(new SpigotInfoUtils());
         Controllers.setWorldsController(new SpigotWorldsController());
@@ -32,15 +32,15 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setChatController(new SpigotChatController());
         Controllers.setEntityController(new SpigotEntityController());
 
-        if(Bukkit.getPluginManager().getPlugin("DiscordSRV")!=null) {
+        if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
             WebServer.getInstance().addPackage("ru.redguy.webinfo.spigot.pages.discordsrv");
             WebSocketController.getInstance().addPackage("ru.redguy.webinfo.spigot.pages.discordsrv");
         }
-        if(Bukkit.getPluginManager().getPlugin("spark")!=null) {
+        if (Bukkit.getPluginManager().getPlugin("spark") != null) {
             sparkAvailable = true;
         }
 
-        if(Config.getBoolean("modules.socket")) {
+        if (Config.getBoolean("modules.socket")) {
             try {
                 WebSocketController.getInstance().updateReflection();
                 WebSocketController.getInstance().pageScan();
@@ -51,7 +51,7 @@ public final class WebInfoSpigot extends JavaPlugin {
             }
         }
 
-        if(Config.getBoolean("modules.webserver")) {
+        if (Config.getBoolean("modules.webserver")) {
             try {
                 WebServer.getInstance().updateReflection();
                 WebServer.getInstance().pageScan();

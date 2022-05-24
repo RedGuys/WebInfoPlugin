@@ -1,6 +1,5 @@
 package ru.redguy.webinfo.common.structures;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,10 +23,10 @@ public class World {
     protected boolean keepSpawnInMemory;
     protected String difficulty;
     protected String worldType;
-    protected Map<String,String> gameRules;
+    protected Map<String, String> gameRules;
     protected WorldBorder worldBorder;
 
-    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, Map<String,String> gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
@@ -51,7 +50,7 @@ public class World {
         this.worldBorder = worldBorder;
     }
 
-    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, Map<String,String> gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
@@ -148,7 +147,7 @@ public class World {
         return worldType;
     }
 
-    public Map<String,String> getGameRules() {
+    public Map<String, String> getGameRules() {
         return gameRules;
     }
 

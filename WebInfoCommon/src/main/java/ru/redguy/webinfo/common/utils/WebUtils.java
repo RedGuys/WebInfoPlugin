@@ -1,6 +1,8 @@
 package ru.redguy.webinfo.common.utils;
 
 import fi.iki.elonen.NanoHTTPD;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -8,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class WebUtils {
-    public static Map<String, List<String>> decodeParams(String queryString) {
-        Map<String, List<String>> parms = new HashMap<String, List<String>>();
+    public static @NotNull Map<String, List<String>> decodeParams(String queryString) {
+        Map<String, List<String>> parms = new HashMap<>();
         if (queryString != null) {
             StringTokenizer st = new StringTokenizer(queryString, "&");
             while (st.hasMoreTokens()) {
@@ -37,27 +39,27 @@ public class WebUtils {
         return decoded;
     }
 
-    public static String MD5(String md5) {
+    public static @Nullable String MD5(@NotNull String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : array) {
+                sb.append(Integer.toHexString((b & 0xFF) | 0x100), 1, 3);
             }
             return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
+        } catch (java.security.NoSuchAlgorithmException ignored) {
         }
         return null;
     }
 
     public static class CookieHandler implements Iterable<String> {
 
-        private final HashMap<String, String> cookies = new HashMap<String, String>();
+        private final HashMap<String, String> cookies = new HashMap<>();
 
-        private final ArrayList<Cookie> queue = new ArrayList<Cookie>();
+        private final ArrayList<Cookie> queue = new ArrayList<>();
 
-        public CookieHandler(Map<String, String> httpHeaders) {
+        public CookieHandler(@NotNull Map<String, String> httpHeaders) {
             String raw = httpHeaders.get("cookie");
             if (raw != null) {
                 String[] tokens = raw.split(";");
@@ -74,8 +76,7 @@ public class WebUtils {
          * Set a cookie with an expiration date from a month ago, effectively
          * deleting it on the client side.
          *
-         * @param name
-         *            The cookie name.
+         * @param name The cookie name.
          */
         public void delete(String name) {
             set(name, "-delete-", -30);
@@ -89,8 +90,7 @@ public class WebUtils {
         /**
          * Read a cookie from the HTTP Headers.
          *
-         * @param name
-         *            The cookie's name.
+         * @param name The cookie's name.
          * @return The cookie's value if it exists, null otherwise.
          */
         public String read(String name) {
@@ -104,12 +104,9 @@ public class WebUtils {
         /**
          * Sets a cookie.
          *
-         * @param name
-         *            The cookie's name.
-         * @param value
-         *            The cookie's value.
-         * @param expires
-         *            How many days until the cookie expires.
+         * @param name    The cookie's name.
+         * @param value   The cookie's value.
+         * @param expires How many days until the cookie expires.
          */
         public void set(String name, String value, int expires) {
             this.queue.add(new Cookie(name, value, Cookie.getHTTPTime(expires)));
@@ -119,9 +116,8 @@ public class WebUtils {
          * Internally used by the webserver to add all queued cookies into the
          * Response's HTTP Headers.
          *
-         * @param response
-         *            The Response object to which headers the queued cookies
-         *            will be added.
+         * @param response The Response object to which headers the queued cookies
+         *                 will be added.
          */
         public void unloadQueue(NanoHTTPD.Response response) {
             for (Cookie cookie : this.queue) {
@@ -136,7 +132,7 @@ public class WebUtils {
 
     public static class Cookie {
 
-        public static String getHTTPTime(int days) {
+        public static @NotNull String getHTTPTime(int days) {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));

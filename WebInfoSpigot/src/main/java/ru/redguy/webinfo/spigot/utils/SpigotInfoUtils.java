@@ -1,14 +1,10 @@
 package ru.redguy.webinfo.spigot.utils;
 
-import me.lucko.spark.api.Spark;
-import me.lucko.spark.api.SparkProvider;
-import me.lucko.spark.api.statistic.StatisticWindow;
-import me.lucko.spark.api.statistic.types.DoubleStatistic;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 import ru.redguy.webinfo.spigot.WebInfoSpigot;
 
 import java.util.ArrayList;
@@ -51,7 +47,7 @@ public class SpigotInfoUtils extends AbstractBasicController {
 
     @Override
     public double getTPS() {
-        if(WebInfoSpigot.getInstance().isSparkAvailable()) {
+        if (WebInfoSpigot.getInstance().isSparkAvailable()) {
             return SparkUtil.getTPS();
         } else {
             return Utils.getTPS();

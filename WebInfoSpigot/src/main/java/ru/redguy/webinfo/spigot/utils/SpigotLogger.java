@@ -1,7 +1,8 @@
 package ru.redguy.webinfo.spigot.utils;
 
-import java.util.logging.Logger;
 import ru.redguy.webinfo.common.utils.ILogger;
+
+import java.util.logging.Logger;
 
 public class SpigotLogger implements ILogger {
 

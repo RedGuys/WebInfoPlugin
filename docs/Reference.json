@@ -88,7 +88,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -172,7 +172,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -180,7 +180,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "reason",
             "in": "query"
@@ -209,7 +209,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "ip",
             "in": "query",
@@ -239,7 +239,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -247,7 +247,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "reason",
             "in": "query"
@@ -299,7 +299,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -307,7 +307,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "location",
             "in": "query",
@@ -368,7 +368,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "world",
             "in": "query",
@@ -376,7 +376,7 @@
           },
           {
             "schema": {
-              "type":"boolean"
+              "type": "boolean"
             },
             "name": "save",
             "in": "query",
@@ -406,7 +406,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "message",
             "in": "query",
@@ -414,7 +414,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "to",
             "in": "query",
@@ -444,7 +444,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "type",
             "in": "query",
@@ -452,7 +452,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "location",
             "in": "query",
@@ -490,7 +490,11 @@
                   "properties": {
                     "channels": {
                       "type": "object",
-                      "example": {"global":"803933334664273320","awards":"763464614267355162","deaths":"769888614234634162"}
+                      "example": {
+                        "global": "803933334664273320",
+                        "awards": "763464614267355162",
+                        "deaths": "769888614234634162"
+                      }
                     },
                     "guildName": {
                       "type": "string",
@@ -513,7 +517,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -562,7 +566,9 @@
                     },
                     "users": {
                       "type": "object",
-                      "example": {"334625268159217665": "3c4e9704-f5bc-4646-a644-a596f4b27876"}
+                      "example": {
+                        "334625268159217665": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+                      }
                     }
                   }
                 }
@@ -581,7 +587,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -620,7 +626,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "id",
             "in": "query",
@@ -659,7 +665,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -667,7 +673,7 @@
           },
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "id",
             "in": "query",
@@ -706,7 +712,7 @@
         "parameters": [
           {
             "schema": {
-              "type":"string"
+              "type": "string"
             },
             "name": "uuid",
             "in": "query",
@@ -763,7 +769,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "example":"world"
+            "example": "world"
           },
           "entities": {
             "items": {
@@ -786,64 +792,64 @@
           },
           "time": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "fullTime": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "storm": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "weatherDuration": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "thundering": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "thunderDuration": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "environment": {
             "type": "string",
-            "example":"NORMAL"
+            "example": "NORMAL"
           },
           "seed": {
             "type": "integer",
-            "example":6586507081034762000
+            "example": 6586507081034762000
           },
           "pvp": {
             "type": "boolean",
-            "example":true
+            "example": true
           },
           "maxHeight": {
             "type": "integer",
-            "example":255
+            "example": 255
           },
           "seaLevel": {
             "type": "integer",
-            "example":65
+            "example": 65
           },
           "keepSpawnInMemory": {
             "type": "boolean",
-            "example":true
+            "example": true
           },
           "difficulty": {
             "type": "string",
-            "example":"HARD"
+            "example": "HARD"
           },
           "worldType": {
             "type": "string",
-            "example":"DEFAULT"
+            "example": "DEFAULT"
           },
           "gameRules": {
             "type": "object",
-            "example":{
-              "keepInventory":"false"
+            "example": {
+              "keepInventory": "false"
             }
           },
           "worldBorder": {
@@ -938,85 +944,85 @@
         "properties": {
           "name": {
             "type": "string",
-            "example":"b12"
+            "example": "b12"
           },
           "displayName": {
             "type": "string",
-            "example":"b12"
+            "example": "b12"
           },
           "location": {
             "$ref": "#/components/schemas/Location"
           },
           "address": {
             "type": "string",
-            "example":"127.0.0.1:6666"
+            "example": "127.0.0.1:6666"
           },
           "sneaking": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "sprinting": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "playerTime": {
             "type": "integer",
-            "example":30000
+            "example": 30000
           },
           "exp": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "level": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "totalExperience": {
             "type": "integer",
-            "example":0
+            "example": 0
           },
           "saturation": {
             "type": "integer",
-            "example":5
+            "example": 5
           },
           "foodLevel": {
             "type": "integer",
-            "example":20
+            "example": 20
           },
           "bedSpawnLocation": {
             "$ref": "#/components/schemas/Location"
           },
           "flying": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "flySpeed": {
             "type": "number",
-            "example":0.1
+            "example": 0.1
           },
           "walkSpeed": {
             "type": "number",
-            "example":0.2
+            "example": 0.2
           },
           "uuid": {
             "type": "string",
-            "example":"cd13453d-058c-319c-b9bc-f0060b6d7fef"
+            "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
           },
           "firstPlayed": {
             "type": "integer",
-            "example":1632073023568
+            "example": 1632073023568
           },
           "lastPlayed": {
             "type": "integer",
-            "example":1632073023568
+            "example": 1632073023568
           },
           "playedBefore": {
             "type": "boolean",
-            "example":false
+            "example": false
           },
           "op": {
             "type": "boolean",
-            "example":false
+            "example": false
           }
         }
       },
@@ -1044,11 +1050,11 @@
         "properties": {
           "name": {
             "type": "string",
-            "example":"b12"
+            "example": "b12"
           },
           "uuid": {
             "type": "string",
-            "example":"cd13453d-058c-319c-b9bc-f0060b6d7fef"
+            "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
           }
         }
       }
