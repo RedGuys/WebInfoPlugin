@@ -35,7 +35,7 @@ public class Location {
     }
 
     public Location(@NotNull String s) {
-        String[] a = s.split(",");
+        String[] a = s.split(";");
         this.x = Double.parseDouble(a[0]);
         this.y = Double.parseDouble(a[1]);
         this.z = Double.parseDouble(a[2]);
@@ -58,5 +58,9 @@ public class Location {
 
     public String getWorld() {
         return world;
+    }
+
+    public void setWorld(String world) {
+        this.world = world;
     }
 }

@@ -114,9 +114,9 @@ public class WebUtils {
 
         /**
          * Internally used by the webserver to add all queued cookies into the
-         * Response's HTTP Headers.
+         * WebResponse's HTTP Headers.
          *
-         * @param response The Response object to which headers the queued cookies
+         * @param response The WebResponse object to which headers the queued cookies
          *                 will be added.
          */
         public void unloadQueue(NanoHTTPD.Response response) {

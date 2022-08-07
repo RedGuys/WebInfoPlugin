@@ -7,6 +7,8 @@ group 'ru.redguy.webinfoplugin'
 version parent.version
 
 compileJava.options.encoding = 'UTF-8'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -16,11 +18,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:23.0.0'
-    compile 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.0'
-    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    compile 'org.reflections:reflections:0.9.11'
+    compile project(":MiniWebServer")
     compile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.4.0'
 }
 
