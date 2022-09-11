@@ -5,3 +5,4 @@ load: STARTUP
 softdepend:
   - DiscordSRV
   - spark
+api-version: 1.13
