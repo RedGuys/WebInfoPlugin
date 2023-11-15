@@ -7,6 +7,9 @@ repositories {
     maven {
         url = "https://repo.redguy.ru/repository/minecraft/"
     }
+    maven {
+        url = "https://repo.redguy.ru/repository/maven-public/"
+    }
 }
 
 group = 'ru.redguy.webinfo'
@@ -23,8 +26,8 @@ jar {
 
 dependencies {
     compileOnly 'org.jetbrains:annotations:23.0.0'
-    compileOnly 'org.spongepowered:spongeapi:7.4.0'
-    annotationProcessor 'org.spongepowered:spongeapi:7.4.0'
+    compileOnly 'org.spongepowered:spongeapi:8.0.0'
+    annotationProcessor 'org.spongepowered:spongeapi:8.0.0'
     compile project(":WebInfoCommon")
 }
 
