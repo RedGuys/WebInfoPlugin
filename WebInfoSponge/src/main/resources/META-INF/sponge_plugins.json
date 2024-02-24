@@ -1,0 +1,39 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "MIT",
+  "global": {
+    "version": "8.0.0",
+    "links": {
+      "homepage": "https://redguy.ru/",
+      "source": "https://github.com/RedGuys/WebInfoPlugin",
+      "issues": "https://github.com/RedGuys/WebInfoPlugin/issues"
+    },
+    "contributors": [
+      {
+        "name": "RedGuys",
+        "description": "Lead Developer"
+      },
+      {
+        "name": "russ-go",
+        "description": "Contributor"
+      }
+    ],
+    "dependencies": [
+      {
+        "id": "spongeapi",
+        "version": "8.0.0"
+      }
+    ]
+  },
+  "plugins": [
+    {
+      "id": "webinfosponge",
+      "name": "Web Info",
+      "entrypoint": "ru.redguy.webinfo.sponge.WebInfoSponge",
+      "description": "Web Info plugin for Sponge"
+    }
+  ]
+}

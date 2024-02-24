@@ -1,7 +1,7 @@
 package ru.redguy.webinfo.sponge.utils;
 
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.plugin.PluginContainer;
 import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
@@ -13,7 +13,7 @@ public class SpongeInfoUtils extends AbstractBasicController {
 
     @Override
     public String getMCVersion() {
-        return Sponge.getPlatform().getMinecraftVersion().getName();
+        return Sponge.platform().minecraftVersion().name();
     }
 
     @Override
@@ -24,8 +24,8 @@ public class SpongeInfoUtils extends AbstractBasicController {
     @Override
     public List<Mod> getModsList() {
         List<Mod> mods = new ArrayList<>();
-        for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
-            mods.add(new Mod(plugin.getName(), plugin.getVersion().orElse("")));
+        for (PluginContainer plugin : Sponge.pluginManager().plugins()) {
+            mods.add(new Mod(plugin.metadata().name().get(), plugin.metadata().version().getQualifier()));
         }
         return mods;
     }
@@ -33,7 +33,7 @@ public class SpongeInfoUtils extends AbstractBasicController {
     @Override
     public List<World> getWorldsList() {
         List<World> worlds = new ArrayList<>();
-        for (org.spongepowered.api.world.World world : Sponge.getServer().getWorlds()) {
+        for (org.spongepowered.api.world.World world : Sponge.server().worldManager().worlds()) {
             worlds.add(TransformUtils.transform(world));
         }
         return worlds;
@@ -46,11 +46,11 @@ public class SpongeInfoUtils extends AbstractBasicController {
 
     @Override
     public double getTPS() {
-        return Sponge.getServer().getTicksPerSecond();
+        return Sponge.server().ticksPerSecond();
     }
 
     @Override
     public void shutdown() {
-        Sponge.getServer().shutdown();
+        Sponge.server().shutdown();
     }
 }

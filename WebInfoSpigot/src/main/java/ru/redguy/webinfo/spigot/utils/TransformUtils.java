@@ -4,10 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import ru.redguy.webinfo.common.structures.Location;
-import ru.redguy.webinfo.common.structures.Player;
-import ru.redguy.webinfo.common.structures.World;
-import ru.redguy.webinfo.common.structures.WorldBorder;
+import ru.redguy.webinfo.common.structures.*;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -29,9 +26,15 @@ public class TransformUtils {
         return new Location(location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
     }
 
+
+    public static Vec2d transformVec2d(org.bukkit.Location location) {
+        if (location == null) return null;
+        return new Vec2d(location.getBlockX(), location.getBlockZ());
+    }
+
     @Contract("_ -> new")
     public static @NotNull WorldBorder transform(org.bukkit.@NotNull WorldBorder worldBorder) {
-        return new WorldBorder(worldBorder.getSize(), transform(worldBorder.getCenter()), worldBorder.getDamageBuffer(), worldBorder.getDamageAmount(), worldBorder.getWarningTime(), worldBorder.getWarningDistance());
+        return new WorldBorder(worldBorder.getSize(), transformVec2d(worldBorder.getCenter()), worldBorder.getDamageBuffer(), worldBorder.getDamageAmount(), worldBorder.getWarningTime(), worldBorder.getWarningDistance());
     }
 
     @Contract("_ -> new")

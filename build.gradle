@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'ru.redguy'
-version '1.0.15'
+version '1.1.0'
 
 repositories {
     mavenCentral()

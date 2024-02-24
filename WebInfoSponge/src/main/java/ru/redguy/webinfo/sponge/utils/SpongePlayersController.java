@@ -1,11 +1,13 @@
 package ru.redguy.webinfo.sponge.utils;
 
+import net.kyori.adventure.text.Component;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.scheduler.Task;
+import org.spongepowered.api.service.ban.Ban;
 import org.spongepowered.api.service.ban.BanService;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.util.ban.Ban;
-import org.spongepowered.api.util.ban.BanTypes;
+import org.spongepowered.api.service.ban.BanTypes;
 import ru.redguy.webinfo.common.controllers.AbstractPlayersController;
 import ru.redguy.webinfo.common.structures.ActionResult;
 import ru.redguy.webinfo.common.structures.Location;
@@ -22,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class SpongePlayersController extends AbstractPlayersController {
 
-    BanService banService = Sponge.getServiceManager().provide(BanService.class).orElse(null);
+    BanService banService = Sponge.serviceProvider().provide(BanService.class).orElse(null);
 
     @Override
     public CompletableFuture<ActionResult> ban(UUID uuid) {
@@ -30,7 +32,7 @@ public class SpongePlayersController extends AbstractPlayersController {
         if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        banService.addBan(Ban.builder().type(BanTypes.PROFILE).profile(GameProfile.of(uuid)).build());
+        banService.add(Ban.builder().type(BanTypes.PROFILE).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
         return res;
     }
@@ -41,7 +43,7 @@ public class SpongePlayersController extends AbstractPlayersController {
         if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        banService.addBan(Ban.builder().type(BanTypes.PROFILE).reason(Text.of(reason)).profile(GameProfile.of(uuid)).build());
+        banService.add(Ban.builder().type(BanTypes.PROFILE).reason(Component.text(reason)).profile(GameProfile.of(uuid)).build());
         res.complete(new ActionResult(true));
         return res;
     }
@@ -52,17 +54,15 @@ public class SpongePlayersController extends AbstractPlayersController {
         if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        Sponge.getScheduler()
-                .createTaskBuilder()
-                .execute(() -> {
+        Sponge.asyncScheduler()
+                .submit(Task.builder().execute(() -> {
                     try {
-                        banService.addBan(Ban.builder().type(BanTypes.IP).address(InetAddress.getByName(ip)).build());
+                        banService.add(Ban.builder().type(BanTypes.IP).address(InetAddress.getByName(ip)).build());
                         res.complete(new ActionResult(true));
                     } catch (UnknownHostException e) {
                         res.complete(new ActionResult(false));
                     }
-                })
-                .submit(WebInfoSponge.instance);
+                }).build());
         return res;
     }
 
@@ -72,24 +72,23 @@ public class SpongePlayersController extends AbstractPlayersController {
         if (banService == null) {
             throw new UnsupportedOperationException();
         }
-        Sponge.getScheduler()
-                .createTaskBuilder()
-                .execute(() -> {
-                    try {
-                        banService.addBan(Ban.builder().type(BanTypes.IP).reason(Text.of(reason)).address(InetAddress.getByName(ip)).build());
-                        res.complete(new ActionResult(true));
-                    } catch (UnknownHostException e) {
-                        res.complete(new ActionResult(false));
-                    }
-                })
-                .submit(WebInfoSponge.instance);
+        Sponge.asyncScheduler()
+                .submit(Task.builder()
+                        .execute(() -> {
+                            try {
+                                banService.add(Ban.builder().type(BanTypes.IP).reason(Component.text(reason)).address(InetAddress.getByName(ip)).build());
+                                res.complete(new ActionResult(true));
+                            } catch (UnknownHostException e) {
+                                res.complete(new ActionResult(false));
+                            }
+                        }).build());
         return res;
     }
 
     @Override
     public CompletableFuture<ActionResult> kick(UUID uuid) {
-        Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
-        optPlayer.ifPresent(org.spongepowered.api.entity.living.player.Player::kick);
+        Optional<ServerPlayer> optPlayer = Sponge.server().player(uuid);
+        optPlayer.ifPresent(ServerPlayer::kick);
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         res.complete(new ActionResult(true));
         return res;
@@ -97,8 +96,8 @@ public class SpongePlayersController extends AbstractPlayersController {
 
     @Override
     public CompletableFuture<ActionResult> kick(UUID uuid, String reason) {
-        Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
-        optPlayer.ifPresent(p -> p.kick(Text.of(reason)));
+        Optional<ServerPlayer> optPlayer = Sponge.server().player(uuid);
+        optPlayer.ifPresent(p -> p.kick(Component.text(reason)));
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
         res.complete(new ActionResult(true));
         return res;
@@ -107,25 +106,24 @@ public class SpongePlayersController extends AbstractPlayersController {
     @Override
     public CompletableFuture<ActionResult> teleport(UUID uuid, Location location) {
         CompletableFuture<ActionResult> res = new CompletableFuture<>();
-        Sponge.getScheduler()
-                .createTaskBuilder()
+        Sponge.asyncScheduler()
+                .submit(Task.builder()
                 .execute(() -> {
-                    Optional<org.spongepowered.api.entity.living.player.Player> optPlayer = Sponge.getServer().getPlayer(uuid);
+                    Optional<ServerPlayer> optPlayer = Sponge.server().player(uuid);
                     if (optPlayer.isPresent()) {
                         optPlayer.get().setLocation(TransformUtils.transform(location));
                         res.complete(new ActionResult(true));
                     } else {
                         res.complete(new ActionResult(false).setComment("Player not found!"));
                     }
-                })
-                .submit(WebInfoSponge.instance);
+                }).build());
         return res;
     }
 
     @Override
     public List<Player> getPlayersList() {
         List<Player> result = new ArrayList<>();
-        for (org.spongepowered.api.entity.living.player.Player onlinePlayer : Sponge.getServer().getOnlinePlayers()) {
+        for (org.spongepowered.api.entity.living.player.Player onlinePlayer : Sponge.server().onlinePlayers()) {
             result.add(TransformUtils.transform(onlinePlayer));
         }
         return result;
@@ -133,6 +131,6 @@ public class SpongePlayersController extends AbstractPlayersController {
 
     @Override
     public Player getPlayerInfo(UUID uuid) {
-        return TransformUtils.transform(Sponge.getServer().getPlayer(uuid).orElse(null));
+        return TransformUtils.transform(Sponge.server().player(uuid).orElse(null));
     }
 }

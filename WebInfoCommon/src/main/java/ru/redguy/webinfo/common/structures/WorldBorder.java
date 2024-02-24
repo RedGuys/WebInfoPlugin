@@ -2,13 +2,13 @@ package ru.redguy.webinfo.common.structures;
 
 public class WorldBorder {
     protected double size;
-    protected Location center;
+    protected Vec2d center;
     protected double damageBuffer;
     protected double damageAmount;
-    protected int warningTime;
+    protected long warningTime;
     protected int warningDistance;
 
-    public WorldBorder(double size, Location center, double damageBuffer, double damageAmount, int warningTime, int warningDistance) {
+    public WorldBorder(double size, Vec2d center, double damageBuffer, double damageAmount, long warningTime, int warningDistance) {
         this.size = size;
         this.center = center;
         this.damageBuffer = damageBuffer;
@@ -21,7 +21,7 @@ public class WorldBorder {
         return size;
     }
 
-    public Location getCenter() {
+    public Vec2d getCenter() {
         return center;
     }
 
@@ -33,7 +33,7 @@ public class WorldBorder {
         return damageAmount;
     }
 
-    public int getWarningTime() {
+    public long getWarningTime() {
         return warningTime;
     }
 

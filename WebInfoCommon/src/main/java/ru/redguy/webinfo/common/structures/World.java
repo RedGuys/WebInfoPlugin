@@ -12,9 +12,9 @@ public class World {
     protected long time;
     protected long fullTime;
     protected boolean storm;
-    protected int weatherDuration;
+    protected long weatherDuration;
     protected boolean thundering;
-    protected int thunderDuration;
+    protected long thunderDuration;
     protected String environment;
     protected long seed;
     protected boolean pvp;
@@ -26,7 +26,7 @@ public class World {
     protected Map<String, String> gameRules;
     protected WorldBorder worldBorder;
 
-    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, long weatherDuration, boolean thundering, long thunderDuration, String environment, long seed, boolean pvp, int maxHeight, int seaLevel, boolean keepSpawnInMemory, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
@@ -50,7 +50,7 @@ public class World {
         this.worldBorder = worldBorder;
     }
 
-    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, int weatherDuration, boolean thundering, int thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
+    public World(String name, UUID[] entities, String[] players, UUID uuid, Location spawnLocation, long time, long fullTime, boolean storm, long weatherDuration, boolean thundering, long thunderDuration, long seed, int maxHeight, int seaLevel, String difficulty, String worldType, Map<String, String> gameRules, WorldBorder worldBorder) {
         this.name = name;
         this.entities = entities;
         this.players = players;
@@ -103,7 +103,7 @@ public class World {
         return storm;
     }
 
-    public int getWeatherDuration() {
+    public long getWeatherDuration() {
         return weatherDuration;
     }
 
@@ -111,7 +111,7 @@ public class World {
         return thundering;
     }
 
-    public int getThunderDuration() {
+    public long getThunderDuration() {
         return thunderDuration;
     }
 

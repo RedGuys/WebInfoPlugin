@@ -5,10 +5,10 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url = "https://repo.redguy.ru/repository/minecraft/"
+        url = "https://repo.redguy.org/repository/minecraft/"
     }
     maven {
-        url = "https://repo.redguy.ru/repository/maven-public/"
+        url = "https://repo.redguy.org/repository/maven-public/"
     }
 }
 

@@ -9,6 +9,7 @@ import ru.redguy.miniwebserver.utils.arguments.StringArgument;
 import ru.redguy.miniwebserver.utils.arguments.UUIDArgument;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.ActionResult;
+import ru.redguy.webinfo.common.utils.LocationArgument;
 import ru.redguy.webinfo.common.utils.Response;
 import ru.redguy.webinfo.common.utils.WorldArgument;
 
@@ -41,5 +42,14 @@ public class World {
         ActionResult result = Controllers.getWorldsController().unloadWorld(worldName, save).get();
 
         res.setResponse(result);
+    }
+
+    @WebPage(value = "/createExplosion", args = {
+            @QueryArgument(name = "pos", type = LocationArgument.class),
+    }, method = NanoHTTPD.Method.POST)
+    public void createExplosion(@NotNull WebRequest req, WebResponse res) {
+        ru.redguy.webinfo.common.structures.Location location = (ru.redguy.webinfo.common.structures.Location) req.getArguments().get("pos").get(0);
+        //Controllers.getWorldsController().createExplosion(location);
+        res.setResponse(new ActionResult(true));
     }
 }

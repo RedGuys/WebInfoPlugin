@@ -1,6 +1,6 @@
 package ru.redguy.webinfo.sponge.utils;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 import ru.redguy.webinfo.common.utils.ILogger;
 
 public class SpongeLogger implements ILogger {

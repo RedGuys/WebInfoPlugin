@@ -1,8 +1,9 @@
 package ru.redguy.webinfo.sponge;
 
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 import ru.redguy.webinfo.common.utils.IConfig;
 import ru.redguy.webinfo.common.utils.Logger;
 import ru.redguy.webinfo.common.utils.LoggerType;
@@ -16,7 +17,7 @@ public class SpongeConfig implements IConfig {
     private static ConfigurationNode rootNode;
 
     public SpongeConfig() {
-        configurationLoader = HoconConfigurationLoader.builder().setPath(Paths.get("config", "WebInfo", "config.conf")).build();
+        configurationLoader = HoconConfigurationLoader.builder().path(Paths.get("config", "WebInfo", "config.conf")).build();
         load();
     }
 
@@ -25,7 +26,7 @@ public class SpongeConfig implements IConfig {
         try {
             rootNode = configurationLoader.load();
         } catch (IOException e) {
-            rootNode = configurationLoader.createEmptyNode();
+            rootNode = configurationLoader.createNode();
         }
 
         setIfNull("web.port", 8080);
@@ -48,7 +49,7 @@ public class SpongeConfig implements IConfig {
     private ConfigurationNode getNode(ConfigurationNode rootNode, @NotNull String path) {
         ConfigurationNode node = rootNode;
         for (String s : path.split("\\.")) {
-            node = node.getNode(s);
+            node = node.node(s);
         }
         return node;
     }
@@ -70,14 +71,22 @@ public class SpongeConfig implements IConfig {
 
     @Override
     public void set(String path, Object value) {
-        getNode(rootNode, path).setValue(value);
+        try {
+            getNode(rootNode, path).set(value);
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void setIfNull(String path, Object value) {
         ConfigurationNode node = getNode(rootNode, path);
-        if (node.getValue() == null) {
-            node.setValue(value);
+        if (node.isNull()) {
+            try {
+                node.set(value);
+            } catch (SerializationException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
