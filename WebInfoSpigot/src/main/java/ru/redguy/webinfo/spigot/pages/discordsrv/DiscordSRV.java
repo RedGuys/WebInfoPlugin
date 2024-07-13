@@ -1,96 +1,85 @@
 package ru.redguy.webinfo.spigot.pages.discordsrv;
 
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
-import ru.redguy.miniwebserver.utils.arguments.StringArgument;
-import ru.redguy.miniwebserver.utils.arguments.UUIDArgument;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Param;
+import ru.redguy.jrweb.annotations.Router;
 
 import java.util.Map;
 import java.util.UUID;
 
 @Router("/plugin/discordsrv")
 public class DiscordSRV {
-    @WebPage("/")
-    public void index(WebRequest req, @NotNull WebResponse res) {
+    @Page("/")
+    public Resp1 index(Context ctx) {
         github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        res.setResponse(new Resp1(
+        return new Resp1(
                 d.getChannels(),
                 d.getMainGuild().getName()
-        ));
+        );
     }
 
-    @WebPage(value = "/links/generatecode", args = {
-            @QueryArgument(name = "uuid", type = UUIDArgument.class)
-    })
-    public void generateCode(@NotNull WebRequest req, @NotNull WebResponse res) {
+    @Page(value = "/links/generatecode")
+    public Resp2 generateCode(Context ctx, @Param("uuid") UUID uuid) {
         github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        String code = d.getAccountLinkManager().generateCode((UUID) req.getArguments().get("uuid").get(0));
-        res.setResponse(new Resp2(
+        String code = d.getAccountLinkManager().generateCode(uuid);
+        return new Resp2(
                 code,
-                (UUID) req.getArguments().get("uuid").get(0)
-        ));
+                uuid
+        );
     }
 
-    @WebPage("/links")
-    public void links(WebRequest req, @NotNull WebResponse res) {
+    @Page("/links")
+    public Resp3 links(Context ctx) {
         github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        res.setResponse(new Resp3(
+        return new Resp3(
                 d.getAccountLinkManager().getLinkedAccounts(),
                 d.getAccountLinkManager().getLinkedAccountCount()
-        ));
+        );
     }
 
-    @WebPage(value = "/links/getdiscordid", args = {
-            @QueryArgument(name = "uuid", type = UUIDArgument.class)
-    })
-    public void getDiscordId(@NotNull WebRequest req, @NotNull WebResponse res) {
+    @Page(value = "/links/getdiscordid")
+    public Resp4 getDiscordId(Context ctx, @Param("uuid") UUID uuid) {
         github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        String id = d.getAccountLinkManager().getDiscordId((UUID) req.getArguments().get("uuid").get(0));
-        res.setResponse(new Resp4(
+        String id = d.getAccountLinkManager().getDiscordId(uuid);
+        return new Resp4(
                 id,
-                (UUID) req.getArguments().get("uuid").get(0)
-        ));
+                uuid
+        );
     }
 
-    @WebPage(value = "/links/getplayeruuid", args = {
-            @QueryArgument(name = "id", type = StringArgument.class)
-    })
-    public void getPlayerUUID(@NotNull WebRequest req, @NotNull WebResponse res) {
+    @Page(value = "/links/getplayeruuid")
+    public Resp4 getPlayerUUID(Context ctx, @Param("id") String id) {
         github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        UUID id = d.getAccountLinkManager().getUuid((String) req.getArguments().get("id").get(0));
-        res.setResponse(new Resp4(
-                (String) req.getArguments().get("id").get(0),
-                id
-        ));
-    }
-
-    @WebPage(value = "/links/link", args = {
-            @QueryArgument(name = "uuid", type = UUIDArgument.class),
-            @QueryArgument(name = "id", type = StringArgument.class)
-    })
-    public void link(@NotNull WebRequest req, @NotNull WebResponse res) {
-        github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        d.getAccountLinkManager().link((String) req.getArguments().get("id").get(0), (UUID) req.getArguments().get("uuid").get(0));
-        res.setResponse(new Resp4(
-                (String) req.getArguments().get("id").get(0),
-                (UUID) req.getArguments().get("uuid").get(0)
-        ));
-    }
-
-    @WebPage(value = "/links/unlink", args = {
-            @QueryArgument(name = "uuid", type = UUIDArgument.class)
-    })
-    public void unlink(@NotNull WebRequest req, @NotNull WebResponse res) {
-        github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
-        String id = d.getAccountLinkManager().getDiscordId((UUID) req.getArguments().get("uuid").get(0));
-        d.getAccountLinkManager().unlink((UUID) req.getArguments().get("uuid").get(0));
-        res.setResponse(new Resp4(
+        UUID uuid = d.getAccountLinkManager().getUuid(id);
+        return new Resp4(
                 id,
-                (UUID) req.getArguments().get("uuid").get(0)
-        ));
+                uuid
+        );
     }
 
-    static class Resp4 {
+    @Page(value = "/links/link")
+    public Resp4 link(Context ctx, @Param("id") String id, @Param("uuid") UUID uuid) {
+        github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
+        d.getAccountLinkManager().link(id, uuid);
+        return new Resp4(
+                id,
+                uuid
+        );
+    }
+
+    @Page(value = "/links/unlink")
+    public Resp4 unlink(Context ctx, @Param("uuid") UUID uuid) {
+        github.scarsz.discordsrv.DiscordSRV d = github.scarsz.discordsrv.DiscordSRV.getPlugin();
+        String id = d.getAccountLinkManager().getDiscordId(uuid);
+        d.getAccountLinkManager().unlink(uuid);
+        return new Resp4(
+                id,
+                uuid
+        );
+    }
+
+    public static class Resp4 {
         String discordId;
         UUID player;
 
@@ -100,7 +89,7 @@ public class DiscordSRV {
         }
     }
 
-    static class Resp3 {
+    public static class Resp3 {
         Map<String, UUID> users;
         int count;
 
@@ -110,7 +99,7 @@ public class DiscordSRV {
         }
     }
 
-    static class Resp2 {
+    public static class Resp2 {
         String code;
         UUID player;
 
@@ -120,7 +109,7 @@ public class DiscordSRV {
         }
     }
 
-    static class Resp1 {
+    public static class Resp1 {
         Map<String, String> channels;
         String guildName;
 

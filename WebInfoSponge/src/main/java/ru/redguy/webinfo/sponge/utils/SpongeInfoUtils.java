@@ -8,6 +8,7 @@ import ru.redguy.webinfo.common.structures.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class SpongeInfoUtils extends AbstractBasicController {
 
@@ -31,12 +32,12 @@ public class SpongeInfoUtils extends AbstractBasicController {
     }
 
     @Override
-    public List<World> getWorldsList() {
+    public CompletableFuture<List<World>> getWorldsList() {
         List<World> worlds = new ArrayList<>();
         for (org.spongepowered.api.world.World world : Sponge.server().worldManager().worlds()) {
             worlds.add(TransformUtils.transform(world));
         }
-        return worlds;
+        return CompletableFuture.completedFuture(worlds);
     }
 
     @Override

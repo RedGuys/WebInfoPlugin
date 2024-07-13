@@ -1,6 +1,8 @@
 package ru.redguy.webinfo.spigot.utils;
 
+import github.scarsz.discordsrv.dependencies.mcdiscordreserializer.minecraft.MinecraftSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import ru.redguy.webinfo.common.controllers.AbstractBasicController;
 import ru.redguy.webinfo.common.structures.Mod;
@@ -9,6 +11,7 @@ import ru.redguy.webinfo.spigot.WebInfoSpigot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class SpigotInfoUtils extends AbstractBasicController {
 
@@ -32,12 +35,16 @@ public class SpigotInfoUtils extends AbstractBasicController {
     }
 
     @Override
-    public List<World> getWorldsList() {
-        List<World> worlds = new ArrayList<>();
-        for (org.bukkit.World world : Bukkit.getWorlds()) {
-            worlds.add(TransformUtils.transform(world));
-        }
-        return worlds;
+    public CompletableFuture<List<World>> getWorldsList() {
+        CompletableFuture<List<World>> cf = new CompletableFuture<>();
+        Bukkit.getScheduler().runTask(WebInfoSpigot.getInstance(), () -> {
+            List<World> worlds = new ArrayList<>();
+            for (org.bukkit.World world : Bukkit.getWorlds()) {
+                worlds.add(TransformUtils.transform(world));
+            }
+            cf.complete(worlds);
+        });
+        return cf;
     }
 
     @Override

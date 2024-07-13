@@ -1,33 +1,36 @@
 package ru.redguy.webinfo.common.pages;
 
-import fi.iki.elonen.NanoHTTPD;
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
-import ru.redguy.miniwebserver.utils.arguments.StringArgument;
-import ru.redguy.miniwebserver.utils.arguments.UUIDArgument;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Router;
+import ru.redguy.jrweb.utils.StatusCodes;
+import ru.redguy.jrweb.utils.bodyparsers.JsonBody;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.ActionResult;
+import ru.redguy.webinfo.common.utils.APIResponse;
 
 import java.util.UUID;
 
 @Router("/chat")
 public class Chat {
-    @WebPage(value = "/send", method = NanoHTTPD.Method.POST, args = {
-            @QueryArgument(name = "message", type = StringArgument.class),
-            @QueryArgument(name = "to", type = UUIDArgument.class, required = false)
-    })
-    public void send(@NotNull WebRequest req, WebResponse res) {
-        if (req.getArguments().get("to").size() > 0) {
-            for (Object to : req.getArguments().get("to")) {
-                for (Object message : req.getArguments().get("message")) {
-                    Controllers.getChatController().sendMessage((String) message, (UUID) to);
-                }
-            }
-        } else {
-            for (Object message : req.getArguments().get("message")) {
-                Controllers.getChatController().sendMessage((String) message);
-            }
+    @Page(value = "/send", method = "POST")
+    public void send(Context ctx) {
+        if(!(ctx.request.body instanceof JsonBody)) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send("Body must be json");
+            return;
         }
-        res.setResponse(new ActionResult(true));
+        JsonBody req = (JsonBody) ctx.request.body;
+        if(!req.has("to")) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send(APIResponse.TheVariableIsNotPassed("to"));
+            return;
+        }
+        if(!req.has("message")) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send(APIResponse.TheVariableIsNotPassed("message"));
+            return;
+        }
+        UUID to = UUID.fromString(req.get("to").getAsString());
+        String message = req.get("message").getAsString();
+        Controllers.getChatController().sendMessage(message,to);
+        ctx.response.send(new ActionResult(true));
     }
 }

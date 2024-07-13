@@ -1,55 +1,29 @@
 package ru.redguy.webinfo.common.pages;
 
 import com.google.gson.JsonObject;
-import fi.iki.elonen.NanoHTTPD;
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
-import ru.redguy.miniwebserver.utils.arguments.BooleanArgument;
-import ru.redguy.miniwebserver.utils.arguments.StringArgument;
-import ru.redguy.miniwebserver.utils.arguments.UUIDArgument;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Param;
+import ru.redguy.jrweb.annotations.Router;
+import ru.redguy.jrweb.utils.optional.GsonUtil;
 import ru.redguy.webinfo.common.controllers.Controllers;
-import ru.redguy.webinfo.common.structures.ActionResult;
-import ru.redguy.webinfo.common.utils.LocationArgument;
-import ru.redguy.webinfo.common.utils.Response;
-import ru.redguy.webinfo.common.utils.WorldArgument;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+
 
 @Router("/world")
 public class World {
-    @WebPage(value = "/list")
-    public void list(@NotNull WebRequest req, @NotNull WebResponse res) {
+    @Page(value = "/list")
+    public void list(Context ctx) throws ExecutionException, InterruptedException {
         JsonObject object = new JsonObject();
-        java.util.List<ru.redguy.webinfo.common.structures.World> worlds = Controllers.getBasicController().getWorldsList();
+        java.util.List<ru.redguy.webinfo.common.structures.World> worlds = Controllers.getBasicController().getWorldsList().get();
         object.addProperty("count", worlds.size());
-        object.add("worlds", GSON.gson.toJsonTree(worlds));
-        res.setResponse(object);
+        object.add("worlds", GsonUtil.getGson().toJsonTree(worlds));
+        ctx.response.send(object);
     }
 
-    @WebPage(value = "/unload", args = {
-            @QueryArgument(name = "world", type = WorldArgument.class),
-            @QueryArgument(name = "save", type = BooleanArgument.class, required = false)
-    }, method = NanoHTTPD.Method.POST)
-    public void getPage(@NotNull WebRequest req, WebResponse res) throws Exception {
-        String worldName = (String) req.getArguments().get("world").get(0);
-
-        boolean save = true;
-        if (req.getArguments().get("save").size() > 0)
-            save = (boolean) req.getArguments().get("save").get(0);
-
-        ActionResult result = Controllers.getWorldsController().unloadWorld(worldName, save).get();
-
-        res.setResponse(result);
-    }
-
-    @WebPage(value = "/createExplosion", args = {
-            @QueryArgument(name = "pos", type = LocationArgument.class),
-    }, method = NanoHTTPD.Method.POST)
-    public void createExplosion(@NotNull WebRequest req, WebResponse res) {
-        ru.redguy.webinfo.common.structures.Location location = (ru.redguy.webinfo.common.structures.Location) req.getArguments().get("pos").get(0);
-        //Controllers.getWorldsController().createExplosion(location);
-        res.setResponse(new ActionResult(true));
+    @Page(value = "/unload", method = "POST")
+    public void getPage(Context ctx, @Param("world") String world, @Param(value = "save", required = false) Boolean save) throws Exception {
+        ctx.response.send(Controllers.getWorldsController().unloadWorld(world, save == null || save).get());
     }
 }

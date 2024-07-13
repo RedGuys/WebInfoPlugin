@@ -1,42 +1,39 @@
 package ru.redguy.webinfo.common.utils;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public class APIResponse {
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull APIResponse OK(Object response) {
+    public static APIResponse OK(Object response) {
         return new APIResponse(1, "OK", response);
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull APIResponse TheVariableIsNotPassed(String variableName) {
+
+    public static APIResponse TheVariableIsNotPassed(String variableName) {
         return new APIResponse(7, "The '" + variableName + "' variable is not passed");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull APIResponse UnsupportedOperation() {
+
+    public static APIResponse UnsupportedOperation() {
         return new APIResponse(10, "Unsupported operation");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull APIResponse InternalError() {
+
+    public static APIResponse InternalError() {
         return new APIResponse(9, "Internal error");
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull APIResponse VariableIncorrect(String variableName) {
+
+    public static APIResponse VariableIncorrect(String variableName) {
         return new APIResponse(18, "The '" + variableName + "' variable incorrect");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull APIResponse NotFound() {
+
+    public static APIResponse NotFound() {
         return new APIResponse(19, "Not Found");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull APIResponse MethodNotFound() {
+
+    public static APIResponse MethodNotFound() {
         return new APIResponse(26, "Method not found");
     }
 

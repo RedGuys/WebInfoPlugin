@@ -1,41 +1,40 @@
 package ru.redguy.webinfo.common.pages;
 
 import com.google.gson.JsonObject;
-import fi.iki.elonen.NanoHTTPD;
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Router;
+import ru.redguy.jrweb.utils.optional.GsonUtil;
 import ru.redguy.webinfo.common.WebInfoCommon;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.ActionResult;
 import ru.redguy.webinfo.common.structures.Player;
-import ru.redguy.webinfo.common.utils.Response;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Router
+@Router("")
 public class Index {
 
-    @WebPage("/")
-    public void index(WebRequest req, @NotNull WebResponse res) {
+    @Page("/")
+    public void index(Context ctx) {
         JsonObject object = new JsonObject();
         object.addProperty("mine_version", Controllers.getBasicController().getMCVersion());
-        object.add("players", GSON.gson.toJsonTree(Controllers.getPlayersController().getPlayersList().stream().map(Player::getName).collect(Collectors.toList())));
+        object.add("players", GsonUtil.getGson().toJsonTree(Controllers.getPlayersController().getPlayersList().stream().map(Player::getName).collect(Collectors.toList())));
         object.addProperty("is_client", Controllers.getBasicController().isClient());
         object.addProperty("platform", Controllers.getBasicController().getPlatform());
         object.addProperty("tps", Controllers.getBasicController().getTPS());
-        res.setResponse(object);
+        ctx.response.send(object.toString());
     }
 
-    @WebPage("/endpoints/")
-    public void endpoints(WebRequest req, @NotNull WebResponse res) {
-        res.setResponse(WebInfoCommon.server.getPages().keySet().stream().map(
-                pair -> pair.getKey().name() + " " + pair.getValue()
-        ).toArray());
+    @Page("/endpoints/")
+    public void endpoints(Context ctx) {
+        ctx.response.send(GsonUtil.getGson().toJson(WebInfoCommon.server.getPages().stream().map(Map.Entry::getKey).collect(Collectors.toList())));
     }
 
-    @WebPage(value="/shutdown", method = NanoHTTPD.Method.POST)
-    public void shutdown(WebRequest req, @NotNull WebResponse res) {
+    @Page(value="/shutdown", method = "POST")
+    public void shutdown(Context ctx) {
         Controllers.getBasicController().shutdown();
-        res.setResponse(new ActionResult(true));
+        ctx.response.send(new ActionResult(true));
     }
 }

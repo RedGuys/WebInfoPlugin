@@ -11,29 +11,28 @@ targetCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
-        url = "https://repo.redguy.ru/repository/maven-public/"
+        url = "https://rep.redguy.org/maven-minecraft/"
     }
     maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
+        url = "https://rep.redguy.org/maven/"
     }
 }
+
+configurations.implementation.canBeResolved = true;
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    compile project(":WebInfoCommon")
+    implementation project(":WebInfoCommon")
     compileOnly 'org.jetbrains:annotations:23.0.0'
-    compileOnly 'com.discordsrv:discordsrv:1.24.0'
+    compileOnly 'com.discordsrv:discordsrv:1.27.0'
     compileOnly 'me.lucko:spark-api:0.1-SNAPSHOT'
+    implementation 'ru.redguy:jrweb:2.0.10'
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 

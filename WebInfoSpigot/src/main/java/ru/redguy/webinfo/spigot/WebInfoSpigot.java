@@ -2,7 +2,7 @@ package ru.redguy.webinfo.spigot;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.redguy.miniwebserver.WebServerBuilder;
+import ru.redguy.jrweb.WebServer;
 import ru.redguy.webinfo.common.WebInfoCommon;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.Config;
@@ -33,10 +33,10 @@ public final class WebInfoSpigot extends JavaPlugin {
         Controllers.setChatController(new SpigotChatController());
         Controllers.setEntityController(new SpigotEntityController());
 
-        WebServerBuilder webServerBuilder = new WebServerBuilder();
+        WebServer webServer = WebInfoCommon.buildWebServer();
 
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
-            webServerBuilder.addRouter(new DiscordSRV());
+            webServer.addRouter(new DiscordSRV());
         }
         if (Bukkit.getPluginManager().getPlugin("spark") != null) {
             sparkAvailable = true;
@@ -44,9 +44,8 @@ public final class WebInfoSpigot extends JavaPlugin {
 
         if (Config.getBoolean("modules.webserver")) {
             try {
-                WebInfoCommon.server = WebInfoCommon.buildWebServer(webServerBuilder);
-                WebInfoCommon.server.pageScan();
-                WebInfoCommon.server.startServer(Config.getInt("web.port"));
+                WebInfoCommon.server = webServer;
+                WebInfoCommon.server.start(Config.getInt("web.port"));
                 Logger.info(LoggerType.Client, "Started web server at " + Config.getInt("web.port"));
             } catch (Exception e) {
                 Logger.error(LoggerType.Client, "Error while webserver starting!");

@@ -1,39 +1,33 @@
 package ru.redguy.webinfo.common.pages;
 
-import fi.iki.elonen.NanoHTTPD;
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
-import ru.redguy.miniwebserver.utils.arguments.StringArgument;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Router;
+import ru.redguy.jrweb.utils.StatusCodes;
+import ru.redguy.jrweb.utils.bodyparsers.JsonBody;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.Location;
-import ru.redguy.webinfo.common.utils.LocationArgument;
+import ru.redguy.webinfo.common.utils.APIResponse;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
-@Router
-public class Entity{
-    @WebPage(value = "/entity/spawn/", method = NanoHTTPD.Method.POST, args = {
-            @QueryArgument(name = "type", type = StringArgument.class),
-            @QueryArgument(name = "location", type = LocationArgument.class)
-    })
-    public void spawn(@NotNull WebRequest req, WebResponse res) {
-        List<CompletableFuture<UUID>> futures = new ArrayList<>();
-        for (Object type : req.getArguments().get("type")) {
-            for (Object location : req.getArguments().get("location")) {
-                futures.add(Controllers.getEntityController().spawnEntity((String) type, (Location) location));
-            }
+@Router("/entity")
+public class Entity {
+    @Page(value = "/spawn", method = "POST")
+    public void spawn(Context ctx) throws ExecutionException, InterruptedException {
+        if (!(ctx.request.body instanceof JsonBody)) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send("Body must be json");
+            return;
         }
-        res.setResponse(futures.stream().map(f -> {
-            try {
-                return f.get();
-            } catch (InterruptedException | ExecutionException e) {
-                return null;
-            }
-        }).collect(Collectors.toList()));
+        JsonBody req = (JsonBody) ctx.request.body;
+        if (!req.has("type")) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send(APIResponse.TheVariableIsNotPassed("type"));
+            return;
+        }
+        if (!req.has("location")) {
+            ctx.response.setStatusCode(StatusCodes.BAD_REQUEST).send(APIResponse.TheVariableIsNotPassed("location"));
+            return;
+        }
+        ctx.response.send(Controllers.getEntityController().spawnEntity(req.get("type").getAsString(), req.get("location", Location.class)));
     }
 }

@@ -13,21 +13,27 @@ targetCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
-        url = "https://repo.redguy.ru/repository/maven-public/"
+        url = "https://rep.redguy.org/maven/"
     }
 }
 
+configurations.implementation.canBeResolved = true;
+
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'ru.redguy:jrweb:2.0.0-beta.8'
-    compile project(":MiniWebServer")
-    compile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.0'
+    implementation 'ru.redguy:jrweb:2.0.10'
 }
+
+/*jar {
+    from {
+        configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}*/
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "https://repo.redguy.ru/repository/maven/") {
+            repository(url: "https://rep.redguy.org/maven/") {
                 authentication(userName: System.getenv("MVN_USER"), password: System.getenv("MVN_PASSWORD"))
             }
             pom.version = version

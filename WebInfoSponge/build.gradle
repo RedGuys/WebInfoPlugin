@@ -5,10 +5,10 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url = "https://repo.redguy.org/repository/minecraft/"
+        url = "https://rep.redguy.org/maven-minecraft/"
     }
     maven {
-        url = "https://repo.redguy.org/repository/maven-public/"
+        url = "https://rep.redguy.org/maven/"
     }
 }
 
@@ -20,15 +20,22 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+configurations.implementation.canBeResolved = true;
+
 jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }.exclude('*.class')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.implementation.collect {
+            it.getName().startsWith("annotations") || it.getName().startsWith("gson") ? null : (it.isDirectory() ? it : zipTree(it))
+        }
+    }
 }
 
 dependencies {
-    compileOnly 'org.jetbrains:annotations:23.0.0'
     compileOnly 'org.spongepowered:spongeapi:8.0.0'
     annotationProcessor 'org.spongepowered:spongeapi:8.0.0'
-    compile project(":WebInfoCommon")
+    implementation 'ru.redguy:jrweb:2.0.10'
+    implementation(project(":WebInfoCommon"))
 }
 
 sponge.plugin.id = 'webinfosponge'

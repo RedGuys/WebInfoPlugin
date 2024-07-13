@@ -20,7 +20,7 @@ task copytorunSpigot(type: Copy) {
 }
 
 task copytorunSponge(type: Copy) {
-    delete file("$projectDir/sponge/mods/*")
+    delete file("$projectDir/sponge/mods/plugins/*")
     from file("$projectDir/WebInfoSponge/build/libs/WebInfoSponge-${version}.jar")
-    into file("$projectDir/sponge/mods/")
+    into file("$projectDir/sponge/mods/plugins/")
 }

@@ -4,6 +4,7 @@ import ru.redguy.webinfo.common.structures.Mod;
 import ru.redguy.webinfo.common.structures.World;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class AbstractBasicController {
     public abstract String getMCVersion();
@@ -12,7 +13,7 @@ public abstract class AbstractBasicController {
 
     public abstract List<Mod> getModsList();
 
-    public abstract List<World> getWorldsList();
+    public abstract CompletableFuture<List<World>> getWorldsList();
 
     public abstract boolean isClient();
 

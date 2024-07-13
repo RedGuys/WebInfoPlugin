@@ -1,19 +1,21 @@
 package ru.redguy.webinfo.common.pages;
 
 import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
-import ru.redguy.miniwebserver.utils.*;
+import ru.redguy.jrweb.Context;
+import ru.redguy.jrweb.annotations.Page;
+import ru.redguy.jrweb.annotations.Router;
+import ru.redguy.jrweb.utils.optional.GsonUtil;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.structures.Mod;
 
-@Router
+@Router("/mod")
 public class Mods {
-    @WebPage("/mod/list/")
-    public void list(WebRequest req, @NotNull WebResponse res) {
+    @Page("/list")
+    public void list(Context ctx) {
         JsonObject object = new JsonObject();
         java.util.List<Mod> mods = Controllers.getBasicController().getModsList();
         object.addProperty("count", mods.size());
-        object.add("mods", GSON.gson.toJsonTree(mods));
-        res.setResponse(object);
+        object.add("mods", GsonUtil.getGson().toJsonTree(mods));
+        ctx.response.send(object);
     }
 }

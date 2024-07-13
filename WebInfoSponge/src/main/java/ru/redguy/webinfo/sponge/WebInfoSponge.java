@@ -6,7 +6,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
-import ru.redguy.miniwebserver.WebServerBuilder;
+import ru.redguy.jrweb.WebServer;
 import ru.redguy.webinfo.common.WebInfoCommon;
 import ru.redguy.webinfo.common.controllers.Controllers;
 import ru.redguy.webinfo.common.utils.Config;
@@ -40,13 +40,12 @@ public class WebInfoSponge {
         Controllers.setChatController(new SpongeChatController());
         Controllers.setEntityController(new SpongeEntityController());
 
-        WebServerBuilder webServerBuilder = new WebServerBuilder();
+        WebServer webServer = WebInfoCommon.buildWebServer();
 
         if (Config.getBoolean("modules.webserver")) {
             try {
-                WebInfoCommon.server = WebInfoCommon.buildWebServer(webServerBuilder);
-                WebInfoCommon.server.pageScan();
-                WebInfoCommon.server.startServer(Config.getInt("web.port"));
+                WebInfoCommon.server = webServer;
+                WebInfoCommon.server.start(Config.getInt("web.port"));
                 Logger.info(LoggerType.Client, "Started web server at " + Config.getInt("web.port"));
             } catch (Exception e) {
                 Logger.error(LoggerType.Client, "Error while webserver starting!");

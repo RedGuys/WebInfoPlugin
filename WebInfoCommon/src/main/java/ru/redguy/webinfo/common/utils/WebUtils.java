@@ -1,16 +1,12 @@
 package ru.redguy.webinfo.common.utils;
 
-import fi.iki.elonen.NanoHTTPD;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class WebUtils {
-    public static @NotNull Map<String, List<String>> decodeParams(String queryString) {
+    public static Map<String, List<String>> decodeParams(String queryString) {
         Map<String, List<String>> parms = new HashMap<>();
         if (queryString != null) {
             StringTokenizer st = new StringTokenizer(queryString, "&");
@@ -39,7 +35,7 @@ public class WebUtils {
         return decoded;
     }
 
-    public static @Nullable String MD5(@NotNull String md5) {
+    public static String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
@@ -53,86 +49,9 @@ public class WebUtils {
         return null;
     }
 
-    public static class CookieHandler implements Iterable<String> {
-
-        private final HashMap<String, String> cookies = new HashMap<>();
-
-        private final ArrayList<Cookie> queue = new ArrayList<>();
-
-        public CookieHandler(@NotNull Map<String, String> httpHeaders) {
-            String raw = httpHeaders.get("cookie");
-            if (raw != null) {
-                String[] tokens = raw.split(";");
-                for (String token : tokens) {
-                    String[] data = token.trim().split("=");
-                    if (data.length == 2) {
-                        this.cookies.put(data[0], data[1]);
-                    }
-                }
-            }
-        }
-
-        /**
-         * Set a cookie with an expiration date from a month ago, effectively
-         * deleting it on the client side.
-         *
-         * @param name The cookie name.
-         */
-        public void delete(String name) {
-            set(name, "-delete-", -30);
-        }
-
-        @Override
-        public Iterator<String> iterator() {
-            return this.cookies.keySet().iterator();
-        }
-
-        /**
-         * Read a cookie from the HTTP Headers.
-         *
-         * @param name The cookie's name.
-         * @return The cookie's value if it exists, null otherwise.
-         */
-        public String read(String name) {
-            return this.cookies.get(name);
-        }
-
-        public void set(Cookie cookie) {
-            this.queue.add(cookie);
-        }
-
-        /**
-         * Sets a cookie.
-         *
-         * @param name    The cookie's name.
-         * @param value   The cookie's value.
-         * @param expires How many days until the cookie expires.
-         */
-        public void set(String name, String value, int expires) {
-            this.queue.add(new Cookie(name, value, Cookie.getHTTPTime(expires)));
-        }
-
-        /**
-         * Internally used by the webserver to add all queued cookies into the
-         * WebResponse's HTTP Headers.
-         *
-         * @param response The WebResponse object to which headers the queued cookies
-         *                 will be added.
-         */
-        public void unloadQueue(NanoHTTPD.Response response) {
-            for (Cookie cookie : this.queue) {
-                response.addHeader("Set-Cookie", cookie.getHTTPHeader());
-            }
-        }
-
-        public void printDebug() {
-            System.out.println(cookies);
-        }
-    }
-
     public static class Cookie {
 
-        public static @NotNull String getHTTPTime(int days) {
+        public static String getHTTPTime(int days) {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));

@@ -1,42 +1,32 @@
 package ru.redguy.webinfo.common.utils;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 public class Response {
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Response OK(Object response) {
+    public static Response OK(Object response) {
         return new Response(1, "OK", response);
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Response TheVariableIsNotPassed(String variableName) {
+    public static Response TheVariableIsNotPassed(String variableName) {
         return new Response(7, "The '" + variableName + "' variable is not passed");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Response UnsupportedOperation() {
+    public static Response UnsupportedOperation() {
         return new Response(10, "Unsupported operation");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Response InternalError() {
+    public static Response InternalError() {
         return new Response(9, "Internal error");
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Response VariableIncorrect(String variableName) {
+    public static Response VariableIncorrect(String variableName) {
         return new Response(18, "The '" + variableName + "' variable incorrect");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Response NotFound() {
+    public static Response NotFound() {
         return new Response(19, "Not Found");
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Response MethodNotFound() {
+    public static Response MethodNotFound() {
         return new Response(26, "Method not found");
     }
 

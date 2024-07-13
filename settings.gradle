@@ -2,5 +2,4 @@ rootProject.name = 'WebInfoPlugin'
 include 'WebInfoCommon'
 include 'WebInfoSpigot'
 include 'WebInfoSponge'
-include 'MiniWebServer'
 
