@@ -19,7 +19,6 @@ public class WebInfoCommon {
 
     public static WebServer buildWebServer() {
         GsonUtil.registerTypeAdapter(Location.class, new LocationTypeAdaptor());
-        GsonUtil.registerTypeAdapter(World.class, new WorldTypeAdaptor());
         GsonUtil.registerTypeAdapter(UUID.class, new UUIDTypeAdaptor());
         WebServer builder = new WebServer();
         builder.addRouter(new Index());

@@ -2,12 +2,36 @@
   "openapi": "3.0.3",
   "info": {
     "title": "WebInfo",
-    "description": "Minecraft mod/plugin for control world",
-    "version": "1.0.15"
+    "description": "HTTP API implemented by WebInfoPlugin for Spigot and Sponge. Dangerous administrative operations are not protected by built-in authentication.",
+    "version": "1.1.0"
   },
   "servers": [
     {
-      "url": "http://localhost:8080"
+      "url": "http://localhost:8080",
+      "description": "Default port; configurable through web.port"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Common"
+    },
+    {
+      "name": "Players"
+    },
+    {
+      "name": "Worlds"
+    },
+    {
+      "name": "Chat"
+    },
+    {
+      "name": "Entity"
+    },
+    {
+      "name": "Mods"
+    },
+    {
+      "name": "DiscordSRV"
     }
   ],
   "paths": {
@@ -16,42 +40,41 @@
         "tags": [
           "Common"
         ],
-        "description": "Gets basic information",
+        "description": "Returns basic server information.",
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "required": [
-                    "mine_version"
-                  ],
-                  "properties": {
-                    "mine_version": {
-                      "type": "string",
-                      "example": "git-Spigot-79a30d7-acbc348 (MC: 1.12.2)"
-                    },
-                    "players": {
-                      "type": "array",
-                      "items": {
-                        "description": "Player nickname",
-                        "type": "string",
-                        "example": "b12"
-                      }
-                    },
-                    "is_client": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "platform": {
-                      "type": "string",
-                      "example": "spigot"
-                    },
-                    "tps": {
-                      "type": "number",
-                      "example": 20
-                    }
-                  }
+                  "$ref": "#/components/schemas/ServerInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/endpoints/": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "description": "Returns the registered JRWeb routes.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "GET /",
+                    "GET /endpoints/"
+                  ]
                 }
               }
             }
@@ -64,7 +87,7 @@
         "tags": [
           "Common"
         ],
-        "description": "Shutdowns server or client",
+        "description": "Stops the Minecraft server.",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -79,82 +102,78 @@
         }
       }
     },
-    "/player": {
-      "get": {
-        "tags": [
-          "Players"
-        ],
-        "description": "Gets player data",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "uuid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Player"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/endpoints": {
-      "get": {
-        "tags": [
-          "Common"
-        ],
-        "description": "Gets list of all endpoints",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "type": "string",
-                    "example": "GET /endpoints/"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/mod/list": {
       "get": {
         "tags": [
           "Mods"
         ],
-        "description": "Gets list of all mods/Plugins",
-        "parameters": [],
+        "description": "Returns the installed plugins or mods.",
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "count": {
-                      "type": "integer"
-                    },
-                    "mods": {
-                      "items": {
-                        "$ref": "#/components/schemas/Mod"
-                      }
+                  "$ref": "#/components/schemas/ModList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Returns data for an online player. The response body is null when the player is not found.",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Player"
                     }
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/player/list": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "description": "Returns the names and UUIDs of online players.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NameUUIDPair"
                   }
                 }
               }
@@ -168,22 +187,25 @@
         "tags": [
           "Players"
         ],
-        "description": "Bans player",
+        "description": "Bans a player by UUID.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "uuid",
             "in": "query",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           },
           {
+            "name": "reason",
+            "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
-            },
-            "name": "reason",
-            "in": "query"
+            }
           }
         ],
         "responses": {
@@ -205,15 +227,16 @@
         "tags": [
           "Players"
         ],
-        "description": "Bans ip",
+        "description": "Bans an IP address.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "ip",
             "in": "query",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "127.0.0.1"
+            }
           }
         ],
         "responses": {
@@ -235,22 +258,25 @@
         "tags": [
           "Players"
         ],
-        "description": "Kicks player",
+        "description": "Kicks an online player.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "uuid",
             "in": "query",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           },
           {
+            "name": "reason",
+            "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
-            },
-            "name": "reason",
-            "in": "query"
+            }
           }
         ],
         "responses": {
@@ -267,52 +293,31 @@
         }
       }
     },
-    "/player/list": {
-      "get": {
-        "tags": [
-          "Players"
-        ],
-        "description": "Gets all players",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/NameUUIDPair"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/player/teleport": {
       "post": {
         "tags": [
           "Players"
         ],
-        "description": "Gets all players",
+        "description": "Teleports an online player. When world is omitted, the player's current world is used.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "uuid",
             "in": "query",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           },
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "location",
             "in": "query",
-            "example": "0,100,0,world",
-            "required": true
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Location"
+            },
+            "description": "A Location object decoded from the query parameter by JRWeb/Gson."
           }
         ],
         "responses": {
@@ -334,24 +339,14 @@
         "tags": [
           "Worlds"
         ],
-        "description": "Gets all worlds",
-        "parameters": [],
+        "description": "Returns complete data for the loaded worlds.",
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "count": {
-                      "type": "integer"
-                    },
-                    "worlds": {
-                      "items": {
-                        "$ref": "#/components/schemas/World"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/WorldList"
                 }
               }
             }
@@ -364,23 +359,25 @@
         "tags": [
           "Worlds"
         ],
-        "description": "Unload world",
+        "description": "Unloads a world; save defaults to true.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "world",
             "in": "query",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "world"
+            }
           },
           {
-            "schema": {
-              "type": "boolean"
-            },
             "name": "save",
             "in": "query",
-            "example": true
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
           }
         ],
         "responses": {
@@ -402,25 +399,17 @@
         "tags": [
           "Chat"
         ],
-        "description": "Sends chat message",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "message",
-            "in": "query",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "to",
-            "in": "query",
-            "required": false
+        "description": "Sends a message to a specific player. The current route does not support broadcasting.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatSendRequest"
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Successful response",
@@ -428,6 +417,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body is not JSON or a required field is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -440,33 +439,36 @@
         "tags": [
           "Entity"
         ],
-        "description": "Spawns entity\nWARNING: works only at Spigot",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "type",
-            "in": "query",
-            "required": true
+        "description": "Spawns an entity and returns its UUID. Supported by Spigot; Sponge reports an unsupported operation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntitySpawnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+                }
+              }
+            }
           },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "location",
-            "in": "query",
-            "example": "0,100,0,world",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
+          "400": {
+            "description": "The body is not JSON or a required field is missing.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -474,71 +476,19 @@
         }
       }
     },
-    "/plugin/discordsrv": {
+    "/plugin/discordsrv/": {
       "get": {
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Get main integration integration\nWARNING: works only if DiscordSRV is enabled",
-        "parameters": [],
+        "description": "Returns the channels and main Discord guild name. This route exists only when DiscordSRV is available.",
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "channels": {
-                      "type": "object",
-                      "example": {
-                        "global": "803933334664273320",
-                        "awards": "763464614267355162",
-                        "deaths": "769888614234634162"
-                      }
-                    },
-                    "guildName": {
-                      "type": "string",
-                      "example": "RedGuys"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plugin/discordsrv/links/generatecode": {
-      "get": {
-        "tags": [
-          "DiscordSRV"
-        ],
-        "description": "Generates account linking code\nWARNING: works only if DiscordSRV is enabled",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "name": "uuid",
-            "in": "query",
-            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "player": {
-                      "type": "string",
-                      "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordInfo"
                 }
               }
             }
@@ -551,26 +501,46 @@
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Gets all linked accounts\nWARNING: works only if DiscordSRV is enabled",
-        "parameters": [],
+        "description": "Returns all Discord ID to player UUID links.",
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "count": {
-                      "type": "number",
-                      "default": 1
-                    },
-                    "users": {
-                      "type": "object",
-                      "example": {
-                        "334625268159217665": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordLinks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin/discordsrv/links/generatecode": {
+      "get": {
+        "tags": [
+          "DiscordSRV"
+        ],
+        "description": "Generates an account-linking code for a player.",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscordLinkCode"
                 }
               }
             }
@@ -583,15 +553,17 @@
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Gets discord link by player UUID\nWARNING: works only if DiscordSRV is enabled",
+        "description": "Returns a Discord ID by player UUID.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "uuid",
             "in": "query",
-            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           }
         ],
         "responses": {
@@ -600,16 +572,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "discordId": {
-                      "type": "string",
-                      "default": "334625268159217665"
-                    },
-                    "player": {
-                      "type": "string",
-                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordLink"
                 }
               }
             }
@@ -622,15 +585,16 @@
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Gets discord link by discord id\nWARNING: works only if DiscordSRV is enabled",
+        "description": "Returns a player UUID by Discord ID.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "id",
             "in": "query",
-            "example": "334625268159217665"
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "334625268159217665"
+            }
           }
         ],
         "responses": {
@@ -639,16 +603,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "discordId": {
-                      "type": "string",
-                      "default": "334625268159217665"
-                    },
-                    "player": {
-                      "type": "string",
-                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordLink"
                 }
               }
             }
@@ -661,23 +616,26 @@
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Creates discord id link\nWARNING: works only if DiscordSRV is enabled",
+        "description": "Links a Discord ID to a player UUID. The implementation uses GET despite changing state.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
-            "name": "uuid",
-            "in": "query",
-            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
             "name": "id",
             "in": "query",
-            "example": "334625268159217665"
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "334625268159217665"
+            }
+          },
+          {
+            "name": "uuid",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           }
         ],
         "responses": {
@@ -686,16 +644,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "discordId": {
-                      "type": "string",
-                      "default": "334625268159217665"
-                    },
-                    "player": {
-                      "type": "string",
-                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordLink"
                 }
               }
             }
@@ -708,15 +657,17 @@
         "tags": [
           "DiscordSRV"
         ],
-        "description": "Deletes discord id link\nWARNING: works only if DiscordSRV is enabled",
+        "description": "Removes an account link by player UUID. The implementation uses GET despite changing state.",
         "parameters": [
           {
-            "schema": {
-              "type": "string"
-            },
             "name": "uuid",
             "in": "query",
-            "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
           }
         ],
         "responses": {
@@ -725,16 +676,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "discordId": {
-                      "type": "string",
-                      "default": "334625268159217665"
-                    },
-                    "player": {
-                      "type": "string",
-                      "example": "3c4e9704-f5bc-4646-a644-a596f4b27876"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DiscordLink"
                 }
               }
             }
@@ -745,7 +687,131 @@
   },
   "components": {
     "schemas": {
+      "ServerInfo": {
+        "type": "object",
+        "required": [
+          "mine_version",
+          "players",
+          "is_client",
+          "platform",
+          "tps"
+        ],
+        "properties": {
+          "mine_version": {
+            "type": "string",
+            "example": "git-Spigot-79a30d7-acbc348 (MC: 1.16.5)"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "PlayerOne"
+            ]
+          },
+          "is_client": {
+            "type": "boolean",
+            "example": false
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "spigot",
+              "sponge"
+            ]
+          },
+          "tps": {
+            "type": "number",
+            "format": "double",
+            "example": 20
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "z"
+        ],
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "y": {
+            "type": "number",
+            "format": "double",
+            "example": 100
+          },
+          "z": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "world": {
+            "type": "string",
+            "example": "world"
+          }
+        }
+      },
+      "Vec2d": {
+        "type": "object",
+        "required": [
+          "x",
+          "z"
+        ],
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "double"
+          },
+          "z": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "WorldBorder": {
+        "type": "object",
+        "required": [
+          "size",
+          "center",
+          "damageBuffer",
+          "damageAmount",
+          "warningTime",
+          "warningDistance"
+        ],
+        "properties": {
+          "size": {
+            "type": "number",
+            "format": "double"
+          },
+          "center": {
+            "$ref": "#/components/schemas/Vec2d"
+          },
+          "damageBuffer": {
+            "type": "number",
+            "format": "double"
+          },
+          "damageAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "warningTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "warningDistance": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "World": {
+        "type": "object",
         "required": [
           "name",
           "entities",
@@ -758,9 +824,12 @@
           "weatherDuration",
           "thundering",
           "thunderDuration",
+          "environment",
           "seed",
+          "pvp",
           "maxHeight",
           "seaLevel",
+          "keepSpawnInMemory",
           "difficulty",
           "worldType",
           "gameRules",
@@ -768,88 +837,83 @@
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "example": "world"
+            "type": "string"
           },
           "entities": {
+            "type": "array",
             "items": {
               "type": "string",
-              "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
             }
           },
           "players": {
+            "type": "array",
             "items": {
-              "type": "string",
-              "example": "AwesomeNick"
+              "type": "string"
             }
           },
           "uuid": {
             "type": "string",
-            "example": "1a7c1b03-0fd5-4cbe-aa8a-f27a4fa93bd1"
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
           },
           "spawnLocation": {
             "$ref": "#/components/schemas/Location"
           },
           "time": {
             "type": "integer",
-            "example": 0
+            "format": "int64"
           },
           "fullTime": {
             "type": "integer",
-            "example": 0
+            "format": "int64"
           },
           "storm": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "weatherDuration": {
             "type": "integer",
-            "example": 0
+            "format": "int64"
           },
           "thundering": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "thunderDuration": {
             "type": "integer",
-            "example": 0
+            "format": "int64"
           },
           "environment": {
-            "type": "string",
-            "example": "NORMAL"
+            "type": "string"
           },
           "seed": {
             "type": "integer",
-            "example": 6586507081034762000
+            "format": "int64"
           },
           "pvp": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "maxHeight": {
             "type": "integer",
-            "example": 255
+            "format": "int32"
           },
           "seaLevel": {
             "type": "integer",
-            "example": 65
+            "format": "int32"
           },
           "keepSpawnInMemory": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "difficulty": {
-            "type": "string",
-            "example": "HARD"
+            "type": "string"
           },
           "worldType": {
-            "type": "string",
-            "example": "DEFAULT"
+            "type": "string"
           },
           "gameRules": {
             "type": "object",
-            "example": {
-              "keepInventory": "false"
+            "additionalProperties": {
+              "type": "string"
             }
           },
           "worldBorder": {
@@ -857,204 +921,320 @@
           }
         }
       },
-      "WorldBorder": {
+      "WorldList": {
+        "type": "object",
         "required": [
-          "size",
-          "center",
-          "damageBuffer",
-          "damageAmount",
-          "warningTime",
-          "warningDistance"
+          "count",
+          "worlds"
         ],
         "properties": {
-          "size": {
-            "type": "integer"
-          },
-          "center": {
-            "$ref": "#/components/schemas/Location"
-          },
-          "damageBuffer": {
-            "type": "integer"
-          },
-          "damageAmount": {
-            "type": "integer"
-          },
-          "warningTime": {
-            "type": "integer"
-          },
-          "warningDistance": {
-            "type": "integer"
-          }
-        }
-      },
-      "Location": {
-        "required": [
-          "x",
-          "y",
-          "z"
-        ],
-        "properties": {
-          "x": {
+          "count": {
             "type": "integer",
-            "example": 0
+            "format": "int32"
           },
-          "y": {
-            "type": "integer",
-            "example": 0
-          },
-          "z": {
-            "type": "integer",
-            "example": 0
-          },
-          "world": {
-            "type": "string",
-            "example": "world"
-          }
-        }
-      },
-      "ActionResult": {
-        "required": [
-          "success"
-        ],
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "example": true
-          },
-          "comment": {
-            "type": "string",
-            "example": "OK"
+          "worlds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/World"
+            }
           }
         }
       },
       "Player": {
+        "type": "object",
         "required": [
           "name",
           "displayName",
           "location",
+          "address",
           "sneaking",
           "sprinting",
+          "playerTime",
           "exp",
           "level",
           "totalExperience",
           "saturation",
           "foodLevel",
-          "uuid"
+          "flying",
+          "flySpeed",
+          "walkSpeed",
+          "uuid",
+          "firstPlayed",
+          "lastPlayed",
+          "playedBefore",
+          "op"
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "example": "b12"
+            "type": "string"
           },
           "displayName": {
-            "type": "string",
-            "example": "b12"
+            "type": "string"
           },
           "location": {
             "$ref": "#/components/schemas/Location"
           },
           "address": {
-            "type": "string",
-            "example": "127.0.0.1:6666"
+            "type": "string"
           },
           "sneaking": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "sprinting": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "playerTime": {
             "type": "integer",
-            "example": 30000
+            "format": "int64"
           },
           "exp": {
-            "type": "integer",
-            "example": 0
+            "type": "number",
+            "format": "float"
           },
           "level": {
             "type": "integer",
-            "example": 0
+            "format": "int32"
           },
           "totalExperience": {
             "type": "integer",
-            "example": 0
+            "format": "int32"
           },
           "saturation": {
-            "type": "integer",
-            "example": 5
+            "type": "number",
+            "format": "float"
           },
           "foodLevel": {
             "type": "integer",
-            "example": 20
+            "format": "int32"
           },
-          "bedSpawnLocation": {
-            "$ref": "#/components/schemas/Location"
-          },
+        "bedSpawnLocation": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Location"
+            }
+          ],
+          "nullable": true
+        },
           "flying": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "flySpeed": {
             "type": "number",
-            "example": 0.1
+            "format": "float"
           },
           "walkSpeed": {
             "type": "number",
-            "example": 0.2
+            "format": "float"
           },
           "uuid": {
             "type": "string",
-            "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
           },
           "firstPlayed": {
             "type": "integer",
-            "example": 1632073023568
+            "format": "int64"
           },
           "lastPlayed": {
             "type": "integer",
-            "example": 1632073023568
+            "format": "int64"
           },
           "playedBefore": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
           },
           "op": {
-            "type": "boolean",
-            "example": false
+            "type": "boolean"
+          }
+        }
+      },
+      "ActionResult": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
           }
         }
       },
       "Mod": {
+        "type": "object",
         "required": [
           "name",
           "version"
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "example": "WebInfoSpigot"
+            "type": "string"
           },
           "version": {
-            "type": "string",
-            "example": "1.0.13"
+            "type": "string"
+          }
+        }
+      },
+      "ModList": {
+        "type": "object",
+        "required": [
+          "count",
+          "mods"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mod"
+            }
           }
         }
       },
       "NameUUIDPair": {
+        "type": "object",
         "required": [
           "name",
           "uuid"
         ],
         "properties": {
           "name": {
-            "type": "string",
-            "example": "b12"
+            "type": "string"
           },
           "uuid": {
             "type": "string",
-            "example": "cd13453d-058c-319c-b9bc-f0060b6d7fef"
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+          }
+        }
+      },
+      "ChatSendRequest": {
+        "type": "object",
+      "required": [
+          "to",
+          "message"
+        ],
+        "properties": {
+          "to": {
+            "type": "string",
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EntitySpawnRequest": {
+        "type": "object",
+      "required": [
+          "type",
+          "location"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "zombie"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          }
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "required": [
+          "code",
+          "comment"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "response": {
+            "nullable": true
+          }
+        }
+      },
+      "DiscordInfo": {
+        "type": "object",
+        "required": [
+          "channels",
+          "guildName"
+        ],
+        "properties": {
+          "channels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "global": "803933334664273320"
+            }
+          },
+          "guildName": {
+            "type": "string"
+          }
+        }
+      },
+      "DiscordLinkCode": {
+        "type": "object",
+        "required": [
+          "code",
+          "player"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "player": {
+            "type": "string",
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+          }
+        }
+      },
+      "DiscordLinks": {
+        "type": "object",
+        "required": [
+          "users",
+          "count"
+        ],
+        "properties": {
+          "users": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "format": "uuid",
+              "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
+            }
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DiscordLink": {
+        "type": "object",
+      "properties": {
+          "discordId": {
+            "type": "string",
+            "nullable": true,
+            "example": "334625268159217665"
+          },
+          "player": {
+            "type": "string",
+            "format": "uuid",
+            "example": "5d3962eb-de89-4f91-9132-406b341fa51c"
           }
         }
       }
